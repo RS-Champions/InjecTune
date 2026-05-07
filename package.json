@@ -22,7 +22,8 @@
   },
   "private": true,
   "engines": {
-    "node": "v24.15.0"
+    "node": "v24.15.0",
+    "npm": "11.12.1"
   },
   "dependencies": {
     "@angular/common": "^20.3.0",
