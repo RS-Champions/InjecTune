@@ -11,7 +11,11 @@ The most common way to provide a service is using `providedIn: 'root'` on an `@I
 Use `InjectionToken` for non-class dependencies (configuration objects, functions, primitives). An `InjectionToken` can also be automatically provided.
 
 ```ts
+<<<<<<< chore/setup-project
+import { InjectionToken } from '@angular/core';
+=======
 import {InjectionToken} from '@angular/core';
+>>>>>>> main
 
 export interface AppConfig {
   apiUrl: string;
@@ -19,7 +23,11 @@ export interface AppConfig {
 
 export const APP_CONFIG = new InjectionToken<AppConfig>('app.config', {
   providedIn: 'root',
+<<<<<<< chore/setup-project
+  factory: () => ({ apiUrl: 'https://api.example.com' }),
+=======
   factory: () => ({apiUrl: 'https://api.example.com'}),
+>>>>>>> main
 });
 ```
 
@@ -34,10 +42,17 @@ You use the `providers` array when a service lacks `providedIn`, when you want a
     LocalService,
 
     // useClass: Swap implementations
+<<<<<<< chore/setup-project
+    { provide: Logger, useClass: BetterLogger },
+
+    // useValue: Provide static values
+    { provide: API_URL_TOKEN, useValue: 'https://api.example.com' },
+=======
     {provide: Logger, useClass: BetterLogger},
 
     // useValue: Provide static values
     {provide: API_URL_TOKEN, useValue: 'https://api.example.com'},
+>>>>>>> main
 
     // useFactory: Generate value dynamically
     {
@@ -46,10 +61,17 @@ You use the `providers` array when a service lacks `providedIn`, when you want a
     },
 
     // useExisting: Create an alias
+<<<<<<< chore/setup-project
+    { provide: OldLogger, useExisting: NewLogger },
+
+    // multi: Provide multiple values for the same token as an array
+    { provide: INTERCEPTOR_TOKEN, useClass: AuthInterceptor, multi: true },
+=======
     {provide: OldLogger, useExisting: NewLogger},
 
     // multi: Provide multiple values for the same token as an array
     {provide: INTERCEPTOR_TOKEN, useClass: AuthInterceptor, multi: true},
+>>>>>>> main
   ],
 })
 export class Example {}
@@ -67,6 +89,10 @@ Library authors should export functions that return provider arrays to encapsula
 
 ```ts
 export function provideAnalytics(config: AnalyticsConfig): Provider[] {
+<<<<<<< chore/setup-project
+  return [{ provide: ANALYTICS_CONFIG, useValue: config }, AnalyticsService];
+=======
   return [{provide: ANALYTICS_CONFIG, useValue: config}, AnalyticsService];
+>>>>>>> main
 }
 ```

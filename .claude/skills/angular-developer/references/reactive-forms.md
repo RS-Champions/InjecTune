@@ -16,8 +16,19 @@ Reactive forms are built using these fundamental classes from `@angular/forms`:
 Import `ReactiveFormsModule` into your component.
 
 ```ts
+<<<<<<< chore/setup-project
+import { Component, inject } from '@angular/core';
+import {
+  ReactiveFormsModule,
+  FormGroup,
+  FormControl,
+  Validators,
+  FormBuilder,
+} from '@angular/forms';
+=======
 import {Component, inject} from '@angular/core';
 import {ReactiveFormsModule, FormGroup, FormControl, Validators, FormBuilder} from '@angular/forms';
+>>>>>>> main
 
 @Component({
   selector: 'app-profile-editor',
@@ -105,7 +116,11 @@ updateProfile() {
 Modern Angular (v18+) provides a single `events` observable on all controls to track value, status, pristine, touched, reset, and submit events.
 
 ```ts
+<<<<<<< chore/setup-project
+import { ValueChangeEvent, StatusChangeEvent } from '@angular/forms';
+=======
 import {ValueChangeEvent, StatusChangeEvent} from '@angular/forms';
+>>>>>>> main
 
 this.profileForm.events.subscribe((event) => {
   if (event instanceof ValueChangeEvent) {

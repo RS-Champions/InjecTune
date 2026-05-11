@@ -15,8 +15,13 @@ Template-driven forms rely on the `FormsModule` which provides these key directi
 First, import `FormsModule` into your component or module.
 
 ```ts
+<<<<<<< chore/setup-project
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+=======
 import {Component} from '@angular/core';
 import {FormsModule} from '@angular/forms';
+>>>>>>> main
 
 @Component({
   selector: 'app-user-form',
@@ -24,7 +29,11 @@ import {FormsModule} from '@angular/forms';
   templateUrl: './user-form.component.html',
 })
 export class UserForm {
+<<<<<<< chore/setup-project
+  user = { name: '', role: 'Guest' };
+=======
   user = {name: '', role: 'Guest'};
+>>>>>>> main
 
   onSubmit() {
     console.log('Form submitted!', this.user);

@@ -5,11 +5,13 @@ This file defines custom agents tailored to the InjecTune Angular project. These
 ## Available Agents
 
 ### 1. Component Generator
+
 **Name:** `ComponentGenerator`
 
 **Purpose:** Generate and scaffold new Angular components with proper structure, styling, and testing.
 
 **Expertise:**
+
 - Create new standalone components
 - Set up component templates with modern Angular syntax (@if, @for, @switch)
 - Generate corresponding test files using Vitest
@@ -21,11 +23,13 @@ This file defines custom agents tailored to the InjecTune Angular project. These
 ---
 
 ### 2. Forms & Validation Specialist
+
 **Name:** `FormsExpert`
 
 **Purpose:** Design and implement Angular forms with validation, error handling, and reactive patterns.
 
 **Expertise:**
+
 - Create reactive forms with FormBuilder
 - Implement custom validators
 - Handle form state management
@@ -37,11 +41,13 @@ This file defines custom agents tailored to the InjecTune Angular project. These
 ---
 
 ### 3. Routing & Navigation
+
 **Name:** `RoutingArchitect`
 
 **Purpose:** Design and implement Angular routing strategies with lazy loading and guards.
 
 **Expertise:**
+
 - Set up routing configuration in app.routes.ts
 - Implement functional route guards
 - Configure lazy-loaded feature modules
@@ -53,11 +59,13 @@ This file defines custom agents tailored to the InjecTune Angular project. These
 ---
 
 ### 4. Testing & Quality Assurance
+
 **Name:** `TestingExpert`
 
 **Purpose:** Write comprehensive tests using Vitest and ensure code quality.
 
 **Expertise:**
+
 - Create unit tests for components, services, and utilities
 - Mock dependencies and services
 - Test async operations and observables with RxJS
@@ -70,11 +78,13 @@ This file defines custom agents tailored to the InjecTune Angular project. These
 ---
 
 ### 5. Performance & Optimization
+
 **Name:** `PerformanceOptimizer`
 
 **Purpose:** Analyze and optimize Angular application performance.
 
 **Expertise:**
+
 - Implement OnPush change detection strategy
 - Optimize component lifecycle
 - Reduce bundle size
@@ -88,11 +98,13 @@ This file defines custom agents tailored to the InjecTune Angular project. These
 ---
 
 ### 6. State & Dependency Injection
+
 **Name:** `DISpecialist`
 
 **Purpose:** Design and implement dependency injection patterns and state management.
 
 **Expertise:**
+
 - Configure services with providedIn injection tokens
 - Implement singleton services
 - Manage component dependencies
@@ -105,11 +117,13 @@ This file defines custom agents tailored to the InjecTune Angular project. These
 ---
 
 ### 7. Angular Integration Assistant
+
 **Name:** `AngularIntegrator`
 
 **Purpose:** Integrate Angular features and handle common integration scenarios.
 
 **Expertise:**
+
 - Integrate third-party libraries into Angular
 - Handle HttpClient configuration and interceptors
 - Work with reactive programming patterns
@@ -124,26 +138,30 @@ This file defines custom agents tailored to the InjecTune Angular project. These
 ## Usage Examples
 
 ### Example 1: Generate a New Component
+
 ```
-Use the ComponentGenerator agent to create a new feature component with 
+Use the ComponentGenerator agent to create a new feature component with
 all necessary files (template, styles, tests) following project conventions.
 ```
 
 ### Example 2: Implement Complex Form
+
 ```
-Use the FormsExpert agent to design a reactive form with custom validators, 
+Use the FormsExpert agent to design a reactive form with custom validators,
 error handling, and accessibility features.
 ```
 
 ### Example 3: Debug Test Failures
+
 ```
-Use the TestingExpert agent to diagnose failing tests and implement proper 
+Use the TestingExpert agent to diagnose failing tests and implement proper
 mocking strategies using Vitest.
 ```
 
 ### Example 4: Improve Performance
+
 ```
-Use the PerformanceOptimizer agent to analyze component performance and 
+Use the PerformanceOptimizer agent to analyze component performance and
 implement OnPush change detection with signals.
 ```
 
