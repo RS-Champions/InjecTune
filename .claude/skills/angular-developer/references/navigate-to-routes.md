@@ -7,7 +7,11 @@ Angular provides both declarative and programmatic ways to navigate between rout
 Use the `RouterLink` directive on anchor elements.
 
 ```ts
+<<<<<<< chore/setup-project
 import { RouterLink, RouterLinkActive } from '@angular/router';
+=======
+import {RouterLink, RouterLinkActive} from '@angular/router';
+>>>>>>> main
 
 @Component({
   imports: [RouterLink, RouterLinkActive],

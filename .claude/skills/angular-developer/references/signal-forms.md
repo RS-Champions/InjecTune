@@ -73,7 +73,11 @@ export class Example {
 Import validators from `@angular/forms/signals`.
 
 ```ts
+<<<<<<< chore/setup-project
 import { required, email, min, max, minLength, maxLength, pattern } from '@angular/forms/signals';
+=======
+import {required, email, min, max, minLength, maxLength, pattern} from '@angular/forms/signals';
+>>>>>>> main
 ```
 
 Use them in the schema function passed to `form()`:
@@ -81,11 +85,19 @@ Use them in the schema function passed to `form()`:
 ```ts
 userForm = form(this.userModel, (schemaPath) => {
   // Required
+<<<<<<< chore/setup-project
   required(schemaPath.name, { message: 'Name is required' });
 
   // Conditional required.
   required(schemaPath.name, {
     when({ valueOf }) {
+=======
+  required(schemaPath.name, {message: 'Name is required'});
+
+  // Conditional required.
+  required(schemaPath.name, {
+    when({valueOf}) {
+>>>>>>> main
       return valueOf(schemaPath.age) > 10;
     },
   });
@@ -93,7 +105,11 @@ userForm = form(this.userModel, (schemaPath) => {
   // Do NOT do this: pattern(p.name, /xxx/, {when /* ERROR */)
 
   // Email
+<<<<<<< chore/setup-project
   email(schemaPath.email, { message: 'Invalid email' });
+=======
+  email(schemaPath.email, {message: 'Invalid email'});
+>>>>>>> main
 
   // Min/Max for numbers
   min(schemaPath.age, 18);
@@ -116,7 +132,11 @@ It's important to understand the difference between **FormField** (the structure
 
 ```ts
 // f is a FormField (structural)
+<<<<<<< chore/setup-project
 const f = form(signal({ cat: { name: 'pirojok-the-cat', age: 5 } }));
+=======
+const f = form(signal({cat: {name: 'pirojok-the-cat', age: 5}}));
+>>>>>>> main
 
 f.cat.name; // FormField: You can't get flags from here!
 f.cat.name.touched(); // ERROR: touched() does not exist on FormField
@@ -141,6 +161,7 @@ Similarly in a template:
 Control field status using rules in the schema.
 
 ```ts
+<<<<<<< chore/setup-project
 import { disabled, readonly, hidden } from '@angular/forms/signals';
 
 userForm = form(this.userModel, (schemaPath) => {
@@ -149,6 +170,16 @@ userForm = form(this.userModel, (schemaPath) => {
 
   // Conditionally hidden (does NOT remove from model, just marks as hidden)
   hidden(schemaPath.shippingAddress, ({ valueOf }) => valueOf(schemaPath.sameAsBilling));
+=======
+import {disabled, readonly, hidden} from '@angular/forms/signals';
+
+userForm = form(this.userModel, (schemaPath) => {
+  // Conditionally disabled
+  disabled(schemaPath.password, ({valueOf}) => !valueOf(schemaPath.createAccount));
+
+  // Conditionally hidden (does NOT remove from model, just marks as hidden)
+  hidden(schemaPath.shippingAddress, ({valueOf}) => valueOf(schemaPath.sameAsBilling));
+>>>>>>> main
 
   // Readonly
   readonly(schemaPath.username);
@@ -160,7 +191,11 @@ userForm = form(this.userModel, (schemaPath) => {
 Import `FormField` and use the `[formField]` directive.
 
 ```ts
+<<<<<<< chore/setup-project
 import { FormField } from '@angular/forms/signals';
+=======
+import {FormField} from '@angular/forms/signals';
+>>>>>>> main
 ```
 
 All props on state, such as `disabled`, `hidden`, `readonly` and `name` are bound automatically.
@@ -301,7 +336,11 @@ validate(
     // RIGHT: if (state.touched()) ...
 
     if (value() === 'admin') {
+<<<<<<< chore/setup-project
       return { kind: 'reserved', message: 'Username admin is reserved' };
+=======
+      return {kind: 'reserved', message: 'Username admin is reserved'};
+>>>>>>> main
     }
   },
 );
@@ -384,19 +423,32 @@ Do not use `validate()` for async, instead use `validateAsync()`:
 2. The `onError` handler is **REQUIRED** - it is NOT optional!
 
 ```ts
+<<<<<<< chore/setup-project
 import { resource } from '@angular/core';
 import { validateAsync } from '@angular/forms/signals';
+=======
+import {resource} from '@angular/core';
+import {validateAsync} from '@angular/forms/signals';
+>>>>>>> main
 
 userForm = form(this.userModel, (s) => {
   validateAsync(s.username, {
     // 1. MUST be a function - params takes context and returns the value
+<<<<<<< chore/setup-project
     params: ({ value }) => value(),
+=======
+    params: ({value}) => value(),
+>>>>>>> main
 
     // 2. Create the resource - factory receives a Signal
     factory: (username) =>
       resource({
         params: username, // Use 'params' in resource()
+<<<<<<< chore/setup-project
         loader: async ({ params: value }) => {
+=======
+        loader: async ({params: value}) => {
+>>>>>>> main
           await new Promise((resolve) => setTimeout(resolve, 1000));
           return value === 'taken';
         },
@@ -404,10 +456,17 @@ userForm = form(this.userModel, (s) => {
 
     // 3. Map success to errors
     onSuccess: (isTaken) =>
+<<<<<<< chore/setup-project
       isTaken ? { kind: 'taken', message: 'Username is already taken' } : undefined,
 
     // 4. Handle errors - THIS IS REQUIRED!
     onError: () => ({ kind: 'error', message: 'Validation failed' }),
+=======
+      isTaken ? {kind: 'taken', message: 'Username is already taken'} : undefined,
+
+    // 4. Handle errors - THIS IS REQUIRED!
+    onError: () => ({kind: 'error', message: 'Validation failed'}),
+>>>>>>> main
   });
 });
 ```
@@ -423,12 +482,20 @@ validateAsync(s.username, {
 
 // WRONG - missing onError (it's required!)
 validateAsync(s.username, {
+<<<<<<< chore/setup-project
   params: ({ value }) => value(),
+=======
+  params: ({value}) => value(),
+>>>>>>> main
   factory: (username) =>
     resource({
       /* ... */
     }),
+<<<<<<< chore/setup-project
   onSuccess: (result) => (result ? { kind: 'error' } : undefined),
+=======
+  onSuccess: (result) => (result ? {kind: 'error'} : undefined),
+>>>>>>> main
   // ERROR: 'onError' is missing but required!
 });
 ```
@@ -441,7 +508,11 @@ validateAsync(s.username, {
 // CORRECT
 resource({
   params: mySignal,
+<<<<<<< chore/setup-project
   loader: async ({ params: value }) => {
+=======
+  loader: async ({params: value}) => {
+>>>>>>> main
     /* ... */
   },
 });
@@ -449,7 +520,11 @@ resource({
 // WRONG
 resource({
   request: mySignal, // ERROR: should be 'params'
+<<<<<<< chore/setup-project
   loader: async ({ request }) => {
+=======
+  loader: async ({request}) => {
+>>>>>>> main
     /* ... */
   },
 });
@@ -458,7 +533,11 @@ resource({
 Use `debounce()` to delay synchronization between the UI and the model.
 
 ```ts
+<<<<<<< chore/setup-project
 import { debounce } from '@angular/forms/signals';
+=======
+import {debounce} from '@angular/forms/signals';
+>>>>>>> main
 
 userForm = form(this.userModel, (s) => {
   // Delay model updates by 300ms
@@ -474,14 +553,22 @@ form(
   (path) => {
     applyWhen(
       name,
+<<<<<<< chore/setup-project
       ({ value }) => value() !== 'admin',
+=======
+      ({value}) => value() !== 'admin',
+>>>>>>> main
       (namePath) => {
         validate(namePath.last /* ... */);
         disable(namePath.last /* ... */);
       },
     );
   },
+<<<<<<< chore/setup-project
   { injector: TestBed.inject(Injector) },
+=======
+  {injector: TestBed.inject(Injector)},
+>>>>>>> main
 );
 ```
 
@@ -494,13 +581,21 @@ form(
   (path) => {
     applyWhen(
       cat,
+<<<<<<< chore/setup-project
       ({ value }) => value().name !== 'admin',
+=======
+      ({value}) => value().name !== 'admin',
+>>>>>>> main
       (catPath) => {
         require(cat.catPath /* ... */);
       },
     );
   },
+<<<<<<< chore/setup-project
   { injector: TestBed.inject(Injector) },
+=======
+  {injector: TestBed.inject(Injector)},
+>>>>>>> main
 );
 ```
 
@@ -538,7 +633,11 @@ form(
 ### `src/app/app.ts`
 
 ```ts
+<<<<<<< chore/setup-project
 import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
+=======
+import {Component, signal, ChangeDetectionStrategy} from '@angular/core';
+>>>>>>> main
 import {
   form,
   FormField,
@@ -574,6 +673,7 @@ export class App {
       tier: 'economy',
       extras: [] as string[],
     },
+<<<<<<< chore/setup-project
     companions: [] as Array<{ name: string; relation: string }>,
   });
 
@@ -588,28 +688,60 @@ export class App {
     required(s.tripDetails.destination);
     required(s.tripDetails.launchDate);
     validate(s.tripDetails.launchDate, ({ value }) => {
+=======
+    companions: [] as Array<{name: string; relation: string}>,
+  });
+
+  bookingForm = form(this.model, (s) => {
+    required(s.personalInfo.firstName, {message: 'First name is required'});
+    required(s.personalInfo.lastName, {message: 'Last name is required'});
+    required(s.personalInfo.email, {message: 'Email is required'});
+    email(s.personalInfo.email, {message: 'Invalid email address'});
+    required(s.personalInfo.age, {message: 'Age is required'});
+    min(s.personalInfo.age, 18, {message: 'Must be at least 18'});
+
+    required(s.tripDetails.destination);
+    required(s.tripDetails.launchDate);
+    validate(s.tripDetails.launchDate, ({value}) => {
+>>>>>>> main
       const date = new Date(value());
       if (isNaN(date.getTime())) return undefined;
       const today = new Date();
       if (date < today) {
+<<<<<<< chore/setup-project
         return { kind: 'pastData', message: 'Launch date must be in the future' };
+=======
+        return {kind: 'pastData', message: 'Launch date must be in the future'};
+>>>>>>> main
       }
       return undefined;
     });
 
     // valueOf is used to access values of other fields in rules
+<<<<<<< chore/setup-project
     hidden(s.package.extras, ({ valueOf }) => valueOf(s.package.tier) === 'economy');
 
     applyEach(s.companions, (companion) => {
       required(companion.name, { message: 'Companion name required' });
       required(companion.relation, { message: 'Relation required' });
+=======
+    hidden(s.package.extras, ({valueOf}) => valueOf(s.package.tier) === 'economy');
+
+    applyEach(s.companions, (companion) => {
+      required(companion.name, {message: 'Companion name required'});
+      required(companion.relation, {message: 'Relation required'});
+>>>>>>> main
     });
   });
 
   addCompanion() {
     this.model.update((m) => ({
       ...m,
+<<<<<<< chore/setup-project
       companions: [...m.companions, { name: '', relation: '' }],
+=======
+      companions: [...m.companions, {name: '', relation: ''}],
+>>>>>>> main
     }));
   }
 
@@ -775,7 +907,11 @@ const val = this.form.field().value();
 // WRONG
 this.form.address.street.set('Main St');
 // RIGHT - update the model signal instead
+<<<<<<< chore/setup-project
 this.model.update((m) => ({ ...m, address: { ...m.address, street: 'Main St' } }));
+=======
+this.model.update((m) => ({...m, address: {...m.address, street: 'Main St'}}));
+>>>>>>> main
 ```
 
 ### `Type 'string[]' is not assignable to type 'string'`
@@ -832,7 +968,11 @@ model = signal({ hasWifi: false, hasGym: false });
 
 ```ts
 // WRONG - when only works with required
+<<<<<<< chore/setup-project
 pattern(s.ssn, /^\d{3}-\d{2}-\d{4}$/, { when: isJoint });
+=======
+pattern(s.ssn, /^\d{3}-\d{2}-\d{4}$/, {when: isJoint});
+>>>>>>> main
 
 // RIGHT - use applyWhen for conditional non-required validators
 applyWhen(s.ssn, isJoint, (ssnPath) => {
@@ -860,7 +1000,11 @@ applyWhen(s.spouse, ({valueOf}) => valueOf(s.status) === 'joint', (spousePath) =
 
 ```ts
 // WRONG
+<<<<<<< chore/setup-project
 import { FormState } from '@angular/forms/signals';
+=======
+import {FormState} from '@angular/forms/signals';
+>>>>>>> main
 
 // FormState does not exist. If you need type access, the form
 // instance provides all necessary state through field().valid(), etc.

@@ -48,7 +48,11 @@ To proxy API requests during development (e.g., rerouting `/api` to a local Node
 1. Create `src/proxy.conf.json`:
    ```json
    {
+<<<<<<< chore/setup-project
      "/api/**": { "target": "http://localhost:3000", "secure": false }
+=======
+     "/api/**": {"target": "http://localhost:3000", "secure": false}
+>>>>>>> main
    }
    ```
 2. Update `angular.json` under the `serve` target:

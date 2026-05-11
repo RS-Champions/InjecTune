@@ -9,8 +9,13 @@ Define routes in a `Routes` array and provide them using `provideRouter` in your
 ```ts
 // app.routes.ts
 export const routes: Routes = [
+<<<<<<< chore/setup-project
   { path: '', component: HomePage },
   { path: 'admin', component: AdminPage },
+=======
+  {path: '', component: HomePage},
+  {path: 'admin', component: AdminPage},
+>>>>>>> main
 ];
 
 // app.config.ts

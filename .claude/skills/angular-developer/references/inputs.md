@@ -7,7 +7,11 @@ Inputs allow data to flow from a parent component to a child component. Angular 
 Declare inputs using the `input()` function. This returns an `InputSignal`.
 
 ```ts
+<<<<<<< chore/setup-project
 import { Component, input, computed } from '@angular/core';
+=======
+import {Component, input, computed} from '@angular/core';
+>>>>>>> main
 
 @Component({
   selector: 'app-user',
