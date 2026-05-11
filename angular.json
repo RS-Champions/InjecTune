@@ -30,13 +30,7 @@
                 "input": "public"
               }
             ],
-<<<<<<< chore/setup-project
             "styles": ["src/styles.scss"],
-=======
-            "styles": [
-              "src/styles.scss"
-            ],
->>>>>>> main
             "outputPath": "dist/InjecTune"
           },
           "configurations": {
