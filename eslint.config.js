@@ -49,6 +49,7 @@ module.exports = defineConfig([
           ignore: ['e2e', 'i18n'],
         },
       ],
+      'unicorn/no-null': 'off',
     },
   },
   {
