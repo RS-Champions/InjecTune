@@ -57,3 +57,18 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+
+## Commit Message Types
+
+* build: Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)
+* chore: Routine tasks and maintenance that do not modify source or test files (for example, editing configurations of development tools, maintaining the repository, etc)
+* ci: Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)
+* docs: Documentation only changes
+* feat: A new feature
+* fix: A bug fix
+* perf: A code change that improves performance
+* refactor: A code change that neither fixes a bug nor adds a feature
+* style: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
+* test: Adding missing tests or correcting existing tests
+
