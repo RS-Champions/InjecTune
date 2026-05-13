@@ -1,0 +1,29 @@
+<div class="track-card" [class.playing]="isPlaying()">
+  <div class="track-card__cover">
+    <img [src]="track().album_image" [alt]="track().name" />
+    @if (isPlaying()) {
+      <div class="track-card__equalizer">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    }
+  </div>
+
+  <div class="track-card__info">
+    <p class="track-card__title">{{ track().name }}</p>
+    <p class="track-card__artist">{{ track().artist_name }}</p>
+    <div class="track-card__meta">
+      <span class="track-card__duration">{{ formatDuration(track().duration) }}</span>
+      <span class="track-card__plays">{{ formatPlayCount(track().playcount) }} plays</span>
+    </div>
+  </div>
+
+  <button class="track-card__play-btn" (click)="onPlay()" [class.active]="isPlaying()">
+    @if (isPlaying()) {
+      ⏸
+    } @else {
+      ▶
+    }
+  </button>
+</div>

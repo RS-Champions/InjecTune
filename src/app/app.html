@@ -1,0 +1,11 @@
+<main>
+  <h1>InjecTune</h1>
+  <p class="subtitle">Popular Tracks</p>
+  @for (track of tracks; track track.id) {
+    <app-track-card
+      [track]="track"
+      [isPlaying]="isPlaying(track)"
+      (trackPlay)="onPlay($event)"
+    />
+  }
+</main>

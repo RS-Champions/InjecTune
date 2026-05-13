@@ -1,1 +1,36 @@
-/* You can add global styles to this file, and also import other style files */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #080810;
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+  min-height: 100vh;
+}
+
+main {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 56px 24px;
+
+  h1 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #f9fafb;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+  }
+
+  p.subtitle {
+    color: #4b5563;
+    font-size: 13px;
+    margin-bottom: 32px;
+  }
+
+  app-track-card {
+    display: block;
+    margin-bottom: 8px;
+  }
+}
