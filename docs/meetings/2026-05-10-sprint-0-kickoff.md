@@ -1,9 +1,9 @@
 # Meeting Note — Sprint 0 Kickoff
 
-| | |
-|---|---|
-| **Date** | May 5–10, 2026 |
-| **Place** | Discord (text channel) |
+|             |                                           |
+| ----------- | ----------------------------------------- |
+| **Date**    | May 5–10, 2026                            |
+| **Place**   | Discord (text channel)                    |
 | **Members** | AlenaVP, Lorenzo-StJohn, mikhalenkadaniil |
 
 ---
@@ -44,10 +44,10 @@
 
 ## Action Items
 
-| # | What | Who | By when |
-|---|------|-----|---------|
-| 1 | Create a team on the [app.rs.school](app.rs.school) platform | mikhalenkadaniil | May 7, 2026 |
-| 2 | Create the GitHub Organization and Repository | mikhalenkadaniil | May 9, 2026 |
-| 3 | Create the GitHub Projects Board | AlenaVP | May 10, 2026 |
-| 4 | Set up the project (initial Angular scaffold) | mikhalenkadaniil | May 10, 2026 |
-| 5 | Describe AI usage rules for the project | mikhalenkadaniil | May 10, 2026 |
+| #   | What                                                         | Who              | By when      |
+| --- | ------------------------------------------------------------ | ---------------- | ------------ |
+| 1   | Create a team on the [app.rs.school](app.rs.school) platform | mikhalenkadaniil | May 7, 2026  |
+| 2   | Create the GitHub Organization and Repository                | mikhalenkadaniil | May 9, 2026  |
+| 3   | Create the GitHub Projects Board                             | AlenaVP          | May 10, 2026 |
+| 4   | Set up the project (initial Angular scaffold)                | mikhalenkadaniil | May 10, 2026 |
+| 5   | Describe AI usage rules for the project                      | mikhalenkadaniil | May 10, 2026 |
