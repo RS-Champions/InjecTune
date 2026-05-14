@@ -1,0 +1,26 @@
+[
+  {
+    "id": 0,
+    "name": "Daniil Mikhalenka",
+    "role": "Team Lead",
+    "bio": "Loves RS School, finished the JavaScript/Front-end 2025Q3 course as a top‑4 student.",
+    "photoUrl": "https://mikhalenkadaniil.github.io/rsschool-cv/img/avatar.jpg",
+    "gitHubLink": "https://github.com/mikhalenkadaniil"
+  },
+  {
+    "id": 1,
+    "name": "Alena Papruha",
+    "role": "Scrum Master",
+    "bio": "Frontend Developer based in the EU, specialising in Angular, TypeScript, and scalable SPA architecture. Completed RS School's JS/FE and Angular courses, and gained hands-on experience during a 6-month internship building a banking application. Skilled in both technical delivery and team coordination.",
+    "photoUrl": "https://alenavp.github.io/rsschool-cv/img/ava_0827_small.jpg",
+    "gitHubLink": "https://github.com/AlenaVP"
+  },
+  {
+    "id": 2,
+    "name": "Svetlana Arzamastceva",
+    "role": "Tech Lead",
+    "bio": "Loves RS School, finished the JavaScript/Front-end 2024Q4 course as a top‑3 student and the NodeJS 2026Q1 course as a top‑1 student.",
+    "photoUrl": "https://lorenzo-stjohn.github.io/rsschool-cv/assets/ChatGPT-Image.webp",
+    "gitHubLink": "https://github.com/Lorenzo-StJohn"
+  }
+]
