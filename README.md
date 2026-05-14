@@ -1,64 +1,92 @@
-# InjecTune
+# InjecTune 🎵
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.10.
+A music streaming service built with Angular 21+, powered by the [Jamendo API](https://developer.jamendo.com/v3.0/docs).
 
-## Development server
+Search for tracks and artists, listen to music, build playlists, and maintain your personal favorites library — all in a modern, responsive web application.
 
-To start a local development server, run:
+> Built as a final team project for the [RS School Angular Course](https://rs.school/).
+
+---
+
+## 🥇 Team — Champions
+
+| Name    | Role                                     | GitHub                                                   |
+| ------- | ---------------------------------------- | -------------------------------------------------------- |
+| Alena   | Project Management & Communication       | [@AlenaVP](https://github.com/AlenaVP)                   |
+| Lorenzo | Git Culture & Code Review                | [@Lorenzo-StJohn](https://github.com/Lorenzo-StJohn)     |
+| Daniil  | Product Integrity & Delivery / Team Lead | [@mikhalenkadaniil](https://github.com/mikhalenkadaniil) |
+
+---
+
+## 🛠️ Tech Stack
+
+- [Angular 21+](https://angular.dev/) — standalone components, signals, new control flow
+- [TypeScript](https://www.typescriptlang.org/) — strict mode
+- [Jamendo API v3.0](https://developer.jamendo.com/v3.0/docs) — music catalog (500,000+ tracks)
+- [NestJS](https://nestjs.com/) — custom backend for playlists and user uploads
+
+---
+
+## 🚀 Getting Started
+
+### 🧩 Prerequisites
+
+- Node.js 19+
+- npm 10+
+
+### 🔧 Local Setup
 
 ```bash
-ng serve
+# Clone the repository
+git clone https://github.com/RS-Champions/InjecTune.git
+cd InjecTune
+
+# Run project
+npm start
+# or
+npm install + ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Open your browser at `http://localhost:4200`
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### 🔍 Linting
 
 ```bash
-ng generate component component-name
+npm run lint
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
-```bash
-ng generate --help
-```
-
-## Building
+### 🚀 Building
 
 To build the project run:
 
 ```bash
-ng build
+npm run build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+This will compile your project and store the build artifacts in the `dist/InjecTune` directory. By default, the production build optimizes your application for performance and speed.
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+### 🧪 Testing
 
 ```bash
-ng test
+# To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+npm run test
 ```
 
-## Running end-to-end tests
+---
 
-For end-to-end (e2e) testing, run:
+## 🌐 Deployment
 
-```bash
-ng e2e
-```
+**Live app:** https://injectune.netlify.app/
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+CI/CD is configured via Netlify — every merge to `main` triggers an automatic deploy and a pull request also trigger the deploy for testing.
 
-## Additional Resources
+---
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
-
-## Commit Message Types
+## 📌 Commit Message Types
 
 - build: Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)
 - chore: Routine tasks and maintenance that do not modify source or test files (for example, editing configurations of development tools, maintaining the repository, etc)
@@ -70,3 +98,50 @@ For more information on using the Angular CLI, including detailed command refere
 - refactor: A code change that neither fixes a bug nor adds a feature
 - style: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
 - test: Adding missing tests or correcting existing tests
+
+---
+
+## 📋 Project Board
+
+[InjecTune Board](https://github.com/orgs/RS-Champions/projects/3) — GitHub Projects Kanban board
+
+---
+
+## 💬 Meeting Notes
+
+| #   | Meeting                                                              | Date         |
+| --- | -------------------------------------------------------------------- | ------------ |
+| 1   | [Sprint 0 — Kickoff](docs/meetings/2026-05-10-sprint-0-kickoff.md)   | May 10, 2026 |
+| 2   | [Sprint 1 — Planning](docs/meetings/2026-05-11-sprint-1-planning.md) | May 11, 2026 |
+
+---
+
+## ⚠️ AI Usage Policy
+
+This team uses AI tools (Claude, GitHub Copilot) transparently during development.
+Each team member documents AI usage in their personal Development Diary,
+clearly indicating which parts were written by the developer and which were
+generated or assisted by AI.
+
+---
+
+## 👩‍💻 Development Diaries
+
+Personal learning journals — updated at least once per sprint:
+
+- [AlenaVP](development-notes/AlenaVP/)
+- [Lorenzo-StJohn](development-notes/Lorenzo-StJohn/)
+- [mikhalenkadaniil](development-notes/mikhalenkadaniil/)
+
+---
+
+## 🔌 Course References
+
+| Document                                                                                                                          | Description             |
+| --------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
+| [Task README.md](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/README.md)            | Angular Sprint overview |
+| [PROJECTS.md](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/PROJECTS.md)             | Project options         |
+| [PROJECT_MUSIC.md](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/PROJECT_MUSIC.md)   | MusicFlow specification |
+| [SCORE_TEAM.md](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/SCORE_TEAM.md)         | Team score criteria     |
+| [SCORE_PERSONAL.md](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/SCORE_PERSONAL.md) | Personal score criteria |
+| [CODE_STANDARDS.md](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/CODE_STANDARDS.md) | Code standards          |
