@@ -1,9 +1,9 @@
 # Meeting Note — Sprint 1 Planning
 
-| | |
-|---|---|
-| **Date** | May 11, 2026 |
-| **Place** | Discord (voice event) |
+|             |                                                    |
+| ----------- | -------------------------------------------------- |
+| **Date**    | May 11, 2026                                       |
+| **Place**   | Discord (voice event)                              |
 | **Members** | AlenaVP, Lorenzo-StJohn, mikhalenkadaniil, TELEUZI |
 
 ---
@@ -25,7 +25,7 @@
 2. **UI library:** The team will decide on a UI library from the following candidates:
    - [Taiga UI](https://taiga-ui.dev/)
    - [Angular Material](https://material.angular.io/)
-   - [SpartanUI](https://www.spartan.ng/) *(under consideration)*
+   - [SpartanUI](https://www.spartan.ng/) _(under consideration)_
 
 3. **Sprint 1 component assignments:** By the end of Sprint 1, each team member will implement one component:
    - **AlenaVP** — Track Card
@@ -38,28 +38,28 @@
 
 ## Action Items
 
-| # | What | Who | By when |
-|---|------|-----|---------|
-| 1 | Complete project setup | mikhalenkadaniil | May 14, 2026 |
-| 2 | Configure Branch Protection in GitHub | Lorenzo-StJohn | May 14, 2026 |
-| 3 | Add a Pull Request template in GitHub | Lorenzo-StJohn | May 14, 2026 |
-| 4 | Finish setting up the GitHub Projects Board (add issues) | AlenaVP | May 14, 2026 |
-| 5 | Prepare and propose a project folder structure for team discussion | AlenaVP | May 14, 2026 |
-| 6 | Add mock data based on the Jamendo API | AlenaVP | May 14, 2026 |
-| 7 | Implement Music Card component | mikhalenkadaniil | May 16, 2026 |
-| 8 | Implement Developer Card component (About page) | Lorenzo-StJohn | May 16, 2026 |
-| 9 | Implement Track Card component | AlenaVP | May 16, 2026 |
+| #   | What                                                               | Who              | By when      |
+| --- | ------------------------------------------------------------------ | ---------------- | ------------ |
+| 1   | Complete project setup                                             | mikhalenkadaniil | May 14, 2026 |
+| 2   | Configure Branch Protection in GitHub                              | Lorenzo-StJohn   | May 14, 2026 |
+| 3   | Add a Pull Request template in GitHub                              | Lorenzo-StJohn   | May 14, 2026 |
+| 4   | Finish setting up the GitHub Projects Board (add issues)           | AlenaVP          | May 14, 2026 |
+| 5   | Prepare and propose a project folder structure for team discussion | AlenaVP          | May 14, 2026 |
+| 6   | Add mock data based on the Jamendo API                             | AlenaVP          | May 14, 2026 |
+| 7   | Implement Music Card component                                     | mikhalenkadaniil | May 16, 2026 |
+| 8   | Implement Developer Card component (About page)                    | Lorenzo-StJohn   | May 16, 2026 |
+| 9   | Implement Track Card component                                     | AlenaVP          | May 16, 2026 |
 
 ---
 
 ## Reference Links
 
-| Resource | Link |
-|----------|------|
-| Angular Sprint README | [README.md](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/README.md) |
-| Project options | [PROJECTS.md](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/PROJECTS.md) |
-| Sprint 1 Checkpoint | [SPRINT1_CHECKPOINT.md](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/SPRINT1_CHECKPOINT.md) |
-| Team Score criteria | [SCORE_TEAM.md](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/SCORE_TEAM.md) |
-| MusicFlow project spec | [PROJECT_MUSIC.md](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/PROJECT_MUSIC.md) |
-| Jamendo API docs | [developer.jamendo.com](https://developer.jamendo.com/v3.0/docs) |
-| UI Prototype (Stitch) | [View prototype](https://stitch.withgoogle.com/projects/12943067060057822290) |
+| Resource               | Link                                                                                                                                      |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| Angular Sprint README  | [README.md](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/README.md)                         |
+| Project options        | [PROJECTS.md](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/PROJECTS.md)                     |
+| Sprint 1 Checkpoint    | [SPRINT1_CHECKPOINT.md](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/SPRINT1_CHECKPOINT.md) |
+| Team Score criteria    | [SCORE_TEAM.md](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/SCORE_TEAM.md)                 |
+| MusicFlow project spec | [PROJECT_MUSIC.md](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/PROJECT_MUSIC.md)           |
+| Jamendo API docs       | [developer.jamendo.com](https://developer.jamendo.com/v3.0/docs)                                                                          |
+| UI Prototype (Stitch)  | [View prototype](https://stitch.withgoogle.com/projects/12943067060057822290)                                                             |
