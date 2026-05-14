@@ -395,8 +395,7 @@ applyEach(s.items, (item, index) => {
 } }
 
 <!-- CORRECT - use let to store outer index -->
-@for (item of form.items; track $index; let outerIndex = $index) { @for (option of item.options;
-track $index) {
+@for (item of form.items; track $index; let outerIndex = $index) { @for (option of item.options; track $index) {
 <button (click)="removeOption(outerIndex, $index)">Remove</button>
 } }
 ```
@@ -775,8 +774,7 @@ export class App {
     <label>
       First Name
       <input [formField]="bookingForm.personalInfo.firstName" />
-      @if (bookingForm.personalInfo.firstName().touched() &&
-      bookingForm.personalInfo.firstName().errors().length) {
+      @if (bookingForm.personalInfo.firstName().touched() && bookingForm.personalInfo.firstName().errors().length) {
       <span>{{ bookingForm.personalInfo.firstName().errors()[0].message }}</span>
       }
     </label>
@@ -784,8 +782,7 @@ export class App {
     <label>
       Last Name
       <input [formField]="bookingForm.personalInfo.lastName" />
-      @if (bookingForm.personalInfo.lastName().touched() &&
-      bookingForm.personalInfo.lastName().errors().length) {
+      @if (bookingForm.personalInfo.lastName().touched() && bookingForm.personalInfo.lastName().errors().length) {
       <span>{{ bookingForm.personalInfo.lastName().errors()[0].message }}</span>
       }
     </label>
@@ -793,8 +790,7 @@ export class App {
     <label>
       Email
       <input type="email" [formField]="bookingForm.personalInfo.email" />
-      @if (bookingForm.personalInfo.email().touched() &&
-      bookingForm.personalInfo.email().errors().length) {
+      @if (bookingForm.personalInfo.email().touched() && bookingForm.personalInfo.email().errors().length) {
       <span>{{ bookingForm.personalInfo.email().errors()[0].message }}</span>
       }
     </label>
@@ -802,8 +798,7 @@ export class App {
     <label>
       Age
       <input type="number" [formField]="bookingForm.personalInfo.age" />
-      @if (bookingForm.personalInfo.age().touched() &&
-      bookingForm.personalInfo.age().errors().length) {
+      @if (bookingForm.personalInfo.age().touched() && bookingForm.personalInfo.age().errors().length) {
       <span>{{ bookingForm.personalInfo.age().errors()[0].message }}</span>
       }
     </label>
@@ -824,8 +819,7 @@ export class App {
     <label>
       Launch Date
       <input type="date" [formField]="bookingForm.tripDetails.launchDate" />
-      @if (bookingForm.tripDetails.launchDate().touched() &&
-      bookingForm.tripDetails.launchDate().errors().length) {
+      @if (bookingForm.tripDetails.launchDate().touched() && bookingForm.tripDetails.launchDate().errors().length) {
       <span>{{ bookingForm.tripDetails.launchDate().errors()[0].message }}</span>
       }
     </label>
