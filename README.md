@@ -67,18 +67,13 @@ To build the project run:
 npm run build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+This will compile your project and store the build artifacts in the `dist/InjecTune` directory. By default, the production build optimizes your application for performance and speed.
 
 ### 🧪 Testing
 
 ```bash
 # To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
 npm run test
-
-# For end-to-end (e2e) testing, run:
-ng e2e
-
-# Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
 ```
 
 ---
@@ -87,7 +82,7 @@ ng e2e
 
 **Live app:** https://injectune.netlify.app/
 
-CI/CD is configured via Netlify — every merge to `main` triggers an automatic deploy.
+CI/CD is configured via Netlify — every merge to `main` triggers an automatic deploy and a pull request also trigger the deploy for testing.
 
 ---
 
@@ -144,9 +139,9 @@ Personal learning journals — updated at least once per sprint:
 
 | Document                                                                                                                          | Description             |
 | --------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
-| [README.md](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/README.md)                 | Angular Sprint overview |
-| [PROJECTS.md](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/PROJECTS.md)             | Project options         |
-| [PROJECT_MUSIC.md](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/PROJECT_MUSIC.md)   | MusicFlow specification |
-| [SCORE_TEAM.md](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/SCORE_TEAM.md)         | Team score criteria     |
-| [SCORE_PERSONAL.md](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/SCORE_PERSONAL.md) | Personal score criteria |
-| [CODE_STANDARDS.md](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/CODE_STANDARDS.md) | Code standards          |
+| [Task Introduction](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/README.md)                 | Angular Sprint overview |
+| [Task overview](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/PROJECTS.md)             | Project options         |
+| [Task description](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/PROJECT_MUSIC.md)   | MusicFlow specification |
+| [Team requierments](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/SCORE_TEAM.md)         | Team score criteria     |
+| [Personal requierments](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/SCORE_PERSONAL.md) | Personal score criteria |
+| [Code standards](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/CODE_STANDARDS.md) | Code standards          |
