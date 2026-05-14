@@ -13,7 +13,7 @@
     "prepare": "husky"
   },
   "lint-staged": {
-    "*.{js,ts,json,scss,md}": "prettier --write"
+    "*.{js,ts,json,scss,html,md}": "prettier --write"
   },
   "private": true,
   "packageManager": "npm@11.12.1",
