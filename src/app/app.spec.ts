@@ -1,9 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { App } from './app';
+import { TUI_OPTIONS } from '@taiga-ui/core';
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      providers: [{ provide: TUI_OPTIONS, useValue: {} }],
       imports: [App],
     }).compileComponents();
   });
