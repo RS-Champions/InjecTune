@@ -5,7 +5,7 @@ import { Component, signal } from '@angular/core';
   selector: 'app-root',
   imports: [TuiRoot],
   templateUrl: './app.html',
-  styleUrl: './app.scss',
+  styleUrl: './app.less',
 })
 export class App {
   protected readonly title = signal('InjecTune');
