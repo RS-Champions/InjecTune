@@ -29,7 +29,7 @@
 
 3. **Sprint 1 component assignments:** By the end of Sprint 1, each team member will implement one component:
    - **AlenaVP** — Track Card
-   - **mikhalenkadaniil** — Artist Card
+   - **mikhalenkadaniil** — Music Card
    - **Lorenzo-StJohn** — Developer Card (for the About page)
 
 4. **Infrastructure first:** The team agreed to focus on project infrastructure and shared development approaches before moving on to full UI implementation.
@@ -46,7 +46,7 @@
 | 4 | Finish setting up the GitHub Projects Board (add issues) | AlenaVP | May 14, 2026 |
 | 5 | Prepare and propose a project folder structure for team discussion | AlenaVP | May 14, 2026 |
 | 6 | Add mock data based on the Jamendo API | AlenaVP | May 14, 2026 |
-| 7 | Implement Artist Card component | mikhalenkadaniil | May 16, 2026 |
+| 7 | Implement Music Card component | mikhalenkadaniil | May 16, 2026 |
 | 8 | Implement Developer Card component (About page) | Lorenzo-StJohn | May 16, 2026 |
 | 9 | Implement Track Card component | AlenaVP | May 16, 2026 |
 
