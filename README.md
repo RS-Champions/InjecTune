@@ -41,13 +41,10 @@ Search for tracks and artists, listen to music, build playlists, and maintain yo
 git clone https://github.com/RS-Champions/InjecTune.git
 cd InjecTune
 
-# Install dependencies
-npm install
-
-# Start the development server
+# Run project
 npm start
 # or
-ng serve
+npm install + ng serve
 ```
 
 Open your browser at `http://localhost:4200`
@@ -143,7 +140,7 @@ Personal learning journals — updated at least once per sprint:
 
 ---
 
-## 👉 Course References
+## 🔌 Course References
 
 | Document                                                                                                                          | Description             |
 | --------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
