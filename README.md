@@ -138,7 +138,7 @@ Personal learning journals — updated at least once per sprint:
 ## 🔌 Course References
 
 - [RS Angular Sprint Overview](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/README.md)
-- [Project Options](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/README.md)
+- [Project Options](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/PROJECTS.md)
 - [MusicFlow — Music Streaming Service](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/PROJECT_MUSIC.md)
 - [Team Score](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/SCORE_TEAM.md)
 - [Personal Score](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/SCORE_PERSONAL.md)
