@@ -137,11 +137,9 @@ Personal learning journals — updated at least once per sprint:
 
 ## 🔌 Course References
 
-| Document                                                                                                                          | Description             |
-| --------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
-| [Task README.md](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/README.md)            | Angular Sprint overview |
-| [PROJECTS.md](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/PROJECTS.md)             | Project options         |
-| [PROJECT_MUSIC.md](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/PROJECT_MUSIC.md)   | MusicFlow specification |
-| [SCORE_TEAM.md](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/SCORE_TEAM.md)         | Team score criteria     |
-| [SCORE_PERSONAL.md](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/SCORE_PERSONAL.md) | Personal score criteria |
-| [CODE_STANDARDS.md](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/CODE_STANDARDS.md) | Code standards          |
+- [RS Angular Sprint Overview](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/README.md)
+- [Project Options](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/README.md)
+- [MusicFlow — Music Streaming Service](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/PROJECT_MUSIC.md)
+- [Team Score](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/SCORE_TEAM.md)
+- [Personal Score](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/SCORE_PERSONAL.md)
+- [Project Technical Requirements](https://github.com/rolling-scopes-school/tasks/blob/master/angular/tasks/angular-team-task/CODE_STANDARDS.md)
