@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AboutCard } from '../../components/about-card/about-card';
 import { AboutStore } from '../../services/about-store';
@@ -10,6 +10,7 @@ import { TuiCardLarge, TuiHeader } from '@taiga-ui/layout';
   imports: [AboutCard, TuiLoader, TuiCardLarge, TuiHeader, TuiLink, TuiTitle],
   templateUrl: './about-page.html',
   styleUrl: './about-page.less',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AboutPage {
   private readonly aboutStore = inject(AboutStore);
