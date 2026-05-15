@@ -1,13 +1,29 @@
-@let membersData = teamMembers();
+<div class="wrapper">
+  <img src="images/about_bg.webp" alt="Just abstract beautiful image" class="about-bg" />
+  <section class="hero">
+    <h2 tuiTitle class="title">
+      Injecting rhythm into the web
+      <div class="title-md" tuiSubtitle>
+        InjecTune is more than a music player — it's a showcase of modern web engineering, where injectable services
+        orchestrate your journey through popular hits, artist albums, and personal playlists. Built during an intensive
+        Angular course, it harmonizes code architecture with the art of listening.
+      </div>
+    </h2>
+  </section>
 
-<div class="card-container">
-  @if (membersData.isLoading) {
-    <tui-loader />
-  } @else {
-    @for (member of membersData.value; track member.id) {
-      <app-about-card [teamMember]="member" />
-    } @empty {
-      <p class="fallback">No-one works here...</p>
-    }
-  }
+  <section class="team">
+    @let membersData = teamMembers();
+
+    <div class="card-container">
+      @if (membersData.isLoading) {
+        <tui-loader />
+      } @else {
+        @for (member of membersData.value; track member.id) {
+          <app-about-card [teamMember]="member" />
+        } @empty {
+          <p class="fallback">No-one works here...</p>
+        }
+      }
+    </div>
+  </section>
 </div>
