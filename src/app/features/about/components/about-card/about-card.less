@@ -1,0 +1,105 @@
+@import 'src/styles';
+
+:host {
+  display: flex;
+  --tui-text-primary: var(--on-surface);
+  --tui-text-action: var(--primary);
+  --tui-text-action-hover: var(--on-primary);
+}
+
+:host .card[tuiCardLarge] {
+  position: relative;
+  max-width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  --t-radius: var(--lg);
+  background-color: rgba(21, 21, 29, 0.7);
+  transition: var(--transition);
+}
+
+.card:hover {
+  --tw-shadow: 0 0 30px rgba(132, 43, 210, 0.15);
+  box-shadow: var(--tw-shadow);
+}
+
+.card::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 4px;
+  left: 0px;
+  top: auto;
+  bottom: 0px;
+  background-image: linear-gradient(to right, var(--primary), var(--secondary));
+  opacity: 0;
+  transition: var(--transition);
+}
+
+.card:hover::after {
+  opacity: 1;
+}
+
+.invisible-link {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  z-index: 1;
+}
+
+.columns {
+  height: 100%;
+  align-items: flex-start;
+}
+
+.skeleton {
+  border-radius: var(--lg);
+}
+
+.photo {
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+  object-position: 50% 0%;
+  border-radius: var(--lg);
+  filter: grayscale(1);
+  transition: var(--transition);
+}
+
+.card:hover .photo {
+  filter: grayscale(0);
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: var(--sm);
+}
+
+.description {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: var(--default);
+  text-align: justify;
+}
+
+.role {
+  color: var(--primary);
+}
+
+.info {
+  flex-grow: 1;
+  color: var(--on-surface-variant);
+}
+
+.github-link {
+  color: var(--on-surface-variant);
+}
+
+.card:hover .github-link {
+  color: var(--primary);
+}

@@ -1,0 +1,13 @@
+@let membersData = teamMembers();
+
+<div class="card-container">
+  @if (membersData.isLoading) {
+    <tui-loader />
+  } @else {
+    @for (member of membersData.value; track member.id) {
+      <app-about-card [teamMember]="member" />
+    } @empty {
+      <p class="fallback">No-one works here...</p>
+    }
+  }
+</div>

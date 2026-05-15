@@ -1,0 +1,26 @@
+.card-container {
+  max-width: 1280px;
+  min-height: 320px;
+  margin: 0 auto;
+  padding: var(--default);
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--md);
+}
+
+.card-container tui-loader {
+  --tui-background-accent-1: var(--on-surface);
+  --t-diameter: var(--lg);
+}
+
+.card-container > * {
+  flex: 1 0 320px;
+  max-width: 100%;
+}
+
+.fallback {
+  color: var(--on-surface);
+  text-align: center;
+  line-height: 10;
+}
