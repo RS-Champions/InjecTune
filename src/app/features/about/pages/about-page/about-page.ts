@@ -3,11 +3,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AboutCard } from '../../components/about-card/about-card';
 import { AboutStore } from '../../services/about-store';
 import { TuiLink, TuiLoader, TuiTitle } from '@taiga-ui/core';
-import { TuiCardLarge, TuiHeader } from '@taiga-ui/layout';
+import { TuiCardLarge } from '@taiga-ui/layout';
 
 @Component({
   selector: 'app-about-page',
-  imports: [AboutCard, TuiLoader, TuiCardLarge, TuiHeader, TuiLink, TuiTitle],
+  imports: [AboutCard, TuiLoader, TuiCardLarge, TuiLink, TuiTitle],
   templateUrl: './about-page.html',
   styleUrl: './about-page.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

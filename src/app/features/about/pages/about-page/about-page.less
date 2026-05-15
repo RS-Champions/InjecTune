@@ -1,15 +1,11 @@
-@import 'src/styles';
+@import 'styles';
 
 :host {
-  --tui-text-action: var(--on-surface-variant);
-  --tui-text-action-hover: var(--primary);
-}
-
-.wrapper {
-  position: relative;
-  background-image: linear-gradient(rgba(22, 17, 27, 0.1), rgba(22, 17, 27, 0.7), rgb(22, 17, 27));
-  // UNTIL HEADER AND FOOTER ADDED
+  --card-size: 320px;
+  display: block;
   min-height: 100dvh;
+  position: relative;
+  background-image: var(--dim-gradient);
 }
 
 .about-bg {
@@ -26,7 +22,7 @@
   max-width: 960px;
   margin: 0 auto;
   padding: 3em var(--default) 2.75em;
-  background-image: linear-gradient(to right, rgb(221, 183, 255), rgb(173, 198, 255), rgb(221, 183, 255));
+  background-image: var(--colorful-gradient-3);
   background-clip: text;
   color: transparent;
   text-align: center;
@@ -37,7 +33,7 @@
 
 #team,
 #school-and-api {
-  max-width: 1280px;
+  max-width: var(--lg-container);
   margin: 0 auto;
   padding: var(--default);
 }
@@ -49,7 +45,6 @@
 
 .team-headline {
   margin: 0.125em 0 0.75em;
-  color: var(--on-surface);
 }
 
 .card-container {
@@ -60,27 +55,17 @@
 }
 
 #team .card-container {
-  min-height: 320px;
-}
-
-.card-container tui-loader {
-  --tui-background-accent-1: var(--on-surface);
-  --t-diameter: var(--lg);
+  min-height: var(--card-size);
 }
 
 #team .card-container > * {
-  flex: 1 0 320px;
-  max-width: 100%;
+  flex: 1 0 var(--card-size);
 }
 
 .fallback,
 .error {
   text-align: center;
   line-height: 10;
-}
-
-.fallback {
-  color: var(--on-surface);
 }
 
 .error {
@@ -91,53 +76,27 @@
   margin-bottom: var(--lg);
 }
 
-#school-and-api a {
-  font-size: 2rem;
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-}
-
 #school-and-api .card {
-  max-width: 100%;
   padding: 4rem;
-  background: var(--surface);
-  background-image: linear-gradient(to left, rgb(221 183 255 / 0.1), rgba(21, 21, 29, 0.7));
+  background-image: var(--gray-gradient);
   color: var(--on-surface-variant);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  --t-radius: var(--lg);
   text-align: justify;
 }
 
-.invisible-link {
-  display: block;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  left: 0;
-  top: 0;
-  opacity: 0;
-  z-index: 1;
-}
-
 .rs-school-card {
-  flex: 2 0 calc(640px + var(--md));
+  flex: 2 0 calc(2 * var(--card-size) + var(--md));
 }
 
 .rs-shool-link {
   --tui-icon-size: 4rem;
+  text-align: left;
 }
 
 .jamendo-card {
-  flex: 1 0 320px;
+  flex: 1 0 var(--card-size);
 }
 
 .jamendo-link {
   --tui-icon-size: 2rem;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .card:hover a {
-    color: var(--primary);
-  }
+  text-align: left;
 }

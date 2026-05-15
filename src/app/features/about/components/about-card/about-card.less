@@ -1,41 +1,27 @@
-@import 'src/styles';
+@import 'styles';
 
 :host {
+  --proto-size: 96px;
+  --line: 4px;
   display: flex;
-  --tui-text-primary: var(--on-surface);
 }
 
-:host .card[tuiCardLarge] {
+.card {
   position: relative;
-  max-width: 100%;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  --t-radius: var(--lg);
-  background-color: rgba(21, 21, 29, 0.7);
-  transition: var(--transition);
+  box-shadow: var(--tw-shadow);
 }
 
 .card::after {
   content: '';
   position: absolute;
   width: 100%;
-  height: 4px;
+  height: var(--line);
   left: 0px;
   top: auto;
   bottom: 0px;
-  background-image: linear-gradient(to right, var(--primary), var(--secondary));
+  background-image: var(--colorful-gradient-2);
   opacity: 0;
   transition: var(--transition);
-}
-
-.invisible-link {
-  display: block;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  left: 0;
-  top: 0;
-  opacity: 0;
-  z-index: 1;
 }
 
 .columns {
@@ -48,8 +34,8 @@
 }
 
 .photo {
-  width: 96px;
-  height: 96px;
+  width: var(--proto-size);
+  height: var(--proto-size);
   object-fit: cover;
   object-position: 50% 0%;
   border-radius: var(--lg);
@@ -81,14 +67,9 @@
   color: var(--on-surface-variant);
 }
 
-.github-link {
-  color: var(--on-surface-variant);
-}
-
 @media (hover: hover) and (pointer: fine) {
   .card:hover {
-    --tw-shadow: 0 0 30px rgba(132, 43, 210, 0.15);
-    box-shadow: var(--tw-shadow);
+    box-shadow: var(--tw-shadow-hover);
   }
 
   .card:hover::after {
@@ -97,9 +78,5 @@
 
   .card:hover .photo {
     filter: grayscale(0);
-  }
-
-  .card:hover .github-link {
-    color: var(--primary);
   }
 }
