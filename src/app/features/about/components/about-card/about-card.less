@@ -14,11 +14,6 @@
   transition: var(--transition);
 }
 
-.card:hover {
-  --tw-shadow: 0 0 30px rgba(132, 43, 210, 0.15);
-  box-shadow: var(--tw-shadow);
-}
-
 .card::after {
   content: '';
   position: absolute;
@@ -30,10 +25,6 @@
   background-image: linear-gradient(to right, var(--primary), var(--secondary));
   opacity: 0;
   transition: var(--transition);
-}
-
-.card:hover::after {
-  opacity: 1;
 }
 
 .invisible-link {
@@ -66,10 +57,6 @@
   transition: var(--transition);
 }
 
-.card:hover .photo {
-  filter: grayscale(0);
-}
-
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -98,6 +85,21 @@
   color: var(--on-surface-variant);
 }
 
-.card:hover .github-link {
-  color: var(--primary);
+@media (hover: hover) and (pointer: fine) {
+  .card:hover {
+    --tw-shadow: 0 0 30px rgba(132, 43, 210, 0.15);
+    box-shadow: var(--tw-shadow);
+  }
+
+  .card:hover::after {
+    opacity: 1;
+  }
+
+  .card:hover .photo {
+    filter: grayscale(0);
+  }
+
+  .card:hover .github-link {
+    color: var(--primary);
+  }
 }
