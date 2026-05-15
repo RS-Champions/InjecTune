@@ -18,7 +18,7 @@
 .title {
   max-width: 960px;
   margin: 0 auto;
-  padding: 3em var(--default) 2.5em;
+  padding: 3em var(--default) 2.75em;
   background-image: linear-gradient(to right, rgb(221, 183, 255), rgb(173, 198, 255), rgb(221, 183, 255));
   background-clip: text;
   color: transparent;
@@ -28,11 +28,24 @@
   line-height: 2;
 }
 
-.card-container {
+.team {
   max-width: 1280px;
-  min-height: 320px;
   margin: 0 auto;
   padding: var(--default);
+}
+
+.team-label {
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+.team-headline {
+  margin: 0.125em 0 0.75em;
+  color: var(--on-surface);
+}
+
+.card-container {
+  min-height: 320px;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
