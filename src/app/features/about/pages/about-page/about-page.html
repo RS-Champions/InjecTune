@@ -20,6 +20,8 @@
     <div class="card-container">
       @if (membersData.isLoading) {
         <tui-loader />
+      } @else if (membersData.error) {
+        <p class="error">Network error...</p>
       } @else {
         @for (member of membersData.value; track member.id) {
           <app-about-card [teamMember]="member" />
