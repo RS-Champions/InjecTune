@@ -1,25 +1,7 @@
-export interface Artist {
-  id: string;
-  name: string;
-  website: string;
-  joindate: string;
-  image: string;
-  shorturl: string;
-  shareurl: string;
-}
+import { ArtistDto } from '../../shared/artist/interfaces/artist.dto';
+import { UserArtist } from '../../shared/artist/interfaces/user-artist';
 
-export interface UserArtist {
-  id: string;
-  name: string;
-  image: string;
-  joindate: string;
-  updatedate: string;
-  relations: {
-    fan: string;
-  };
-}
-
-export const artists: Artist[] = [
+export const artists: ArtistDto[] = [
   {
     id: '376782',
     name: 'WE ARE FM',
