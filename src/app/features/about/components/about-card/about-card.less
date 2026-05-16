@@ -1,0 +1,82 @@
+@import 'styles';
+
+:host {
+  --proto-size: 96px;
+  --line: 4px;
+  display: flex;
+}
+
+.card {
+  position: relative;
+  box-shadow: var(--tw-shadow);
+}
+
+.card::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: var(--line);
+  left: 0px;
+  top: auto;
+  bottom: 0px;
+  background-image: var(--colorful-gradient-2);
+  opacity: 0;
+  transition: var(--transition);
+}
+
+.columns {
+  height: 100%;
+  align-items: flex-start;
+}
+
+.skeleton {
+  border-radius: var(--lg);
+}
+
+.photo {
+  width: var(--proto-size);
+  height: var(--proto-size);
+  object-fit: cover;
+  object-position: 50% 0%;
+  border-radius: var(--lg);
+  filter: grayscale(1);
+  transition: var(--transition);
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: var(--sm);
+}
+
+.description {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: var(--default);
+  text-align: justify;
+}
+
+.role {
+  color: var(--primary);
+}
+
+.info {
+  flex-grow: 1;
+  color: var(--on-surface-variant);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .card:hover {
+    box-shadow: var(--tw-shadow-hover);
+  }
+
+  .card:hover::after {
+    opacity: 1;
+  }
+
+  .card:hover .photo {
+    filter: grayscale(0);
+  }
+}

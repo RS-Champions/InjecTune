@@ -1,64 +1,40 @@
 :root {
-  // FONTS FOR TAIGA LIBRARY
-  --tui-typography-family-text: 'Inter', sans-serif;
-  --tui-typography-family-display: 'Inter', sans-serif;
-  // VARIABLES FROM STITCH
   --surface: #16111b;
-  --surface-bright: #3d3741;
-  --surface-container-lowest: #110c15;
-  --surface-container-low: #1f1a23;
-  --surface-container: #231e27;
-  --surface-container-high: #2e2832;
-  --surface-container-highest: #39323d;
   --on-surface: #eadfed;
   --on-surface-variant: #cfc2d6;
-  --inverse-on-surface: #342e38;
-  --outline: #988d9f;
-  --outline-variant: #4d4354;
   --primary: #ddb7ff;
-  --on-primary: #490080;
-  --primary-container: #b76dff;
-  --on-primary-container: #400071;
-  --inverse-primary: #842bd2;
   --secondary: #adc6ff;
-  --on-secondary: #002e6a;
-  --secondary-container: #0566d9;
-  --on-secondary-container: #e6ecff;
-  --tertiary: #fabc4e;
-  --on-tertiary: #432c00;
-  --tertiary-container: #bd871a;
-  --on-tertiary-container: #3a2600;
   --error: #ffb4ab;
-  --on-error: #690005;
-  --error-container: #93000a;
-  --on-error-container: #ffdad6;
-  --primary-fixed: #f0dbff;
-  --on-primary-fixed: #2c0051;
-  --on-primary-fixed-variant: #6900b3;
-  --secondary-fixed: #d8e2ff;
-  --on-secondary-fixed: #001a42;
-  --on-secondary-fixed-variant: #004395;
-  --tertiary-fixed: #ffdead;
-  --on-tertiary-fixed: #281900;
-  --on-tertiary-fixed-variant: #604100;
-  --black: #000000;
   --sm: 0.5rem;
   --default: 1rem;
   --md: 1.5rem;
   --lg: 2rem;
   --xl: 3rem;
+  --lg-container: 1280px;
   --tw-shadow: 0 0 #0000;
+  --tw-shadow-hover: 0 0 30px rgba(132, 43, 210, 0.15);
+  --dim-gradient: linear-gradient(rgba(22, 17, 27, 0.1), rgba(22, 17, 27, 0.7), rgb(22, 17, 27));
+  --gray-gradient: linear-gradient(to left, rgb(221 183 255 / 0.1), rgba(21, 21, 29, 0.7));
+  --colorful-gradient-2: linear-gradient(to right, var(--primary), var(--secondary));
+  --colorful-gradient-3: linear-gradient(to right, var(--primary), var(--secondary), var(--primary));
   --transition: all cubic-bezier(0.4, 0, 0.2, 1) 0.3s;
+  --border: 1px solid rgba(255, 255, 255, 0.1);
+  --card-bg: rgba(21, 21, 29, 0.7);
+  --tui-typography-family-text: 'Inter', sans-serif;
+  --tui-typography-family-display: 'Inter', sans-serif;
+  --t-diameter: var(--lg);
 }
 
-// NORMALIZE CSS
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
 }
 
-//TYPOGRAPHY CLASSES FROM STITCH
+a {
+  transition: var(--transition);
+}
+
 .display-lg {
   font-size: 3rem;
   font-weight: '800';
@@ -73,13 +49,6 @@
   letter-spacing: -0.02em;
 }
 
-.headline-lg-mobile {
-  font-family: Inter;
-  font-size: 1.5rem;
-  font-weight: 700;
-  line-height: 1.2;
-}
-
 .title-md {
   font-size: 1.125rem;
   font-weight: 600;
@@ -92,6 +61,7 @@
   line-height: 1.5;
   letter-spacing: 0.01em;
 }
+
 .label-sm {
   font-size: 0.75rem;
   font-weight: 600;
@@ -99,7 +69,35 @@
   letter-spacing: 0.05em;
 }
 
-// BACKGROUND FOR APP
 [tuiTheme='dark'] {
   --tui-background-base: var(--surface);
+  --tui-text-primary: var(--on-surface);
+  --tui-text-action: var(--primary);
+  --tui-text-action-hover: var(--on-surface-variant);
+  --tui-background-accent-1: var(--on-surface);
+}
+
+[tuiCardLarge][tuiSurface] {
+  max-width: 100%;
+  border: var(--border);
+  --t-radius: var(--lg);
+  background-color: var(--card-bg);
+  transition: var(--transition);
+}
+
+.invisible-link {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  z-index: 1;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  [tuiCardLarge]:hover a {
+    color: var(--tui-text-action-hover);
+  }
 }

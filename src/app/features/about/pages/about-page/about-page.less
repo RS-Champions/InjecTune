@@ -1,0 +1,92 @@
+@import 'styles';
+
+:host {
+  --card-size: 320px;
+  display: block;
+  min-height: 100dvh;
+  position: relative;
+  background-image: url('/images/about_bg.webp'), var(--dim-gradient);
+  background-size: cover;
+  background-attachment: fixed;
+  background-blend-mode: overlay, normal;
+  padding-bottom: var(--lg);
+}
+
+.title {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 3em var(--default) 2.75em;
+  background-image: var(--colorful-gradient-3);
+  background-clip: text;
+  color: transparent;
+  text-align: center;
+  font-size: max(min(5vw, 4rem), 2rem);
+  font-weight: 800;
+  line-height: 2;
+}
+
+#team,
+#school-and-api {
+  max-width: var(--lg-container);
+  margin: 0 auto;
+  padding: var(--default);
+}
+
+.team-label {
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+.team-headline {
+  margin: 0.125em 0 0.75em;
+}
+
+.card-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--md);
+}
+
+#team .card-container {
+  min-height: var(--card-size);
+}
+
+#team .card-container > * {
+  flex: 1 0 var(--card-size);
+}
+
+.fallback,
+.error {
+  text-align: center;
+  line-height: 10;
+}
+
+.error {
+  color: var(--error);
+}
+
+#school-and-api .card {
+  padding: 4rem;
+  background-image: var(--gray-gradient);
+  color: var(--on-surface-variant);
+  text-align: justify;
+}
+
+.rs-school-card {
+  flex: 2 0 calc(2 * var(--card-size) + var(--md));
+}
+
+.rs-shool-link {
+  --tui-icon-size: 4rem;
+  text-align: left;
+}
+
+.jamendo-card {
+  flex: 1 0 var(--card-size);
+}
+
+.jamendo-link {
+  --tui-icon-size: 2rem;
+  text-align: left;
+}
