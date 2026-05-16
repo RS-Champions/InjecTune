@@ -107,6 +107,12 @@ CI/CD is configured via Netlify — every merge to `main` triggers an automatic 
 
 ---
 
+## 📊 User-flow diagram
+
+[mermaid diagram](docs/user-flow/diagram.md) — user flow visualization
+
+---
+
 ## 💬 Meeting Notes
 
 | #   | Meeting                                                              | Date         |
