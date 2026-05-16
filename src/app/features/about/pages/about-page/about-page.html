@@ -14,10 +14,10 @@
   <h3 class="headline-lg team-headline">Meet our Team</h3>
 
   <div class="card-container">
-    @switch (teamMembers.status()) {
+    @switch (teamMembersResource.status()) {
       @case ('resolved')
       @case ('local') {
-        @for (member of teamMembers.value(); track member.id) {
+        @for (member of teamMembersResource.value(); track member.id) {
           <app-about-card [teamMember]="member" />
         } @empty {
           <p class="fallback">No-one works here...</p>
