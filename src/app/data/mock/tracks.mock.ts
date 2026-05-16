@@ -1,60 +1,7 @@
-export interface BaseTrack {
-  id: string;
-  name: string;
-  duration: string;
-  license_ccurl: string;
-  audio: string;
-  audiodownload: string;
-  audiodownload_allowed: boolean;
-}
-
-export interface AlbumTrack extends BaseTrack {
-  count: string;
-  position: string;
-}
-
-export interface ArtistTrack extends BaseTrack {
-  album_id: string;
-  album_name: string;
-  releasedate: string;
-  album_image: string;
-  image: string;
-}
-
-export interface ReviewTrack {
-  id: string;
-  title: string;
-  text: string;
-  dateadded: string;
-  agreecnt: string;
-  lang: string;
-  user_id: string;
-  user_name: string;
-  user_dispname: string;
-  score: string;
-  track_id: string;
-  track_name: string;
-  album_id: string;
-  artist_id: string;
-  track_audiodownload_allowed: boolean;
-  track_license_ccurl: string;
-  track_audio: string;
-  track_audiodownload: string;
-}
-
-export interface UserTrack extends BaseTrack {
-  releasedate: string;
-  artist_id: string;
-  artist_name: string;
-  updatedate: string;
-  album_image: string;
-  image: string;
-  relations: {
-    review: string;
-    favorite: string;
-    like: string;
-  };
-}
+import { AlbumTrack } from '../../shared/track/interfaces/album-track';
+import { ArtistTrack } from '../../shared/track/interfaces/artist-track';
+import { TrackDto } from '../../shared/track/interfaces/track.dto';
+import { UserTrack } from '../../shared/track/interfaces/user-track';
 
 export const albumTracks: AlbumTrack[] = [
   {
@@ -312,46 +259,186 @@ export const artistTracks: ArtistTrack[] = [
   },
 ];
 
-export const reviewTracks: ReviewTrack[] = [
+export const tracks: TrackDto[] = [
   {
-    id: '533416',
-    title: '',
-    text: 'Hi',
-    dateadded: '2023-12-09',
-    agreecnt: '5',
-    lang: 'en',
-    user_id: '8849127',
-    user_name: 's12384657@students.duvalschools.org',
-    user_dispname: 'Elektra_L',
-    score: '10',
-    track_id: '2133898',
-    track_name: 'One Gift Shawty (For Christmas)',
-    album_id: '549522',
-    artist_id: '484695',
-    track_audiodownload_allowed: true,
-    track_license_ccurl: 'http://creativecommons.org/licenses/by-nc-nd/3.0/',
-    track_audio: 'https://prod-1.storage.jamendo.com/?trackid=2133898&format=mp31&from=app-devsite',
-    track_audiodownload: 'https://prod-1.storage.jamendo.com/download/track/2133898/mp32/',
+    album_id: '104336',
+    album_name: 'Season One',
+    id: '887209',
+    name: 'Scene 5',
+    duration: '325',
+    releasedate: '2011-12-29',
+    license_ccurl: 'http://creativecommons.org/licenses/by-nc-sa/3.0/',
+    album_image: 'https://usercontent.jamendo.com?type=album&id=104336&width=300&trackid=887209',
+    image: 'https://usercontent.jamendo.com?type=album&id=104336&width=300&trackid=887209',
+    audio: 'https://prod-1.storage.jamendo.com/?trackid=887209&format=mp31&from=app-devsite',
+    audiodownload: 'https://prod-1.storage.jamendo.com/download/track/887209/mp31/',
+    audiodownload_allowed: true,
+    artist_id: '',
+    artist_name: '',
+    shareurl: '',
+    position: 0,
   },
   {
-    id: '532432',
-    title: '',
-    text: 'Love it',
-    dateadded: '2023-07-15',
-    agreecnt: '0',
-    lang: 'en',
-    user_id: '8678316',
-    user_name: 'jonze785@gmail.com',
-    user_dispname: 'jonze785',
-    score: '10',
-    track_id: '2026253',
-    track_name: 'Moon Reflections',
-    album_id: '519570',
-    artist_id: '485950',
-    track_audiodownload_allowed: false,
-    track_license_ccurl: 'http://creativecommons.org/licenses/by-nc-nd/3.0/',
-    track_audio: '',
-    track_audiodownload: '',
+    album_id: '104336',
+    album_name: 'Season One',
+    id: '887202',
+    name: 'Press Record',
+    duration: '192',
+    releasedate: '2011-12-29',
+    license_ccurl: 'http://creativecommons.org/licenses/by-nc-sa/3.0/',
+    album_image: 'https://usercontent.jamendo.com?type=album&id=104336&width=300&trackid=887202',
+    image: 'https://usercontent.jamendo.com?type=album&id=104336&width=300&trackid=887202',
+    audio: 'https://prod-1.storage.jamendo.com/?trackid=887202&format=mp31&from=app-devsite',
+    audiodownload: 'https://prod-1.storage.jamendo.com/download/track/887202/mp31/',
+    audiodownload_allowed: true,
+    artist_id: '',
+    artist_name: '',
+    shareurl: '',
+    position: 0,
+  },
+  {
+    album_id: '104336',
+    album_name: 'Season One',
+    id: '887203',
+    name: "No Words (Director's Cut)",
+    duration: '338',
+    releasedate: '2011-12-29',
+    license_ccurl: 'http://creativecommons.org/licenses/by-nc-sa/3.0/',
+    album_image: 'https://usercontent.jamendo.com?type=album&id=104336&width=300&trackid=887203',
+    image: 'https://usercontent.jamendo.com?type=album&id=104336&width=300&trackid=887203',
+    audio: 'https://prod-1.storage.jamendo.com/?trackid=887203&format=mp31&from=app-devsite',
+    audiodownload: 'https://prod-1.storage.jamendo.com/download/track/887203/mp31/',
+    audiodownload_allowed: true,
+    artist_id: '',
+    artist_name: '',
+    shareurl: '',
+    position: 0,
+  },
+  {
+    album_id: '104336',
+    album_name: 'Season One',
+    id: '887208',
+    name: 'My World',
+    duration: '202',
+    releasedate: '2011-12-29',
+    license_ccurl: 'http://creativecommons.org/licenses/by-nc-sa/3.0/',
+    album_image: 'https://usercontent.jamendo.com?type=album&id=104336&width=300&trackid=887208',
+    image: 'https://usercontent.jamendo.com?type=album&id=104336&width=300&trackid=887208',
+    audio: 'https://prod-1.storage.jamendo.com/?trackid=887208&format=mp31&from=app-devsite',
+    audiodownload: 'https://prod-1.storage.jamendo.com/download/track/887208/mp31/',
+    audiodownload_allowed: true,
+    artist_id: '',
+    artist_name: '',
+    shareurl: '',
+    position: 0,
+  },
+  {
+    album_id: '104336',
+    album_name: 'Season One',
+    id: '887210',
+    name: 'God Save The DJ',
+    duration: '240',
+    releasedate: '2011-12-29',
+    license_ccurl: 'http://creativecommons.org/licenses/by-nc-sa/3.0/',
+    album_image: 'https://usercontent.jamendo.com?type=album&id=104336&width=300&trackid=887210',
+    image: 'https://usercontent.jamendo.com?type=album&id=104336&width=300&trackid=887210',
+    audio: 'https://prod-1.storage.jamendo.com/?trackid=887210&format=mp31&from=app-devsite',
+    audiodownload: 'https://prod-1.storage.jamendo.com/download/track/887210/mp31/',
+    audiodownload_allowed: true,
+    artist_id: '',
+    artist_name: '',
+    shareurl: '',
+    position: 0,
+  },
+  {
+    album_id: '104336',
+    album_name: 'Season One',
+    id: '887205',
+    name: 'Episode 4 Pt. 3',
+    duration: '99',
+    releasedate: '2011-12-29',
+    license_ccurl: 'http://creativecommons.org/licenses/by-nc-sa/3.0/',
+    album_image: 'https://usercontent.jamendo.com?type=album&id=104336&width=300&trackid=887205',
+    image: 'https://usercontent.jamendo.com?type=album&id=104336&width=300&trackid=887205',
+    audio: 'https://prod-1.storage.jamendo.com/?trackid=887205&format=mp31&from=app-devsite',
+    audiodownload: 'https://prod-1.storage.jamendo.com/download/track/887205/mp31/',
+    audiodownload_allowed: true,
+    artist_id: '',
+    artist_name: '',
+    shareurl: '',
+    position: 0,
+  },
+  {
+    album_id: '104336',
+    album_name: 'Season One',
+    id: '887207',
+    name: 'Episode 4 Pt. 2',
+    duration: '198',
+    releasedate: '2011-12-29',
+    license_ccurl: 'http://creativecommons.org/licenses/by-nc-sa/3.0/',
+    album_image: 'https://usercontent.jamendo.com?type=album&id=104336&width=300&trackid=887207',
+    image: 'https://usercontent.jamendo.com?type=album&id=104336&width=300&trackid=887207',
+    audio: 'https://prod-1.storage.jamendo.com/?trackid=887207&format=mp31&from=app-devsite',
+    audiodownload: 'https://prod-1.storage.jamendo.com/download/track/887207/mp31/',
+    audiodownload_allowed: true,
+    artist_id: '',
+    artist_name: '',
+    shareurl: '',
+    position: 0,
+  },
+  {
+    album_id: '104336',
+    album_name: 'Season One',
+    id: '887206',
+    name: 'Episode 4 Pt. 1',
+    duration: '198',
+    releasedate: '2011-12-29',
+    license_ccurl: 'http://creativecommons.org/licenses/by-nc-sa/3.0/',
+    album_image: 'https://usercontent.jamendo.com?type=album&id=104336&width=300&trackid=887206',
+    image: 'https://usercontent.jamendo.com?type=album&id=104336&width=300&trackid=887206',
+    audio: 'https://prod-1.storage.jamendo.com/?trackid=887206&format=mp31&from=app-devsite',
+    audiodownload: 'https://prod-1.storage.jamendo.com/download/track/887206/mp31/',
+    audiodownload_allowed: true,
+    artist_id: '',
+    artist_name: '',
+    shareurl: '',
+    position: 0,
+  },
+  {
+    album_id: '104336',
+    album_name: 'Season One',
+    id: '887204',
+    name: 'Dance',
+    duration: '211',
+    releasedate: '2011-12-29',
+    license_ccurl: 'http://creativecommons.org/licenses/by-nc-sa/3.0/',
+    album_image: 'https://usercontent.jamendo.com?type=album&id=104336&width=300&trackid=887204',
+    image: 'https://usercontent.jamendo.com?type=album&id=104336&width=300&trackid=887204',
+    audio: 'https://prod-1.storage.jamendo.com/?trackid=887204&format=mp31&from=app-devsite',
+    audiodownload: 'https://prod-1.storage.jamendo.com/download/track/887204/mp31/',
+    audiodownload_allowed: true,
+    artist_id: '',
+    artist_name: '',
+    shareurl: '',
+    position: 0,
+  },
+  {
+    album_id: '104336',
+    album_name: 'Season One',
+    id: '887211',
+    name: 'City',
+    duration: '197',
+    releasedate: '2011-12-29',
+    license_ccurl: 'http://creativecommons.org/licenses/by-nc-sa/3.0/',
+    album_image: 'https://usercontent.jamendo.com?type=album&id=104336&width=300&trackid=887211',
+    image: 'https://usercontent.jamendo.com?type=album&id=104336&width=300&trackid=887211',
+    audio: 'https://prod-1.storage.jamendo.com/?trackid=887211&format=mp31&from=app-devsite',
+    audiodownload: 'https://prod-1.storage.jamendo.com/download/track/887211/mp31/',
+    audiodownload_allowed: true,
+    artist_id: '',
+    artist_name: '',
+    shareurl: '',
+    position: 0,
   },
 ];
 
