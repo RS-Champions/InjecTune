@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, inject, ResourceRef } from '@angular/core';
+import { TuiCardLarge } from '@taiga-ui/layout';
+import { TuiLink, TuiLoader, TuiTitle } from '@taiga-ui/core';
 import { AboutCard } from '../../components/about-card/about-card';
 import { AboutStore } from '../../services/about-store';
-import { TuiLink, TuiLoader, TuiTitle } from '@taiga-ui/core';
-import { TuiCardLarge } from '@taiga-ui/layout';
+import { TeamMember } from '@features/about/models/team-member';
 
 @Component({
   selector: 'app-about-page',
@@ -14,9 +14,9 @@ import { TuiCardLarge } from '@taiga-ui/layout';
 })
 export class AboutPage {
   private readonly aboutStore = inject(AboutStore);
-  protected readonly teamMembers = this.aboutStore.teamMembers;
+  protected teamMembers: ResourceRef<TeamMember[] | undefined>;
 
   constructor() {
-    this.aboutStore.loadTeamMembers().pipe(takeUntilDestroyed()).subscribe();
+    this.teamMembers = this.aboutStore.loadTeamMembers();
   }
 }

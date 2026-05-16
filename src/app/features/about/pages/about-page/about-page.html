@@ -10,21 +10,24 @@
 </section>
 
 <section id="team">
-  @let membersData = teamMembers();
-
   <p class="label-sm team-label">The Minds Behind The Sound</p>
   <h3 class="headline-lg team-headline">Meet our Team</h3>
 
   <div class="card-container">
-    @if (membersData.isLoading) {
-      <tui-loader />
-    } @else if (membersData.error) {
-      <p class="error">Network error...</p>
-    } @else {
-      @for (member of membersData.value; track member.id) {
-        <app-about-card [teamMember]="member" />
-      } @empty {
-        <p class="fallback">No-one works here...</p>
+    @switch (teamMembers.status()) {
+      @case ('resolved')
+      @case ('local') {
+        @for (member of teamMembers.value(); track member.id) {
+          <app-about-card [teamMember]="member" />
+        } @empty {
+          <p class="fallback">No-one works here...</p>
+        }
+      }
+      @case ('error') {
+        <p class="error">Network error...</p>
+      }
+      @default {
+        <tui-loader />
       }
     }
   </div>
