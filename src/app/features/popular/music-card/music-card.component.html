@@ -1,19 +1,10 @@
 @let musicData = data();
 
-<div
-  class="card-container"
-  (click)="onCardClick()"
-  role="button"
-  tabindex="0"
-  (keydown.enter)="onCardClick()"
-  (keydown.space)="onCardClick()"
->
-  <div class="image-wrapper">
-    <img [src]="musicData.cover" [alt]="musicData.title" class="card-image" />
-  </div>
+<div class="image-wrapper">
+  <img [src]="musicData.cover" [alt]="musicData.title" class="card-image" />
+</div>
 
-  <div class="content">
-    <h3 class="title">{{ musicData.title }}</h3>
-    <p class="subtitle">{{ musicData.subtitle }}</p>
-  </div>
+<div class="content">
+  <h3 class="title">{{ musicData.title }}</h3>
+  <p class="subtitle">{{ musicData.subtitle }}</p>
 </div>

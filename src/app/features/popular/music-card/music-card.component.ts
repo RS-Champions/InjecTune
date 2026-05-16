@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 interface MusicCardData {
   cover: string;
@@ -18,9 +18,4 @@ interface MusicCardData {
 })
 export class MusicCardComponent {
   public readonly data = input.required<MusicCardData>();
-  public readonly cardClick = output();
-
-  protected onCardClick(): void {
-    this.cardClick.emit();
-  }
 }
