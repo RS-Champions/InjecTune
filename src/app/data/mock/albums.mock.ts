@@ -1,74 +1,40 @@
-export interface Album {
-  id: string;
-  name: string;
-  releasedate: string;
-  image: string;
-}
+import { AlbumDto } from '../../shared/album/interfaces/album.dto';
+import { BaseAlbum } from '../../shared/album/interfaces/base-album';
+import { UserAlbum } from '../../shared/album/interfaces/user-album';
 
-export interface ReviewAlbum {
-  id: string;
-  title: string;
-  text: string;
-  dateadded: string;
-  agreecnt: string;
-  lang: string;
-  user_id: string;
-  user_name: string;
-  user_dispname: string;
-  score: string;
-  album_id: string;
-  album_name: string;
-  artist_id: string;
-}
+export const albums: AlbumDto[] = [
+  {
+    id: '104336',
+    name: 'Season One',
+    releasedate: '2011-12-29',
+    artist_id: '376782',
+    artist_name: 'WE ARE FM',
+    image: 'https://usercontent.jamendo.com?type=album&id=104336&width=300',
+    zip: 'https://storage.jamendo.com/download/a104336/mp32/',
+    shorturl: 'https://jamen.do/l/a104336',
+    shareurl: 'https://www.jamendo.com/list/a104336',
+    zip_allowed: true,
+  },
+  {
+    id: '124067',
+    name: 'Season One: Instrumental',
+    releasedate: '2013-08-01',
+    artist_id: '376782',
+    artist_name: 'WE ARE FM',
+    image: 'https://usercontent.jamendo.com?type=album&id=124067&width=300',
+    zip: 'https://storage.jamendo.com/download/a124067/mp32/',
+    shorturl: 'https://jamen.do/l/a124067',
+    shareurl: 'https://www.jamendo.com/list/a124067',
+    zip_allowed: true,
+  },
+];
 
-export interface UserAlbum extends Album {
-  artist_id: string;
-  artist_name: string;
-  updatedate: string;
-  relations: {
-    myalbums: string;
-  };
-}
-
-export const albums: Album[] = [
+export const artistAlbums: BaseAlbum[] = [
   {
     id: '104336',
     name: 'Season One',
     releasedate: '2011-12-29',
     image: 'https://images.jamendo.com/albums/s104/104336/covers/1.200.jpg',
-  },
-];
-
-export const reviewAlbums: ReviewAlbum[] = [
-  {
-    id: '387930',
-    title: 'Good album',
-    text: "Hi guys!\r\nCongratulations for \"My world\". I discovered this track on the Jamendo facebook page and it's just awesome. I haven't listened to the whole album yet but I'll do it straight away! Thanks for sharing!",
-    dateadded: '2012-02-03',
-    agreecnt: '0',
-    lang: 'en',
-    user_id: '592597',
-    user_name: 'morganejamendo',
-    user_dispname: 'morganejamendo',
-    score: '8',
-    album_id: '104336',
-    album_name: 'Season One',
-    artist_id: '376782',
-  },
-  {
-    id: '388939',
-    title: 'Awesome!!!!!!',
-    text: 'I absolutely love the whole album!!! You guys have a great sound faving you right away!! people must hear you!!!\r\n\r\nWell done! you have a fan',
-    dateadded: '2012-02-11',
-    agreecnt: '4',
-    lang: 'en',
-    user_id: '485198',
-    user_name: 'jem9',
-    user_dispname: 'jem9',
-    score: '10',
-    album_id: '104336',
-    album_name: 'Season One',
-    artist_id: '376782',
   },
 ];
 
