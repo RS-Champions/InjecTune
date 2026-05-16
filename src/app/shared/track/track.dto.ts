@@ -1,6 +1,7 @@
-import { BaseTrack } from './base-track';
-
-export interface TrackDto extends BaseTrack {
+export interface TrackDto {
+  id: string;
+  name: string;
+  duration: string;
   artist_id: string;
   artist_name: string;
   album_id: string;
@@ -8,6 +9,10 @@ export interface TrackDto extends BaseTrack {
   album_image: string;
   image: string;
   releasedate: string;
+  license_ccurl: string;
+  audio: string;
+  audiodownload: string;
+  audiodownload_allowed: boolean;
   shareurl: string;
   position: number;
 }

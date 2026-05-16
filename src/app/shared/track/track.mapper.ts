@@ -1,5 +1,5 @@
-import { TrackDto } from '../interfaces/track.dto';
-import { TrackModel } from '../models/track.model';
+import { TrackDto } from './track.dto';
+import { TrackModel } from './track.model';
 
 export function mapTrackDtoToModel(dto: TrackDto): TrackModel {
   return {
@@ -9,7 +9,7 @@ export function mapTrackDtoToModel(dto: TrackDto): TrackModel {
     artistName: dto.artist_name,
     albumId: dto.album_id,
     albumName: dto.album_name,
-    coverUrl: dto.album_image || dto.image,
+    coverUrl: dto.image,
     audioUrl: dto.audio,
     duration: Number(dto.duration),
     releaseDate: dto.releasedate,
