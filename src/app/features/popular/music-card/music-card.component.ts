@@ -7,14 +7,11 @@ interface MusicCardData {
 }
 
 @Component({
-  selector: 'app-music-card',
+  selector: 'a[app-music-card]',
   imports: [],
   templateUrl: './music-card.component.html',
   styleUrl: './music-card.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    class: 'app-music-card',
-  },
 })
 export class MusicCardComponent {
   public readonly data = input.required<MusicCardData>();
