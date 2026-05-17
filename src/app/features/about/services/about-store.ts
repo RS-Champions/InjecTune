@@ -1,7 +1,7 @@
 import { Injectable, inject, resource } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
-import { TeamMember } from '../models/team-member';
+import { TeamMember } from '../interfaces/team-member';
 
 @Injectable({ providedIn: 'root' })
 export class AboutStore {
