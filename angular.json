@@ -43,7 +43,8 @@
               "node_modules/@taiga-ui/styles/taiga-ui-fonts.less",
               "src/styles.less"
             ],
-            "outputPath": "dist/InjecTune"
+            "outputPath": "dist/InjecTune",
+            "polyfills": ["zone.js"]
           },
           "configurations": {
             "production": {
