@@ -1,9 +1,11 @@
 import { Component, input, output } from '@angular/core';
 import { ArtistTrack } from '@shared/track/interfaces/artist-track';
+import { FormatDurationPipe } from '@shared/track/pipes/format-duration-pipe';
+import { FormatPlayCountPipe } from '@shared/track/pipes/format-play-count-pipe';
 
 @Component({
   selector: 'app-track-card',
-  imports: [],
+  imports: [FormatDurationPipe, FormatPlayCountPipe],
   templateUrl: './track-card.html',
   styleUrl: './track-card.less',
   host: {
