@@ -58,6 +58,7 @@ module.exports = defineConfig([
         },
       ],
       'unicorn/no-null': 'off',
+      'unicorn/prefer-top-level-await': 'off',
     },
   },
   {
