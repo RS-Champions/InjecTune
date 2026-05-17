@@ -119,6 +119,7 @@ CI/CD is configured via Netlify — every merge to `main` triggers an automatic 
 | --- | -------------------------------------------------------------------- | ------------ |
 | 1   | [Sprint 0 — Kickoff](docs/meetings/2026-05-10-sprint-0-kickoff.md)   | May 10, 2026 |
 | 2   | [Sprint 1 — Planning](docs/meetings/2026-05-11-sprint-1-planning.md) | May 11, 2026 |
+| 2   | [Sprint 1 — Demo](docs/meetings/2026-05-17-sprint-1-demo.md)         | May 17, 2026 |
 
 ---
 
