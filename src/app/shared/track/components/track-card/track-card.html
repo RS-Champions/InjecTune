@@ -1,0 +1,25 @@
+<div class="index" [class.active]="isPlaying()">
+  @if (isPlaying()) {
+    <div class="equalizer"><span></span><span></span><span></span><span></span><span></span></div>
+  } @else {
+    {{ index() }}
+  }
+</div>
+<div class="cover">
+  <img src="{{ track().album_image }}" alt="{{ track().name }}" />
+</div>
+<div class="description">
+  <h3 class="title">{{ track().name }}</h3>
+  <p class="artist">{{ track().artist_name }}</p>
+</div>
+<div class="meta">
+  <span class="play-count">{{ track().stats.listens_total }}</span>
+  <span class="duration">{{ track().duration }}</span>
+</div>
+<button class="play-btn" (click)="isPlaying() ? onPause() : onPlay()" aria-label="Play">
+  @if (isPlaying()) {
+    ⏸
+  } @else {
+    ▶
+  }
+</button>
