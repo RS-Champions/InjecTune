@@ -1,0 +1,26 @@
+[
+  {
+    "id": "104336",
+    "name": "Season One",
+    "releasedate": "2011-12-29",
+    "artist_id": "376782",
+    "artist_name": "WE ARE FM",
+    "image": "https://usercontent.jamendo.com?type=album&id=104336&width=300",
+    "zip": "https://storage.jamendo.com/download/a104336/mp32/",
+    "shorturl": "https://jamen.do/l/a104336",
+    "shareurl": "https://www.jamendo.com/list/a104336",
+    "zip_allowed": true
+  },
+  {
+    "id": "124067",
+    "name": "Season One: Instrumental",
+    "releasedate": "2013-08-01",
+    "artist_id": "376782",
+    "artist_name": "WE ARE FM",
+    "image": "https://usercontent.jamendo.com?type=album&id=124067&width=300",
+    "zip": "https://storage.jamendo.com/download/a124067/mp32/",
+    "shorturl": "https://jamen.do/l/a124067",
+    "shareurl": "https://www.jamendo.com/list/a124067",
+    "zip_allowed": true
+  }
+]
