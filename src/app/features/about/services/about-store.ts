@@ -4,6 +4,6 @@ import { TeamMember } from '../interfaces/team-member';
 
 @Injectable({ providedIn: 'root' })
 export class AboutStore {
-  private readonly jsonUrl = 'team-members.json';
-  public readonly teamMembersResource: HttpResourceRef<TeamMember[] | undefined> = httpResource(() => this.jsonUrl);
+  private readonly teamMembersUrl = 'team-members.json';
+  public readonly teamMembersResource: HttpResourceRef<TeamMember[] | undefined> = httpResource(() => this.teamMembersUrl);
 }
