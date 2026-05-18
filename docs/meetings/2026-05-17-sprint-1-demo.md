@@ -39,7 +39,7 @@
 
 6. **Mocks and dumb components:** We discussed best practices for mock data and presentational components:
    - mock data should match the API response format as closely as possible;
-   - presentational components should remain максимально “dumb” and avoid business logic.
+   - presentational components should remain extremely “dumb” and avoid business logic.
 
 7. **Responsibilities and preferences:**
    - AlenaVP was asked to refactor mock data into JSON format and align property names with the API response structure by May 17, 2026.
