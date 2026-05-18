@@ -1,0 +1,18 @@
+<div class="cover" [class.active]="isPlaying()">
+  <img src="{{ track().album_image }}" alt="{{ track().name }}" />
+  <button class="play-btn" (click)="isPlaying() ? onPause() : onPlay()" aria-label="Play">
+    @if (isPlaying()) {
+      ⏸
+    } @else {
+      ▶
+    }
+  </button>
+</div>
+<div class="description">
+  <h3 class="title">{{ track().name }}</h3>
+  <p class="artist">{{ track().artist_name }}</p>
+</div>
+<div class="meta">
+  <span class="play-count">{{ track().stats.listens_total | formatPlayCount }}</span>
+  <span class="duration">{{ track().duration | formatDuration }}</span>
+</div>

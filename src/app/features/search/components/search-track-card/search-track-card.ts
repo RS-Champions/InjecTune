@@ -1,18 +1,18 @@
-import { Component, input } from '@angular/core';
+import { Component } from '@angular/core';
+import { SearchTrack } from '@features/search/interfaces/search-track';
 import { Track } from '@shared/track/directives/track';
-import { BaseTrack } from '@shared/track/interfaces/base-track';
 import { FormatDurationPipe } from '@shared/track/pipes/format-duration-pipe';
 import { FormatPlayCountPipe } from '@shared/track/pipes/format-play-count-pipe';
 
 @Component({
-  selector: 'app-album-track-card',
+  selector: 'app-search-track-card',
   imports: [FormatDurationPipe, FormatPlayCountPipe],
-  templateUrl: './album-track-card.html',
-  styleUrl: './album-track-card.less',
+  templateUrl: './search-track-card.html',
+  styleUrl: './search-track-card.less',
   host: {
     '[class.active]': 'isPlaying()',
   },
 })
-export class AlbumTrackCard extends Track<BaseTrack> {
-  readonly index = input<number>();
+export class SearchTrackCard extends Track<SearchTrack> {
+  protected readonly isHovered = false;
 }

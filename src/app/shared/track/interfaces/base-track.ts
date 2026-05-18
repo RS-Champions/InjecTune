@@ -1,4 +1,4 @@
-export interface AlbumTrack {
+export interface BaseTrack {
   id: string;
   name: string;
   duration: number;

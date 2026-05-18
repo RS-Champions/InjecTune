@@ -1,5 +1,5 @@
 import { BaseTrack } from '@shared/track/interfaces/base-track';
 
-export interface ArtistTrack extends BaseTrack {
+export interface SearchTrack extends BaseTrack {
   album_image: string;
 }
