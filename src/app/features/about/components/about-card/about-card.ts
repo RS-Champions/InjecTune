@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { TuiAppearance, TuiLink, TuiCell } from '@taiga-ui/core';
 import { TuiSkeleton } from '@taiga-ui/kit';
 import { TuiCardLarge, TuiHeader, TuiSurface } from '@taiga-ui/layout';
-import { TeamMember } from '../../models/team-member';
+import { TeamMember } from '../../interfaces/team-member';
 
 @Component({
   selector: 'app-about-card',
