@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SearchTrack } from '@features/search/interfaces/search-track';
 import { Track } from '@shared/track/directives/track';
 import { FormatDurationPipe } from '@shared/track/pipes/format-duration-pipe';
@@ -12,6 +12,7 @@ import { FormatPlayCountPipe } from '@shared/track/pipes/format-play-count-pipe'
   host: {
     '[class.active]': 'isPlaying()',
   },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchTrackCard extends Track<SearchTrack> {
   protected readonly isHovered = false;
