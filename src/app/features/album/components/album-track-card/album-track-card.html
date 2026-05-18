@@ -5,9 +5,6 @@
     {{ index() }}
   }
 </div>
-<div class="cover">
-  <img src="{{ track().album_image }}" alt="{{ track().name }}" />
-</div>
 <div class="description">
   <h3 class="title">{{ track().name }}</h3>
   <p class="artist">{{ track().artist_name }}</p>
@@ -18,7 +15,7 @@
 </div>
 <button class="play-btn" (click)="isPlaying() ? onPause() : onPlay()" aria-label="Play">
   @if (isPlaying()) {
-    ⏸
+    ❚❚
   } @else {
     ▶
   }

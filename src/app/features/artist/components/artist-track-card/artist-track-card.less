@@ -1,30 +1,41 @@
 :host {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 16px;
+  border-radius: 35px;
   padding: 10px 15px;
+  transition: var(--transition-box-shadow), var(--transition-bgc);
 
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    width: 4.5px;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+    transition: var(--transition-bgc);
+  }
+
+  &:hover,
   &.active {
-    position: relative;
     background-color: var(--surface-container);
-    border-radius: 30px;
     box-shadow: 0 0 2px rgba(183, 109, 255, 0.5);
 
     &::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      width: 4px;
       background-color: var(--primary);
-      border-top-left-radius: 25px;
-      border-bottom-left-radius: 25px;
       filter: drop-shadow(-1px 0 5px rgba(183, 109, 255, 0.5)) drop-shadow(1px 0 5px rgba(221, 183, 255, 0.5));
-      animation: neonPulse 1s ease-in-out infinite alternate;
     }
 
     .title {
       color: var(--primary);
+    }
+  }
+
+  &.active {
+    &::before {
+      animation: neonPulse 1s ease-in-out infinite alternate;
     }
 
     .play-btn {
@@ -100,6 +111,7 @@
 
 .title {
   color: var(--on-surface);
+  transition: var(--transition-color);
 }
 
 .artist,
@@ -129,7 +141,7 @@
   line-height: 100%;
   padding-left: 3px;
   text-align: right;
-  transition: var(--transition);
+  transition: var(--transition-bgc);
 
   &:hover {
     background-color: var(--primary-container);
