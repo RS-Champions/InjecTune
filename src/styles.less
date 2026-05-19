@@ -1,5 +1,6 @@
 :root {
   --surface: #16111b;
+  --surface-container: #231e27;
   --on-surface: #eadfed;
   --on-surface-variant: #cfc2d6;
   --inverse-on-surface: #342e38;
@@ -79,7 +80,16 @@ a {
 
 [tuiAppearance][data-appearance='custom-active'] {
   background-color: transparent;
-  color: var(--primary);
+  color: transparent;
+
+  &:hover {
+    background-color: var(--primary);
+    color: var(--on-surface);
+  }
+}
+
+[tuiAppearance][data-appearance='custom-secondary'] {
+  color: transparent;
 
   &:hover {
     background-color: var(--primary);

@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AlbumTrack } from '@features/album/interfaces/album-track';
 import { Track } from '@shared/track/directives/track';
-import { BaseTrack } from '@shared/track/interfaces/base-track';
 import { FormatDurationPipe } from '@shared/track/pipes/format-duration-pipe';
 import { FormatPlayCountPipe } from '@shared/track/pipes/format-play-count-pipe';
 import { TuiAppearance, TuiButton } from '@taiga-ui/core';
@@ -15,6 +15,4 @@ import { TuiAppearance, TuiButton } from '@taiga-ui/core';
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AlbumTrackCard extends Track<BaseTrack> {
-  readonly index = input<number>();
-}
+export class AlbumTrackCard extends Track<AlbumTrack> {}
