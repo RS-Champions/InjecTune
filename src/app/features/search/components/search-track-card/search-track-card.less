@@ -37,6 +37,15 @@
   &.active::before {
     animation: neonPulse 1s ease-in-out infinite alternate;
   }
+
+  a {
+    display: block;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 
 .cover {
@@ -54,6 +63,8 @@
 
 .title {
   color: var(--on-surface);
+  font-size: 1rem;
+  font-weight: 700;
   transition: var(--transition-color);
 }
 
