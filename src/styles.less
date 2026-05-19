@@ -13,6 +13,7 @@
   --default: 1rem;
   --md: 1.5rem;
   --lg: 2rem;
+  --bm: 2.75rem;
   --xl: 3rem;
   --lg-container: 1280px;
   --tw-shadow: 0 0 #0000;
@@ -74,6 +75,16 @@ a {
   font-weight: 600;
   line-height: 1;
   letter-spacing: 0.05em;
+}
+
+[tuiAppearance][data-appearance='custom-active'] {
+  background-color: transparent;
+  color: var(--primary);
+
+  &:hover {
+    background-color: var(--primary);
+    color: var(--on-surface);
+  }
 }
 
 [tuiTheme='dark'] {

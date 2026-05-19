@@ -3,10 +3,11 @@ import { Track } from '@shared/track/directives/track';
 import { BaseTrack } from '@shared/track/interfaces/base-track';
 import { FormatDurationPipe } from '@shared/track/pipes/format-duration-pipe';
 import { FormatPlayCountPipe } from '@shared/track/pipes/format-play-count-pipe';
+import { TuiAppearance, TuiButton } from '@taiga-ui/core';
 
 @Component({
   selector: 'app-album-track-card',
-  imports: [FormatDurationPipe, FormatPlayCountPipe],
+  imports: [FormatDurationPipe, FormatPlayCountPipe, TuiButton, TuiAppearance],
   templateUrl: './album-track-card.html',
   styleUrl: './album-track-card.less',
   host: {

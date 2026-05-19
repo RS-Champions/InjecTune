@@ -1,15 +1,14 @@
 <div class="cover" [class.active]="isPlaying()">
   <img src="{{ track().album_image }}" alt="{{ track().name }}" />
-  <button class="play-btn" (click)="isPlaying() ? onPause() : onPlay()" aria-label="Play">
-    @if (isPlaying()) {
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-        <rect x="1" y="1" width="3" height="10" rx="1" stroke="currentColor" stroke-width="1.8" />
-        <rect x="8" y="1" width="3" height="10" rx="1" stroke="currentColor" stroke-width="1.8" />
-      </svg>
-    } @else {
-      ▶
-    }
-  </button>
+  <button
+    tuiIconButton
+    size="m"
+    [appearance]="isPlaying() ? 'custom-active' : 'custom-secondary'"
+    [iconStart]="isPlaying() ? '@tui.pause' : '@tui.play'"
+    class="play-btn"
+    (click)="isPlaying() ? onPause() : onPlay()"
+    aria-label="{{ isPlaying() ? 'Pause' : 'Play' }}"
+  ></button>
 </div>
 <div class="description">
   <h3 class="title">{{ track().name }}</h3>

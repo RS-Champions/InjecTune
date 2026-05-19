@@ -34,27 +34,21 @@
     }
   }
 
-  &.active {
-    &::before {
-      animation: neonPulse 1s ease-in-out infinite alternate;
-    }
-
-    .play-btn:not(:hover) {
-      color: var(--primary);
-    }
+  &.active::before {
+    animation: neonPulse 1s ease-in-out infinite alternate;
   }
 }
 
 .cover {
   position: relative;
-  width: 45px;
-  height: 45px;
+  width: var(--bm);
+  height: var(--bm);
 
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 35%;
+    border-radius: 38%;
   }
 }
 
@@ -74,29 +68,19 @@
   gap: 17px;
 }
 
-.play-btn {
-  position: absolute;
-  inset: 8px 8px auto auto;
-  appearance: none;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  background-color: transparent;
-  border-radius: 50%;
+[tuiAppearance][data-appearance='custom-secondary'] {
   color: transparent;
-  cursor: pointer;
-  font-size: 1.25rem;
-  line-height: 100%;
-  text-align: right;
-  z-index: 100;
-  transition: var(--transition-color);
 
   &:hover {
-    color: var(--primary);
+    background-color: var(--primary);
+    color: var(--on-surface);
   }
+}
+
+.play-btn {
+  position: absolute;
+  inset: 0;
+  border-radius: 38%;
 }
 
 @keyframes neonPulse {

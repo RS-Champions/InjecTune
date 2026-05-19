@@ -33,15 +33,8 @@
     }
   }
 
-  &.active {
-    &::before {
-      animation: neonPulse 1s ease-in-out infinite alternate;
-    }
-
-    .play-btn {
-      background-color: var(--primary);
-      padding-left: 1px;
-    }
+  &.active::before {
+    animation: neonPulse 1s ease-in-out infinite alternate;
   }
 }
 
@@ -126,26 +119,7 @@
 }
 
 .play-btn {
-  appearance: none;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  background-color: var(--on-primary);
-  border-radius: 50%;
-  color: var(--on-surface);
-  cursor: pointer;
-  font-size: 1.25rem;
-  line-height: 100%;
-  padding-left: 3px;
-  text-align: right;
-  transition: var(--transition-bgc);
-
-  &:hover {
-    background-color: var(--primary-container);
-  }
+  border-radius: 38%;
 }
 
 @keyframes equalizer {

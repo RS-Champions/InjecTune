@@ -13,10 +13,12 @@
   <span class="play-count">{{ track().stats.listens_total | formatPlayCount }}</span>
   <span class="duration">{{ track().duration | formatDuration }}</span>
 </div>
-<button class="play-btn" (click)="isPlaying() ? onPause() : onPlay()" aria-label="Play">
-  @if (isPlaying()) {
-    ❚❚
-  } @else {
-    ▶
-  }
-</button>
+<button
+  tuiIconButton
+  size="m"
+  [appearance]="isPlaying() ? 'custom-active' : 'secondary'"
+  [iconStart]="isPlaying() ? '@tui.pause' : '@tui.play'"
+  class="play-btn"
+  (click)="isPlaying() ? onPause() : onPlay()"
+  aria-label="{{ isPlaying() ? 'Pause' : 'Play' }}"
+></button>
