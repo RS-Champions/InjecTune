@@ -14,6 +14,4 @@ import { FormatPlayCountPipe } from '@shared/track/pipes/format-play-count-pipe'
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SearchTrackCard extends Track<SearchTrack> {
-  protected readonly isHovered = false;
-}
+export class SearchTrackCard extends Track<SearchTrack> {}
