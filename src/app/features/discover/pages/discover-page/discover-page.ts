@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { DiscoverService } from '@features/discover/services/discover.service';
+import { DiscoverStore } from '@features/discover/services/discover-store';
 import { MusicCardComponent } from '@shared/music-card/music-card.component';
 import { TuiLoader } from '@taiga-ui/core';
 
@@ -11,7 +11,7 @@ import { TuiLoader } from '@taiga-ui/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DiscoverPage {
-  private readonly store = inject(DiscoverService);
+  private readonly store = inject(DiscoverStore);
 
   protected readonly popularTracksResource = this.store.popularTracksResource;
   protected readonly currentTrackId = this.store.currentTrackId.asReadonly();

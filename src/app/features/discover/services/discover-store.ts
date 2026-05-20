@@ -4,7 +4,7 @@ import { DiscoverApi } from './discover-api';
 @Injectable({
   providedIn: 'root',
 })
-export class DiscoverService {
+export class DiscoverStore {
   private readonly api = inject(DiscoverApi);
   public readonly popularTracksResource = this.api.popularTracksResource.asReadonly();
 
