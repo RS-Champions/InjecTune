@@ -4,10 +4,11 @@ interface MusicCardData {
   cover: string;
   title: string;
   subtitle: string;
+  isActive: boolean;
 }
 
 @Component({
-  selector: 'a[app-music-card]',
+  selector: '[app-music-card]',
   imports: [],
   templateUrl: './music-card.component.html',
   styleUrl: './music-card.component.less',

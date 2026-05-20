@@ -2,6 +2,14 @@
 
 <div class="image-wrapper">
   <img [src]="musicData.cover" [alt]="musicData.title" class="card-image" />
+  <div class="overlay"></div>
+  <div class="icon">
+    @if (musicData.isActive) {
+      ❚❚
+    } @else {
+      ▶
+    }
+  </div>
 </div>
 
 <div class="content">
