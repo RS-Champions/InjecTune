@@ -13,6 +13,7 @@
     aria-label="{{ isPlaying() ? 'Pause' : 'Play' }}"
   ></button>
 </div>
+<div class="position">{{ track().position }}</div>
 <div class="description">
   <h3 class="title">{{ track().name }}</h3>
   <p class="artist">{{ track().artist_name }}</p>
