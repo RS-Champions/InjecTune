@@ -1,7 +1,6 @@
 import type { AbstractControl } from '@angular/forms';
 
 export const passwordMatchValidator = (control: AbstractControl) => {
-  console.log(Date.now());
   const password = control.get('password');
   const confirmPassword = control.get('confirmPassword');
 
