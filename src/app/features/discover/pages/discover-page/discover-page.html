@@ -8,24 +8,26 @@
       <p class="error">Network error...</p>
     }
     @default {
-      @for (track of popularTracksResource.value(); track track.id) {
-        @let data =
-          {
-            cover: track.coverUrl,
-            title: track.title,
-            subtitle: track.count.toString(),
-          };
-        <button
-          app-music-card
-          href=""
-          class="music-card"
-          [data]="data"
-          [isActive]="track.id === currentTrackId()"
-          (click)="onClickMusicCard($index)"
-        ></button>
-      } @empty {
-        <p class="fallback">No-one works here...</p>
-      }
+      <div class="row-container">
+        @for (track of popularTracksResource.value(); track track.id) {
+          @let data =
+            {
+              cover: track.coverUrl,
+              title: track.title,
+              subtitle: track.count.toString(),
+            };
+          <button
+            app-music-card
+            href=""
+            class="music-card"
+            [data]="data"
+            [isActive]="track.id === currentTrackId()"
+            (click)="onClickMusicCard($index)"
+          ></button>
+        } @empty {
+          <p class="fallback">No-one works here...</p>
+        }
+      </div>
     }
   }
 </section>
