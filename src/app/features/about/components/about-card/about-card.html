@@ -1,7 +1,6 @@
 @let member = teamMember();
 
 <div tuiCardLarge class="card">
-  <a class="invisible-link" [href]="member.githubLink" target="_blank"> </a>
   <div tuiCell class="columns">
     <span [tuiSkeleton]="isSkeletonVisible" class="skeleton">
       <img (load)="hideSkeleton()" [alt]="member.name" [src]="member.photoUrl" class="photo" />
@@ -19,8 +18,8 @@
         <p class="info body-md">
           {{ member.info }}
         </p>
-        <a tuiLink iconStart="@tui.github" class="label-sm github-link" [href]="member.githubLink" target="_blank"
-          >GitHub Link</a
+        <a tuiLink class="label-sm github-link" [href]="member.githubLink" target="_blank"
+          ><tui-icon icon="@tui.github" class="body-md" /> GitHub Link</a
         >
       </div>
     </div>
