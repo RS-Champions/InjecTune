@@ -1,6 +1,34 @@
 <section>
   <h2>Popular tracks</h2>
-  <div class="row-container">
+  @switch (popularTracksResource.status()) {
+    @case ('loading') {
+      <tui-loader />
+    }
+    @case ('error') {
+      <p class="error">Network error...</p>
+    }
+    @default {
+      @for (track of popularTracksResource.value(); track track.id) {
+        @let data =
+          {
+            cover: track.coverUrl,
+            title: track.title,
+            subtitle: track.count.toString(),
+          };
+        <button
+          app-music-card
+          href=""
+          class="music-card"
+          [data]="data"
+          [isActive]="track.id === currentTrackId()"
+          (click)="onClickMusicCard($index)"
+        ></button>
+      } @empty {
+        <p class="fallback">No-one works here...</p>
+      }
+    }
+  }
+  <!-- <div class="row-container">
     @let tracks = popularTracks();
     @let playingTrackId = currentTrackId();
     @for (track of tracks; track track) {
@@ -13,5 +41,5 @@
         (click)="onClickMusicCard($index)"
       ></button>
     }
-  </div>
+  </div> -->
 </section>

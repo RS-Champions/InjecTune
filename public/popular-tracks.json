@@ -1,0 +1,74 @@
+[
+  {
+    "coverUrl": "https://upload.wikimedia.org/wikipedia/en/3/3d/The_Weeknd_-_Blinding_Lights.png",
+    "title": "Blinding Lights",
+    "artistName": "The Weeknd",
+    "duration": 200,
+    "count": 4287345123,
+    "isPlaying": true,
+    "id": "track_blinding_lights"
+  },
+  {
+    "coverUrl": "https://upload.wikimedia.org/wikipedia/en/f/f6/Dua_Lipa_-_Levitating.png",
+    "title": "Levitating",
+    "artistName": "Dua Lipa",
+    "duration": 203,
+    "count": 3128456789,
+    "isPlaying": false,
+    "id": "track_levitating"
+  },
+  {
+    "coverUrl": "https://upload.wikimedia.org/wikipedia/en/0/09/Harry_Styles_-_As_It_Was.png",
+    "title": "As It Was",
+    "artistName": "Harry Styles",
+    "duration": 167,
+    "count": 2897345210,
+    "isPlaying": false,
+    "id": "track_as_it_was"
+  },
+  {
+    "coverUrl": "https://upload.wikimedia.org/wikipedia/en/0/0c/Olivia_Rodrigo_-_Vampire.png",
+    "title": "Vampire",
+    "artistName": "Olivia Rodrigo",
+    "duration": 219,
+    "count": 1987456123,
+    "isPlaying": false,
+    "id": "track_vampire"
+  },
+  {
+    "coverUrl": "https://upload.wikimedia.org/wikipedia/en/1/1f/Taylor_Swift_-_Anti-Hero.png",
+    "title": "Anti-Hero",
+    "artistName": "Taylor Swift",
+    "duration": 201,
+    "count": 2567341987,
+    "isPlaying": false,
+    "id": "track_anti_hero"
+  },
+  {
+    "coverUrl": "https://upload.wikimedia.org/wikipedia/en/5/55/SZA_-_Kill_Bill.png",
+    "title": "Kill Bill",
+    "artistName": "SZA",
+    "duration": 153,
+    "count": 1745234987,
+    "isPlaying": false,
+    "id": "track_kill_bill"
+  },
+  {
+    "coverUrl": "https://upload.wikimedia.org/wikipedia/en/8/8e/Miley_Cyrus_-_Flowers.png",
+    "title": "Flowers",
+    "artistName": "Miley Cyrus",
+    "duration": 200,
+    "count": 2314567821,
+    "isPlaying": false,
+    "id": "track_flowers"
+  },
+  {
+    "coverUrl": "https://upload.wikimedia.org/wikipedia/en/b/b1/Post_Malone_-_Circles.png",
+    "title": "Circles",
+    "artistName": "Post Malone",
+    "duration": 215,
+    "count": 2678345612,
+    "isPlaying": false,
+    "id": "track_circles"
+  }
+]

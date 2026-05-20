@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { DiscoverService } from '@features/discover/services/discover.service';
 import { MusicCardComponent } from '@shared/music-card/music-card.component';
+import { TuiLoader } from '@taiga-ui/core';
 
 @Component({
   selector: 'app-discover-page',
-  imports: [MusicCardComponent],
+  imports: [MusicCardComponent, TuiLoader],
   templateUrl: './discover-page.html',
   styleUrl: './discover-page.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -12,21 +13,13 @@ import { MusicCardComponent } from '@shared/music-card/music-card.component';
 export class DiscoverPage {
   private readonly store = inject(DiscoverService);
 
-  protected readonly popularTracks = computed(() => {
-    const popularTracks = this.store.popularTracks();
-    return popularTracks.map((track) => {
-      return {
-        cover: track.coverUrl,
-        title: track.title,
-        subtitle: track.count.toString(),
-        id: track.id,
-      };
-    });
-  });
-
+  protected readonly popularTracksResource = this.store.popularTracksResource;
   protected readonly currentTrackId = this.store.currentTrackId.asReadonly();
 
   protected onClickMusicCard(index: number) {
-    this.store.playTrack(this.popularTracks()[index].id);
+    const value = this.popularTracksResource.value();
+    if (value) {
+      this.store.playTrack(value[index].id);
+    }
   }
 }
