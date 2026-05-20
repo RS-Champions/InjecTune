@@ -4,7 +4,7 @@
   <img [src]="musicData.cover" [alt]="musicData.title" class="card-image" />
   <div class="overlay"></div>
   <div class="icon">
-    @if (musicData.isActive) {
+    @if (isActive()) {
       ❚❚
     } @else {
       ▶

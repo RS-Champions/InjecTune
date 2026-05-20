@@ -1,1 +1,17 @@
-<p>discover-page works!</p>
+<section>
+  <h2>Popular tracks</h2>
+  <div class="row-container">
+    @let tracks = popularTracks();
+    @let playingTrackId = currentTrackId();
+    @for (track of tracks; track track) {
+      <button
+        app-music-card
+        href=""
+        class="music-card"
+        [data]="track"
+        [isActive]="track.id === playingTrackId"
+        (click)="onClickMusicCard($index)"
+      ></button>
+    }
+  </div>
+</section>

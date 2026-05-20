@@ -4,7 +4,6 @@ interface MusicCardData {
   cover: string;
   title: string;
   subtitle: string;
-  isActive: boolean;
 }
 
 @Component({
@@ -16,4 +15,5 @@ interface MusicCardData {
 })
 export class MusicCardComponent {
   public readonly data = input.required<MusicCardData>();
+  isActive = input.required<boolean>();
 }
