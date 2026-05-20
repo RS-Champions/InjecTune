@@ -6,4 +6,5 @@ export interface BaseTrack {
   stats: {
     listens_total: number;
   };
+  image?: string;
 }

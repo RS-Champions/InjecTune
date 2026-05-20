@@ -1,7 +1,9 @@
+@import 'styles/mixins.less';
+
 :host {
   position: relative;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: no-wrap;
   align-items: center;
   gap: 16px;
   border-radius: 35px;
@@ -34,26 +36,37 @@
     }
   }
 
-  &.active {
-    &::before {
-      animation: neonPulse 1s ease-in-out infinite alternate;
-    }
+  &.active::before {
+    animation: neonPulse 1s ease-in-out infinite alternate;
+  }
 
-    .play-btn:not(:hover) {
-      color: var(--primary);
+  a {
+    display: block;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
     }
   }
 }
 
-.index {
+.cover {
   position: relative;
-  min-width: 30px;
-  text-align: center;
-  color: var(--on-surface-variant);
+  width: var(--bm);
+  height: var(--bm);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 38%;
+  }
 }
 
 .equalizer {
   position: absolute;
+  width: 100%;
+  height: 100%;
   inset: 0;
   background-color: rgba(0, 0, 0, 0.5);
   border-radius: 25%;
@@ -61,13 +74,12 @@
   align-items: center;
   justify-content: center;
   gap: 1px;
-  padding-bottom: 8px;
 
   span {
-    width: 1.4px;
+    width: 2px;
     background-color: var(--primary);
     border-radius: 3px;
-    margin: 0 0.8px;
+    margin: 0 1px;
     animation: equalizer 1s 0.8s ease-in-out infinite alternate;
 
     &:nth-child(1) {
@@ -97,17 +109,18 @@
   }
 }
 
-.cover {
-  position: relative;
-  width: 45px;
-  height: 45px;
+.play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 38%;
+}
 
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 35%;
-  }
+.album,
+.description {
+  padding: 0 8px;
+  width: 35%;
 }
 
 .title {
@@ -115,6 +128,13 @@
   transition: var(--transition-color);
 }
 
+.album,
+.artist,
+.title {
+  .ellipsis();
+}
+
+.album,
 .artist,
 .meta {
   color: var(--on-surface-variant);
@@ -124,31 +144,6 @@
   margin-left: auto;
   display: flex;
   gap: 17px;
-}
-
-.play-btn {
-  position: absolute;
-  inset: 8px 8px auto auto;
-  appearance: none;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  background-color: transparent;
-  border-radius: 50%;
-  color: transparent;
-  cursor: pointer;
-  font-size: 1.25rem;
-  line-height: 100%;
-  text-align: right;
-  z-index: 100;
-  transition: var(--transition-color);
-
-  &:hover {
-    color: var(--primary);
-  }
 }
 
 @keyframes equalizer {
