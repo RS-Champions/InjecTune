@@ -14,10 +14,11 @@
   ></button>
 </div>
 <div class="description">
-  <a class="title" [routerLink]="['/album', track().album_id]">{{ track().name }}</a>
-  <a class="artist" [routerLink]="['/artist', track().artist_id]">{{ track().artist_name }}</a>
+  <h3 class="title title-md">{{ track().name }}</h3>
+  <a class="artist body-md" [routerLink]="['/artist', track().artist_id]">{{ track().artist_name }}</a>
 </div>
-<div class="meta">
+<a class="album body-md" [routerLink]="['/album', track().album_id]">{{ track().album_name }}</a>
+<div class="meta body-md">
   <span class="play-count">{{ track().stats.listens_total | formatPlayCount }}</span>
   <span class="duration">{{ track().duration | formatDuration }}</span>
 </div>

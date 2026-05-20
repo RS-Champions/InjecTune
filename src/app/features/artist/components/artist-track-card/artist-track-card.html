@@ -14,10 +14,11 @@
   ></button>
 </div>
 <div class="description">
-  <h3 class="title">{{ track().name }}</h3>
-  <p class="artist">{{ track().artist_name }}</p>
+  <h3 class="title title-md">{{ track().name }}</h3>
+  <p class="artist body-md">{{ track().artist_name }}</p>
 </div>
-<div class="meta">
+<div class="album body-md">{{ track().album_name }}</div>
+<div class="meta body-md">
   <span class="play-count">{{ track().stats.listens_total | formatPlayCount }}</span>
   <span class="duration">{{ track().duration | formatDuration }}</span>
 </div>

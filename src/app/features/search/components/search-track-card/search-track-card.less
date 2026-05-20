@@ -1,7 +1,9 @@
+@import 'styles/mixins.less';
+
 :host {
   position: relative;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: no-wrap;
   align-items: center;
   gap: 16px;
   border-radius: 35px;
@@ -115,13 +117,24 @@
   border-radius: 38%;
 }
 
+.album,
+.description {
+  padding: 0 8px;
+  width: 35%;
+}
+
 .title {
   color: var(--on-surface);
-  font-size: 1rem;
-  font-weight: 700;
   transition: var(--transition-color);
 }
 
+.album,
+.artist,
+.title {
+  .ellipsis();
+}
+
+.album,
 .artist,
 .meta {
   color: var(--on-surface-variant);
