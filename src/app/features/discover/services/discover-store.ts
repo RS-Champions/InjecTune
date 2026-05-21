@@ -10,14 +10,14 @@ export class DiscoverStore {
   public readonly releaseTracksResource = this.api.releaseTracksResource.asReadonly();
 
   // it will be field of global player
-  public readonly currentTrackId = signal<string>('');
+  public readonly playingTrackId = signal<string>('');
 
   public toggleTrack(id: string) {
     // by id store will be call methods of global player
-    if (this.currentTrackId() === id) {
-      this.currentTrackId.set('');
+    if (this.playingTrackId() === id) {
+      this.playingTrackId.set('');
     } else {
-      this.currentTrackId.set(id);
+      this.playingTrackId.set(id);
     }
     console.log(id);
   }

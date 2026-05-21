@@ -13,12 +13,12 @@ export class DiscoverPage {
   private readonly store = inject(DiscoverStore);
   private readonly popularTracksResource = this.store.popularTracksResource;
   private readonly releaseTracksResource = this.store.releaseTracksResource;
-  private readonly currentTrackId = this.store.currentTrackId.asReadonly();
+  private readonly playingTrackId = this.store.playingTrackId.asReadonly();
 
   protected popularTracksSectionData = computed(() => {
     return {
       title: 'Popular tracks',
-      playingTrackId: this.currentTrackId(),
+      playingTrackId: this.playingTrackId(),
       resource: this.popularTracksResource,
     };
   });
@@ -26,7 +26,7 @@ export class DiscoverPage {
   protected releaseTracksSectionData = computed(() => {
     return {
       title: 'Release tracks',
-      playingTrackId: this.currentTrackId(),
+      playingTrackId: this.playingTrackId(),
       resource: this.releaseTracksResource,
     };
   });
