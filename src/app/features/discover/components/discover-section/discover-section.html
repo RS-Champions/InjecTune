@@ -12,7 +12,7 @@
             {
               cover: track.image,
               title: track.name,
-              subtitle: track.artist_name,
+              subtitle: generateSubtitle(track.artist_name, track.duration),
             };
           <button
             app-music-card
