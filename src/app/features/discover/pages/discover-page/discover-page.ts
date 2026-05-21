@@ -1,25 +1,37 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { DiscoverSection } from '@features/discover/components/discover-section/discover-section';
 import { DiscoverStore } from '@features/discover/services/discover-store';
-import { MusicCardComponent } from '@shared/music-card/music-card.component';
-import { TuiLoader } from '@taiga-ui/core';
 
 @Component({
   selector: 'app-discover-page',
-  imports: [MusicCardComponent, TuiLoader],
+  imports: [DiscoverSection],
   templateUrl: './discover-page.html',
   styleUrl: './discover-page.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DiscoverPage {
   private readonly store = inject(DiscoverStore);
+  private readonly popularTracksResource = this.store.popularTracksResource;
+  private readonly releaseTracksResource = this.store.releaseTracksResource;
+  private readonly currentTrackId = this.store.currentTrackId.asReadonly();
 
-  protected readonly popularTracksResource = this.store.popularTracksResource;
-  protected readonly currentTrackId = this.store.currentTrackId.asReadonly();
+  protected popularTracksSectionData = computed(() => {
+    return {
+      title: 'Popular tracks',
+      playingTrackId: this.currentTrackId(),
+      resource: this.popularTracksResource,
+    };
+  });
 
-  protected onClickMusicCard(index: number) {
-    const value = this.popularTracksResource.value()?.results;
-    if (value) {
-      this.store.playTrack(value[index].id);
-    }
+  protected releaseTracksSectionData = computed(() => {
+    return {
+      title: 'Release tracks',
+      playingTrackId: this.currentTrackId(),
+      resource: this.releaseTracksResource,
+    };
+  });
+
+  protected toggleTrack(id: string) {
+    this.store.toggleTrack(id);
   }
 }
