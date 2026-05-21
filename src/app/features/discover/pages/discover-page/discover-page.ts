@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { DiscoverSection } from '@features/discover/components/discover-section/discover-section';
 import { DiscoverStore } from '@features/discover/services/discover-store';
+import { GenreTags } from '@shared/genre-tags/genre-tags';
 
 @Component({
   selector: 'app-discover-page',
-  imports: [DiscoverSection],
+  imports: [DiscoverSection, GenreTags],
   templateUrl: './discover-page.html',
   styleUrl: './discover-page.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
