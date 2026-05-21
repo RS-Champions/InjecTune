@@ -1,0 +1,34 @@
+<section>
+  <h2>{{ title() }}</h2>
+  @switch (resource().status()) {
+    @case ('loading') {
+      <tui-loader />
+    }
+    @case ('resolved')
+    @case ('local') {
+      <div class="row-container">
+        @for (track of resource().value()?.results; track track.id) {
+          @let data =
+            {
+              cover: track.image,
+              title: track.name,
+              subtitle: track.artist_name,
+            };
+          <button
+            app-music-card
+            href=""
+            class="music-card"
+            [data]="data"
+            [isActive]="track.id === playingTrackId()"
+            (click)="onClickMusicCard($index)"
+          ></button>
+        } @empty {
+          <p class="fallback">No-one works here...</p>
+        }
+      </div>
+    }
+    @default {
+      <p class="error">Network error...</p>
+    }
+  }
+</section>
