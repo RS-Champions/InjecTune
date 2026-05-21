@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Equalizer } from '@shared/equalizer/equalizer';
 
 interface MusicCardData {
   cover: string;
@@ -8,7 +9,7 @@ interface MusicCardData {
 
 @Component({
   selector: '[app-music-card]',
-  imports: [],
+  imports: [Equalizer],
   templateUrl: './music-card.component.html',
   styleUrl: './music-card.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
