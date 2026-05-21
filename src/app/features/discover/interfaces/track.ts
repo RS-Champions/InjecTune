@@ -1,9 +1,7 @@
 export interface Track {
-  coverUrl: string;
-  title: string;
-  artistName: string;
+  image: string;
+  name: string;
+  artist_name: string;
   duration: number;
-  count: number;
-  isPlaying: boolean;
   id: string;
 }

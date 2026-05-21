@@ -17,7 +17,7 @@ export class DiscoverPage {
   protected readonly currentTrackId = this.store.currentTrackId.asReadonly();
 
   protected onClickMusicCard(index: number) {
-    const value = this.popularTracksResource.value();
+    const value = this.popularTracksResource.value()?.results;
     if (value) {
       this.store.playTrack(value[index].id);
     }

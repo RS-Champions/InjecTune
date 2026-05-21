@@ -4,17 +4,15 @@
     @case ('loading') {
       <tui-loader />
     }
-    @case ('error') {
-      <p class="error">Network error...</p>
-    }
-    @default {
+    @case ('resolved')
+    @case ('local') {
       <div class="row-container">
-        @for (track of popularTracksResource.value(); track track.id) {
+        @for (track of popularTracksResource.value()?.results; track track.id) {
           @let data =
             {
-              cover: track.coverUrl,
-              title: track.title,
-              subtitle: track.count.toString(),
+              cover: track.image,
+              title: track.name,
+              subtitle: track.artist_name,
             };
           <button
             app-music-card
@@ -28,6 +26,9 @@
           <p class="fallback">No-one works here...</p>
         }
       </div>
+    }
+    @default {
+      <p class="error">Network error...</p>
     }
   }
 </section>
