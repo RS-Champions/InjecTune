@@ -1,10 +1,24 @@
-<div class="search-page__results">
-  @for (item of (searchTracks | async)?.results; track item.id) {
-    <app-search-track-card
-      [track]="item"
-      [isPlaying]="currentTrack()?.id === item.id"
-      (playTrack)="onPlay($event)"
-      (pauseTrack)="onPause($event)"
-    ></app-search-track-card>
-  }
+<tui-textfield iconStart="@tui.search">
+  <input
+    placeholder="Search traks, artists, albums..."
+    tuiInput
+    [ngModel]="searchQuery()"
+    (ngModelChange)="searchQuery.set($event)"
+  />
+  <tui-icon tuiTooltip="Start type trak, artist, album..." />
+</tui-textfield>
+<div class="search-page">
+  <div class="results">
+    @if (searchResult(); as result) {
+      <p>Total: {{ result.totalCount }}</p>
+      @for (item of result.results; track item.id) {
+        <app-search-track-card
+          [track]="item"
+          [isPlaying]="currentTrack()?.id === item.id"
+          (playTrack)="onPlay($event)"
+          (pauseTrack)="onPause($event)"
+        ></app-search-track-card>
+      }
+    }
+  </div>
 </div>

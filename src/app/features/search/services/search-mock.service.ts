@@ -14,9 +14,9 @@ export interface SearchResultPage {
 export class SearchMockService {
   private readonly mockUrl = 'search-tracks.mock.json';
 
-  search(offset = 0, limit = 8): Observable<SearchResultPage> {
-    return from(this.fetchTracks())
-    .pipe(
+  search(query: string, offset = 0, limit = 8): Observable<SearchResultPage> {
+    return from(this.fetchTracks()).pipe(
+      map((tracks) => this.filter(tracks, query)),
       map((tracks) => ({
         results: tracks.slice(offset, offset + limit),
         totalCount: tracks.length,
@@ -31,5 +31,21 @@ export class SearchMockService {
       throw new Error(`Failed to load mock data: ${response.status}`);
     }
     return response.json() as Promise<SearchTrack[]>;
+  }
+
+  private filter(tracks: SearchTrack[], query: string): SearchTrack[] {
+    let result = [...tracks];
+
+    if (query.trim()) {
+      const q = query.toLowerCase();
+      result = result.filter(
+        (track) =>
+          track.name.toLowerCase().includes(q) ||
+          track.artist_name.toLowerCase().includes(q) ||
+          track.album_name?.toLowerCase().includes(q),
+      );
+    }
+
+    return result;
   }
 }
