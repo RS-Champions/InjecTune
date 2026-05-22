@@ -31,13 +31,13 @@ export class SearchPage {
   );
 
   onPlay(track: SearchTrack): void {
-    if (!this.currentTrack() || this.currentTrack()!.id !== track.id) {
+    if (this.currentTrack()?.id !== track.id) {
       this.currentTrack.set(track);
     }
   }
 
   onPause(track: SearchTrack): void {
-    if (this.currentTrack() && this.currentTrack()!.id === track.id) {
+    if (this.currentTrack()?.id === track.id) {
       this.currentTrack.set(null);
     }
   }

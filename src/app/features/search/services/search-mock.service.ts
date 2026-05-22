@@ -16,7 +16,7 @@ export class SearchMockService {
 
   search(query: string, offset = 0, limit = 8): Observable<SearchResultPage> {
     return from(this.fetchTracks()).pipe(
-      map((tracks) => this.filter(tracks, query)),
+      map((tracks) => this.filter.bind(this)(tracks, query)),
       map((tracks) => ({
         results: tracks.slice(offset, offset + limit),
         totalCount: tracks.length,
@@ -28,7 +28,7 @@ export class SearchMockService {
   private async fetchTracks(): Promise<SearchTrack[]> {
     const response = await fetch(this.mockUrl);
     if (!response.ok) {
-      throw new Error(`Failed to load mock data: ${response.status}`);
+      throw new Error(`Failed to load mock data: ${String(response.status)}`);
     }
     return response.json() as Promise<SearchTrack[]>;
   }
