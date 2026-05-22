@@ -8,19 +8,25 @@
   <tui-icon tuiTooltip="Start type trak, artist, album..." />
 </tui-textfield>
 <div class="search-page">
-  <div class="results">
-    @if (searchResult(); as result) {
-      @if (result.totalCount > 0) {
-        <p>Total: {{ result.totalCount }}</p>
+  <div class="filters"></div>
+
+  <div class="content">
+    <div class="top-result"></div>
+
+    <div class="results">
+      @if (searchResult(); as result) {
+        @if (result.totalCount > 0) {
+          <p>Total: {{ result.totalCount }}</p>
+        }
+        @for (item of result.results; track item.id) {
+          <app-search-track-card
+            [track]="item"
+            [isPlaying]="currentTrack()?.id === item.id"
+            (playTrack)="onPlay($event)"
+            (pauseTrack)="onPause($event)"
+          ></app-search-track-card>
+        }
       }
-      @for (item of result.results; track item.id) {
-        <app-search-track-card
-          [track]="item"
-          [isPlaying]="currentTrack()?.id === item.id"
-          (playTrack)="onPlay($event)"
-          (pauseTrack)="onPause($event)"
-        ></app-search-track-card>
-      }
-    }
+    </div>
   </div>
 </div>
