@@ -10,7 +10,9 @@
 <div class="search-page">
   <div class="results">
     @if (searchResult(); as result) {
-      <p>Total: {{ result.totalCount }}</p>
+      @if (result.totalCount > 0) {
+        <p>Total: {{ result.totalCount }}</p>
+      }
       @for (item of result.results; track item.id) {
         <app-search-track-card
           [track]="item"

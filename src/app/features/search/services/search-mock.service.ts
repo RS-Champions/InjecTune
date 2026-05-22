@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { from, Observable } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
 import { SearchTrack } from '@features/search/interfaces/search-track';
 
@@ -15,8 +15,14 @@ export class SearchMockService {
   private readonly mockUrl = 'search-tracks.mock.json';
 
   search(query: string, offset = 0, limit = 8): Observable<SearchResultPage> {
+    if (query === '') {
+      const emptySearchResult = { results: [] as unknown as SearchTrack[], totalCount: 0 };
+
+      return of(emptySearchResult).pipe(delay(500));
+    }
+
     return from(this.fetchTracks()).pipe(
-      map((tracks) => this.filter(tracks, query)),
+      map((tracks) => this.filter.bind(this)(tracks, query)),
       map((tracks) => ({
         results: tracks.slice(offset, offset + limit),
         totalCount: tracks.length,
@@ -28,7 +34,7 @@ export class SearchMockService {
   private async fetchTracks(): Promise<SearchTrack[]> {
     const response = await fetch(this.mockUrl);
     if (!response.ok) {
-      throw new Error(`Failed to load mock data: ${response.status}`);
+      throw new Error(`Failed to load mock data: ${String(response.status)}`);
     }
     return response.json() as Promise<SearchTrack[]>;
   }
