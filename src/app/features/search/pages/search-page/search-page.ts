@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs';
 
 import { SearchTrack } from '@features/search/interfaces/search-track';
@@ -18,10 +18,17 @@ import { TuiTooltip } from '@taiga-ui/kit';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchPage {
+  private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly service = inject(SearchMockService);
 
   protected readonly searchQuery = signal('');
+
+  constructor() {
+    const initialQuery = this.route.snapshot.queryParamMap.get('q') ?? '';
+    this.searchQuery.set(initialQuery);
+  }
+
   protected readonly searchResult = toSignal(
     toObservable(this.searchQuery).pipe(
       debounceTime(500),
