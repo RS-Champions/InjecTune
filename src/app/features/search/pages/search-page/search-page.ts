@@ -24,15 +24,12 @@ export class SearchPage {
 
   protected readonly currentTrack = signal<SearchTrack | null>(null);
 
-  // source of truth — the URL query param
   private readonly queryParam = toSignal(this.route.queryParamMap.pipe(map((parameters) => parameters.get('q') ?? '')), {
     initialValue: this.route.snapshot.queryParamMap.get('q') ?? '',
   });
 
-  // writable signal — follows URL on navigation, allows local writes on typing
   protected readonly searchQuery = linkedSignal(() => this.queryParam());
 
-  // debounced query — syncs URL and drives resource params
   protected readonly debouncedQuery = toSignal(
     toObservable(this.searchQuery).pipe(
       debounceTime(500),
@@ -41,7 +38,7 @@ export class SearchPage {
         void this.router.navigate([], {
           queryParams: { q: query || null },
           queryParamsHandling: 'merge',
-          replaceUrl: false, // ensure back/forward history entries are created
+          replaceUrl: false,
         });
       }),
     ),
@@ -50,7 +47,9 @@ export class SearchPage {
 
   protected readonly searchResource = resource({
     params: () => ({ query: this.debouncedQuery() }),
-    loader: ({ params }) => firstValueFrom(this.service.search(params.query)),
+    loader: async ({ params, abortSignal }) => {
+      return firstValueFrom(this.service.search(params.query, abortSignal));
+    },
   });
 
   protected get successState(): { results: SearchTrack[]; totalCount: number } | null {

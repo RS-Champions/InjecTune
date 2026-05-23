@@ -16,14 +16,14 @@ export interface SearchResultPage {
 export class SearchMockService {
   private readonly mockUrl = 'search-tracks.mock.json';
 
-  search(query: string, offset = 0, limit = 8): Observable<SearchResultPage> {
+  search(query: string, abortSignal?: AbortSignal, offset = 0, limit = 8): Observable<SearchResultPage> {
     if (query === '') {
-      const emptySearchResult = { results: [] as unknown as SearchTrack[], totalCount: 0 };
+      const emptySearchResult = { results: [] as SearchTrack[], totalCount: 0 };
 
       return of(emptySearchResult).pipe(delay(500));
     }
 
-    return from(this.fetchTracks()).pipe(
+    return from(this.fetchTracks(abortSignal)).pipe(
       map((tracks) => this.filter.bind(this)(tracks, query)),
       map((tracks) => ({
         results: tracks.slice(offset, offset + limit),
@@ -33,8 +33,8 @@ export class SearchMockService {
     );
   }
 
-  private async fetchTracks(): Promise<SearchTrack[]> {
-    const response = await fetch(this.mockUrl);
+  private async fetchTracks(abortSignal?: AbortSignal): Promise<SearchTrack[]> {
+    const response = await fetch(this.mockUrl, { signal: abortSignal });
     if (!response.ok) {
       throw new Error(`Failed to load mock data: ${String(response.status)}`);
     }
