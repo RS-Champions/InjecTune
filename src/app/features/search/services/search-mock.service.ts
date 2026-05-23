@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
+
 import { from, Observable, of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
+
 import { SearchTrack } from '@features/search/interfaces/search-track';
 
 export interface SearchResultPage {
@@ -40,18 +42,17 @@ export class SearchMockService {
   }
 
   private filter(tracks: SearchTrack[], query: string): SearchTrack[] {
-    let result = [...tracks];
-
-    if (query.trim()) {
-      const q = query.toLowerCase();
-      result = result.filter(
-        (track) =>
-          track.name.toLowerCase().includes(q) ||
-          track.artist_name.toLowerCase().includes(q) ||
-          track.album_name?.toLowerCase().includes(q),
-      );
+    if (!query.trim()) {
+      return tracks;
     }
 
-    return result;
+    const q = query.toLowerCase();
+
+    return tracks.filter(
+      (track) =>
+        track.name.toLowerCase().includes(q) ||
+        track.artist_name.toLowerCase().includes(q) ||
+        track.album_name?.toLowerCase().includes(q),
+    );
   }
 }

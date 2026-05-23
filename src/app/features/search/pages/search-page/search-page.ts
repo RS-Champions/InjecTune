@@ -1,21 +1,14 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, resource, signal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, debounceTime, distinctUntilChanged, map, of, startWith, switchMap, tap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, firstValueFrom, tap } from 'rxjs';
 
 import { SearchTrack } from '@features/search/interfaces/search-track';
 import { SearchMockService } from '@features/search/services/search-mock.service';
 import { SearchTrackCard } from '@features/search/components/search-track-card/search-track-card';
 import { TuiIcon, TuiInput } from '@taiga-ui/core';
 import { TuiTooltip } from '@taiga-ui/kit';
-
-type SearchState =
-  | { status: 'idle' }
-  | { status: 'loading' }
-  | { status: 'success'; results: SearchTrack[]; totalCount: number }
-  | { status: 'empty' }
-  | { status: 'error'; message: string };
 
 @Component({
   selector: 'app-search-page',
@@ -29,19 +22,10 @@ export class SearchPage {
   private readonly router = inject(Router);
   private readonly service = inject(SearchMockService);
 
-  protected get successState(): { results: SearchTrack[]; totalCount: number } | null {
-    const state = this.searchState();
-    return state.status === 'success' ? state : null;
-  }
-
-  protected get errorMessage(): string | null {
-    const state = this.searchState();
-    return state.status === 'error' ? state.message : null;
-  }
-
+  protected readonly currentTrack = signal<SearchTrack | null>(null);
   protected readonly searchQuery = signal(this.route.snapshot.queryParamMap.get('q') ?? '');
 
-  protected readonly searchState = toSignal(
+  protected readonly debouncedQuery = toSignal(
     toObservable(this.searchQuery).pipe(
       debounceTime(500),
       distinctUntilChanged(),
@@ -51,29 +35,25 @@ export class SearchPage {
           queryParamsHandling: 'merge',
         });
       }),
-      switchMap((query) => {
-        if (!query.trim()) {
-          return of<SearchState>({ status: 'idle' });
-        }
-
-        return this.service.search(query).pipe(
-          map((result) =>
-            result.totalCount > 0
-              ? ({ status: 'success', results: result.results, totalCount: result.totalCount } satisfies SearchState)
-              : ({ status: 'empty' } satisfies SearchState),
-          ),
-          startWith<SearchState>({ status: 'loading' }),
-          catchError((error: unknown) => {
-            const message = error instanceof Error ? error.message : 'Something went wrong';
-            return of<SearchState>({ status: 'error', message });
-          }),
-        );
-      }),
     ),
-    { initialValue: { status: 'idle' } as SearchState },
+    { initialValue: this.route.snapshot.queryParamMap.get('q') ?? '' },
   );
 
-  protected readonly currentTrack = signal<SearchTrack | null>(null);
+  protected readonly searchResource = resource({
+    params: () => ({ query: this.debouncedQuery() }),
+    loader: ({ params }) => firstValueFrom(this.service.search(params.query)),
+  });
+
+  protected get successState(): { results: SearchTrack[]; totalCount: number } | null {
+    if (!this.searchResource.hasValue()) return null;
+    const value = this.searchResource.value();
+    return value.totalCount > 0 ? value : null;
+  }
+
+  protected get errorMessage(): string | null {
+    const error = this.searchResource.error();
+    return error instanceof Error ? error.message : null;
+  }
 
   onPlay(track: SearchTrack): void {
     if (this.currentTrack()?.id !== track.id) {
