@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, inject, resource, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, linkedSignal, resource, signal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { debounceTime, distinctUntilChanged, firstValueFrom, tap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, firstValueFrom, map, tap } from 'rxjs';
 
 import { SearchTrack } from '@features/search/interfaces/search-track';
 import { SearchMockService } from '@features/search/services/search-mock.service';
@@ -23,8 +23,16 @@ export class SearchPage {
   private readonly service = inject(SearchMockService);
 
   protected readonly currentTrack = signal<SearchTrack | null>(null);
-  protected readonly searchQuery = signal(this.route.snapshot.queryParamMap.get('q') ?? '');
 
+  // source of truth — the URL query param
+  private readonly queryParam = toSignal(this.route.queryParamMap.pipe(map((parameters) => parameters.get('q') ?? '')), {
+    initialValue: this.route.snapshot.queryParamMap.get('q') ?? '',
+  });
+
+  // writable signal — follows URL on navigation, allows local writes on typing
+  protected readonly searchQuery = linkedSignal(() => this.queryParam());
+
+  // debounced query — syncs URL and drives resource params
   protected readonly debouncedQuery = toSignal(
     toObservable(this.searchQuery).pipe(
       debounceTime(500),
@@ -33,6 +41,7 @@ export class SearchPage {
         void this.router.navigate([], {
           queryParams: { q: query || null },
           queryParamsHandling: 'merge',
+          replaceUrl: false, // ensure back/forward history entries are created
         });
       }),
     ),
