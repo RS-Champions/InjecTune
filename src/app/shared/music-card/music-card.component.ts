@@ -8,7 +8,7 @@ interface MusicCardData {
 }
 
 @Component({
-  selector: '[app-music-card]',
+  selector: 'app-music-card',
   imports: [Equalizer],
   templateUrl: './music-card.component.html',
   styleUrl: './music-card.component.less',

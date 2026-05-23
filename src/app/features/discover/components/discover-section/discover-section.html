@@ -14,14 +14,9 @@
               title: track.name,
               subtitle: generateSubtitle(track.artist_name, track.duration),
             };
-          <button
-            app-music-card
-            href=""
-            class="music-card"
-            [data]="data"
-            [isActive]="track.id === playingTrackId()"
-            (click)="onClickMusicCard($index)"
-          ></button>
+          <button app-music-card href="" class="music-card" (click)="onClickMusicCard($index)">
+            <app-music-card [data]="data" [isActive]="track.id === playingTrackId()"></app-music-card>
+          </button>
         } @empty {
           <p class="fallback">No-one works here...</p>
         }
