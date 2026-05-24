@@ -1,7 +1,7 @@
 <div class="cover" [class.active]="isPlaying()">
   <img src="{{ track().image }}" alt="{{ track().name }}" />
   @if (isPlaying()) {
-    <div class="equalizer"><span></span><span></span><span></span><span></span><span></span></div>
+    <app-equalizer />
   }
   <button
     tuiIconButton

@@ -1,5 +1,8 @@
 <div class="cover">
   <img class="cover" [src]="track().image" [alt]="track().name" />
+  @if (isPlaying()) {
+    <app-equalizer />
+  }
 </div>
 
 <div class="description">
