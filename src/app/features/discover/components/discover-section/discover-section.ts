@@ -1,7 +1,7 @@
 import { Component, computed, inject, input, output, Resource } from '@angular/core';
 import { TrackResponse } from '@features/discover/interfaces/track';
 import { TuiLoader } from '@taiga-ui/core';
-import { MusicCardComponent } from '@shared/music-card/music-card.component';
+import { MusicCardComponent } from '@shared/components/music-card/music-card.component';
 import { DurationPipe } from '@shared/pipes/duration-pipe';
 
 interface DiscoverSectionData {

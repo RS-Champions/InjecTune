@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { DiscoverSection } from '@features/discover/components/discover-section/discover-section';
 import { DiscoverStore } from '@features/discover/services/discover-store';
-import { GenreTags } from '@shared/genre-tags/genre-tags';
+import { GenreTags } from '@shared/components/genre-tags/genre-tags';
 
 @Component({
   selector: 'app-discover-page',

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { Equalizer } from '@shared/equalizer/equalizer';
+import { Equalizer } from '@shared/components/equalizer/equalizer';
 
 interface MusicCardData {
   cover: string;
