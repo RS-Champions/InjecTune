@@ -1,0 +1,19 @@
+<div class="panel-header">
+  <h2>Filters</h2>
+  <button appearence="primary" size="xs" tuiButton type="button" aria-label="header button">
+    <tui-icon icon="sliders-horizontal" size="xs" />
+  </button>
+</div>
+
+<section class="section">
+  <h3 class="section-title">GENRE</h3>
+
+  <div class="genre-chips">
+    @for (genre of genres; track genre) {
+      <label tuiChip class="genre-chip" [appearance]="isGenreSelected(genre) ? 'accent' : 'outline'">
+        <input hidden type="checkbox" [checked]="isGenreSelected(genre)" (change)="toggleGenre(genre)" />
+        {{ genre }}
+      </label>
+    }
+  </div>
+</section>

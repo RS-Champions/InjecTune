@@ -7,9 +7,9 @@
   align-items: center;
   gap: 1.5rem;
   padding: 1.5rem;
-  background: linear-gradient(to right, var(--surface) 70%, var(--inverse-on-surface));
+  background: var(--gray-gradient);
   border: 1px solid var(--inverse-on-surface);
-  border-radius: 35px;
+  border-radius: var(--bdrd);
   overflow: hidden;
   transition: var(--transition);
 
@@ -72,7 +72,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
-  min-width: 0; // allow ellipsis on children
+  min-width: 0;
 }
 
 .album,
