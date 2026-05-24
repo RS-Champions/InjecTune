@@ -13,25 +13,33 @@
   <div class="filters"></div>
 
   <div class="content">
-    <div class="top-result"></div>
+    @if (searchResource.isLoading()) {
+      <div class="loader">Loading...</div>
+    } @else if (errorMessage) {
+      <p class="error-state">{{ errorMessage }}</p>
+    } @else if (successState) {
+      @let topResult = successState.results[0];
+      <app-search-top-result-track-card
+        [track]="topResult"
+        [isPlaying]="currentTrack()?.id === topResult.id"
+        (playTrack)="onPlay($event)"
+        (pauseTrack)="onPause($event)"
+      />
 
-    <div class="results">
-      @if (searchResource.isLoading()) {
-        <div class="loader">Loading...</div>
-      } @else if (errorMessage) {
-        <p class="error-state">{{ errorMessage }}</p>
-      } @else if (successState) {
+      <div class="results">
         @for (item of successState.results; track item.id) {
-          <app-search-track-card
-            [track]="item"
-            [isPlaying]="currentTrack()?.id === item.id"
-            (playTrack)="onPlay($event)"
-            (pauseTrack)="onPause($event)"
-          ></app-search-track-card>
+          @if (!$first) {
+            <app-search-track-card
+              [track]="item"
+              [isPlaying]="currentTrack()?.id === item.id"
+              (playTrack)="onPlay($event)"
+              (pauseTrack)="onPause($event)"
+            />
+          }
         }
-      } @else if (debouncedQuery().trim()) {
-        <p class="empty-state">No tracks found for "{{ debouncedQuery() }}"</p>
-      }
-    </div>
+      </div>
+    } @else if (debouncedQuery().trim()) {
+      <p class="empty-state">No tracks found for "{{ debouncedQuery() }}"</p>
+    }
   </div>
 </div>
