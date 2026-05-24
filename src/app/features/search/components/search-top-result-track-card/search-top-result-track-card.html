@@ -11,9 +11,7 @@
 
   <div class="meta">
     @if (track().album_id) {
-      <a class="album" [routerLink]="['/album', track().album_id]">
-        {{ track().album_name }}
-      </a>
+      <a class="album" [routerLink]="['/album', track().album_id]">{{ track().album_name }}</a>
       <span class="separator">·</span>
     }
     <span class="duration">{{ track().duration | formatDuration }}</span>
