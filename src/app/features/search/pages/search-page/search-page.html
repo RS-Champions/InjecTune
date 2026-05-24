@@ -14,7 +14,7 @@
 
   <div class="content">
     @if (searchResource.isLoading()) {
-      <div class="loader">Loading...</div>
+      <tui-loader />
     } @else if (errorMessage) {
       <p class="error-state">{{ errorMessage }}</p>
     } @else if (successState) {

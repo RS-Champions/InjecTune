@@ -8,12 +8,12 @@ import { SearchTrack } from '@features/search/interfaces/search-track';
 import { SearchMockService } from '@features/search/services/search-mock.service';
 import { SearchTopResultTrackCard } from '@features/search/components/search-top-result-track-card/search-top-result-track-card';
 import { SearchTrackCard } from '@features/search/components/search-track-card/search-track-card';
-import { TuiIcon, TuiInput } from '@taiga-ui/core';
+import { TuiIcon, TuiInput, TuiLoader } from '@taiga-ui/core';
 import { TuiTooltip } from '@taiga-ui/kit';
 
 @Component({
   selector: 'app-search-page',
-  imports: [FormsModule, SearchTrackCard, SearchTopResultTrackCard, TuiIcon, TuiInput, TuiTooltip],
+  imports: [FormsModule, SearchTrackCard, SearchTopResultTrackCard, TuiIcon, TuiInput, TuiLoader, TuiTooltip],
   templateUrl: './search-page.html',
   styleUrl: './search-page.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
