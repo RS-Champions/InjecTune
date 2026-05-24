@@ -11,6 +11,8 @@ import { TuiChip } from '@taiga-ui/kit';
 export class SearchFiltersPanel {
   protected readonly genres = ['Electronic', 'Synthwave', 'Ambient', 'Lo-Fi'];
 
+  protected readonly duration = signal<'short' | 'medium' | 'long'>('medium');
+
   protected readonly selectedGenres = signal<string[]>(['Electronic']);
 
   toggleGenre(genre: string): void {

@@ -17,3 +17,22 @@
     }
   </div>
 </section>
+
+<section class="section">
+  <h3 class="section-title">DURATION</h3>
+
+  <div class="duration-list">
+    <label tuiLabel>
+      <input tuiRadio type="radio" name="duration" [checked]="duration() === 'short'" (change)="duration.set('short')" />
+      Under 3 min
+    </label>
+    <label tuiLabel>
+      <input tuiRadio type="radio" name="duration" [checked]="duration() === 'medium'" (change)="duration.set('medium')" />
+      3 – 5 min
+    </label>
+    <label tuiLabel>
+      <input tuiRadio type="radio" name="duration" [checked]="duration() === 'long'" (change)="duration.set('long')" />
+      Over 5 min
+    </label>
+  </div>
+</section>

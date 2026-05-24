@@ -32,6 +32,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+  text-transform: capitalize;
 
   & + & {
     margin-top: 32px;
@@ -69,4 +70,56 @@
   &[data-appearance='outline'] {
     --tui-text-action: var(--on-surface-variant);
   }
+}
+
+.duration-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  label {
+    color: var(--on-surface-variant);
+
+    &:hover {
+      color: var(--primary);
+    }
+
+    &:has(input[tuiRadio]:checked) {
+      color: var(--primary);
+      font-weight: 700;
+    }
+  }
+
+  input {
+    position: relative;
+    vertical-align: middle;
+    margin-right: 5px;
+    width: 15px;
+    height: 15px;
+  }
+
+  input::after {
+    position: absolute;
+    inset: 0;
+    content: '';
+    background: var(--surface);
+    border-radius: 50%;
+    border: 1px solid var(--inverse-on-surface);
+  }
+
+  input:checked::after {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    content: '🗸';
+    border-color: var(--primary);
+    color: var(--primary);
+    font-size: 0.7rem;
+    font-weight: 700;
+    filter: var(--filter-neon-shadow);
+  }
+}
+
+tui-select {
+  width: 100%;
 }
