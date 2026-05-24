@@ -14,7 +14,7 @@
               title: track.name,
               subtitle: generateSubtitle(track.artist_name, track.duration),
             };
-          <button app-music-card href="" class="music-card" (click)="onClickMusicCard($index)">
+          <button href="" class="music-card" (click)="onClickMusicCard($index)">
             <app-music-card [data]="data" [isActive]="track.id === playingTrackId()"></app-music-card>
           </button>
         } @empty {
