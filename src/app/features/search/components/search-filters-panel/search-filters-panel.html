@@ -23,15 +23,36 @@
 
   <div class="duration-list">
     <label tuiLabel>
-      <input tuiRadio type="radio" name="duration" [checked]="duration() === 'short'" (change)="duration.set('short')" />
+      <input
+        tuiRadio
+        type="radio"
+        [value]="'short'"
+        name="duration"
+        [ngModel]="duration()"
+        (ngModelChange)="setDuration('short')"
+      />
       Under 3 min
     </label>
     <label tuiLabel>
-      <input tuiRadio type="radio" name="duration" [checked]="duration() === 'medium'" (change)="duration.set('medium')" />
+      <input
+        tuiRadio
+        type="radio"
+        [value]="'medium'"
+        name="duration"
+        [ngModel]="duration()"
+        (ngModelChange)="setDuration('medium')"
+      />
       3 – 5 min
     </label>
     <label tuiLabel>
-      <input tuiRadio type="radio" name="duration" [checked]="duration() === 'long'" (change)="duration.set('long')" />
+      <input
+        tuiRadio
+        type="radio"
+        [value]="'long'"
+        name="duration"
+        [ngModel]="duration()"
+        (ngModelChange)="setDuration('long')"
+      />
       Over 5 min
     </label>
   </div>
@@ -41,7 +62,7 @@
   <h3 class="section-title">SORT BY</h3>
 
   <tui-textfield tuiChevron tuiTextfieldSize="m" [content]="sortLabel" [stringify]="stringify">
-    <input placeholder="Select a category" tuiSelect [ngModel]="selectedSort()" (ngModelChange)="selectedSort.set($event)" />
+    <input placeholder="Select a category" tuiSelect [ngModel]="selectedSort()" (ngModelChange)="setSort($event)" />
     <tui-data-list-wrapper *tuiDropdown [items]="sortOptions" [itemContent]="sortLabel" />
   </tui-textfield>
   <ng-template #sortLabel let-item>{{ item.label }}</ng-template>

@@ -10,7 +10,7 @@
 </tui-textfield>
 
 <div class="search-page">
-  <app-search-filters-panel />
+  <app-search-filters-panel (filtersChange)="onFiltersChange($event)" />
 
   <div class="content">
     @if (searchResource.isLoading()) {

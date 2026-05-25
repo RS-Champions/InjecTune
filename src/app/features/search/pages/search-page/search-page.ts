@@ -9,6 +9,8 @@ import { SearchMockService } from '@features/search/services/search-mock.service
 import { SearchFiltersPanel } from '@features/search/components/search-filters-panel/search-filters-panel';
 import { SearchTopResultTrackCard } from '@features/search/components/search-top-result-track-card/search-top-result-track-card';
 import { SearchTrackCard } from '@features/search/components/search-track-card/search-track-card';
+import { SearchFilters } from '@features/search/interfaces/search-filters';
+
 import { TuiIcon, TuiInput, TuiLoader } from '@taiga-ui/core';
 import { TuiTooltip } from '@taiga-ui/kit';
 
@@ -33,6 +35,8 @@ export class SearchPage {
   private readonly router = inject(Router);
   private readonly service = inject(SearchMockService);
 
+  protected readonly filters = signal<SearchFilters>({});
+
   protected readonly currentTrack = signal<SearchTrack | null>(null);
 
   private readonly queryParam = toSignal(this.route.queryParamMap.pipe(map((parameters) => parameters.get('q') ?? '')), {
@@ -56,10 +60,17 @@ export class SearchPage {
     { initialValue: this.route.snapshot.queryParamMap.get('q') ?? '' },
   );
 
+  protected onFiltersChange(filters: SearchFilters): void {
+    this.filters.set(filters);
+  }
+
   protected readonly searchResource = resource({
-    params: () => ({ query: this.debouncedQuery() }),
+    params: () => ({
+      query: this.debouncedQuery(),
+      filters: this.filters(),
+    }),
     loader: async ({ params, abortSignal }) => {
-      return firstValueFrom(this.service.search(params.query, abortSignal));
+      return firstValueFrom(this.service.search(params.query, abortSignal, params.filters));
     },
   });
 
