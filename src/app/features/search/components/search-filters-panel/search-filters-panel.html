@@ -36,3 +36,13 @@
     </label>
   </div>
 </section>
+
+<section class="section">
+  <h3 class="section-title">SORT BY</h3>
+
+  <tui-textfield tuiChevron tuiTextfieldSize="m" [content]="sortLabel" [stringify]="stringify">
+    <input placeholder="Select a category" tuiSelect [ngModel]="selectedSort()" (ngModelChange)="selectedSort.set($event)" />
+    <tui-data-list-wrapper *tuiDropdown [items]="sortOptions" [itemContent]="sortLabel" />
+  </tui-textfield>
+  <ng-template #sortLabel let-item>{{ item.label }}</ng-template>
+</section>
