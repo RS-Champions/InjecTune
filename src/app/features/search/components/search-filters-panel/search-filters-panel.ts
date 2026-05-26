@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, input, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DurationFilter, SearchFilters, SortBy } from '@features/search/interfaces/search-filters';
+import { mapApiParametrsToDuration, mapDurationToApiParametrs } from '@features/search/utils/duration-filter';
 import { TuiStringHandler } from '@taiga-ui/cdk';
 import { TuiButton, TuiIcon, TuiLabel, TuiRadio } from '@taiga-ui/core';
 import { TuiChevron, TuiChip, TuiSelect, TuiDataListWrapper } from '@taiga-ui/kit';
@@ -22,6 +23,7 @@ export interface SearchFilterState {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchFiltersPanel {
+  readonly initialFilters = input<SearchFilters>({});
   readonly filtersChange = output<SearchFilters>();
 
   protected readonly genres = ['Electronic', 'Synthwave', 'Ambient', 'Lo-Fi', 'Rock', 'Jazz', 'Pop'];
@@ -35,6 +37,19 @@ export class SearchFiltersPanel {
   protected readonly selectedGenres = signal<string[]>([]);
   protected readonly duration = signal<DurationFilter>(null);
   protected readonly selectedSort = signal<SortOption | null>(null);
+
+  constructor() {
+    effect(() => {
+      const initial = this.initialFilters();
+
+      this.selectedGenres.set(initial.genres ?? []);
+      this.duration.set(mapApiParametrsToDuration(initial));
+
+      const matchedSort = initial.sortBy == null ? null : (this.sortOptions.find((o) => o.value === initial.sortBy) ?? null);
+
+      this.selectedSort.set(matchedSort);
+    });
+  }
 
   protected stringify: TuiStringHandler<SortOption> = (option) => option.label;
 
@@ -62,19 +77,12 @@ export class SearchFiltersPanel {
     const genres = this.selectedGenres();
     const sortBy = this.selectedSort()?.value;
 
-    const durationRanges: Record<NonNullable<DurationFIlter>, { min?: number; max?: number }> = {
-      short: { max: 180 },
-      medium: { min: 180, max: 300 },
-      long: { min: 300 },
-    };
-
     const duration = this.duration();
-    const range = duration ? durationRanges[duration] : {};
+    const range = mapDurationToApiParametrs(duration);
 
     return {
       ...(genres.length > 0 && { genres }),
-      ...(range.min !== undefined && { durationMin: range.min }),
-      ...(range.max !== undefined && { durationMax: range.max }),
+      ...range,
       ...(sortBy && { sortBy }),
     };
   }
