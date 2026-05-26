@@ -1,0 +1,12 @@
+<section class="genre-tags">
+  @for (genre of genres; track genre) {
+    <a
+      [routerLink]="['/search']"
+      [queryParams]="getQueryParams(genre)"
+      class="genre-tag"
+      [attr.aria-label]="'Filter by ' + genre + ' genre'"
+    >
+      {{ genre }}
+    </a>
+  }
+</section>
