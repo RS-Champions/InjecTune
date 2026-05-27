@@ -13,25 +13,33 @@
   <div class="filters"></div>
 
   <div class="content">
-    <div class="top-result"></div>
+    @if (store.api.tracksResource.isLoading()) {
+      <tui-loader />
+    } @else if (store.api.tracksResource.error()) {
+      <p class="error-state">{{ store.api.tracksResource.error()?.message }}</p>
+    } @else if (store.searchResult().totalCount > 0) {
+      @let topResult = store.searchResult().searchedTracks[0];
+      <app-search-top-result-track-card
+        [track]="topResult"
+        [isPlaying]="store.currentTrack()?.id === topResult.id"
+        (playTrack)="onPlay($event)"
+        (pauseTrack)="onPause($event)"
+      />
 
-    <div class="results">
-      @if (store.api.tracksResource.isLoading()) {
-        <div class="loader">Loading...</div>
-      } @else if (store.api.tracksResource.error()) {
-        <p class="error-state">{{ store.api.tracksResource.error()?.message }}</p>
-      } @else if (store.searchResult().totalCount > 0) {
+      <div class="results">
         @for (item of store.searchResult().searchedTracks; track item.id) {
-          <app-search-track-card
-            [track]="item"
-            [isPlaying]="store.currentTrack()?.id === item.id"
-            (playTrack)="onPlay($event)"
-            (pauseTrack)="onPause($event)"
-          ></app-search-track-card>
+          @if (!$first) {
+            <app-search-track-card
+              [track]="item"
+              [isPlaying]="store.currentTrack()?.id === item.id"
+              (playTrack)="onPlay($event)"
+              (pauseTrack)="onPause($event)"
+            />
+          }
         }
-      } @else if (store.query().trim()) {
-        <p class="empty-state">No tracks found for "{{ store.query() }}"</p>
-      }
-    </div>
+      </div>
+    } @else if (debouncedQuery().trim()) {
+      <p class="empty-state">No tracks found for "{{ debouncedQuery() }}"</p>
+    }
   </div>
 </div>
