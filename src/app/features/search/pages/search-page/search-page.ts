@@ -5,11 +5,11 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { debounceTime, distinctUntilChanged, map, tap } from 'rxjs';
 
 import { SearchTrack } from '@features/search/interfaces/search-track';
-import { SearchFilters, DurationFilter } from '@features/search/interfaces/search-filters';
-import { SearchStore } from '@features/search/services/search-store';
 import { SearchFiltersPanel } from '@features/search/components/search-filters-panel/search-filters-panel';
 import { SearchTopResultTrackCard } from '@features/search/components/search-top-result-track-card/search-top-result-track-card';
 import { SearchTrackCard } from '@features/search/components/search-track-card/search-track-card';
+import { SearchFilters, DurationFilter } from '@features/search/interfaces/search-filters';
+import { SearchStore } from '@features/search/services/search-store';
 import { mapApiParametersToDuration, mapDurationToApiParameters } from '@features/search/utils/duration-filter';
 
 import { TuiIcon, TuiInput, TuiLoader } from '@taiga-ui/core';
