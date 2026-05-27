@@ -13,25 +13,25 @@
   <div class="filters"></div>
 
   <div class="content">
-    @if (searchResource.isLoading()) {
+    @if (store.api.tracksResource.isLoading()) {
       <tui-loader />
-    } @else if (errorMessage) {
-      <p class="error-state">{{ errorMessage }}</p>
-    } @else if (successState) {
-      @let topResult = successState.results[0];
+    } @else if (store.api.tracksResource.error()) {
+      <p class="error-state">{{ store.api.tracksResource.error()?.message }}</p>
+    } @else if (store.searchResult().totalCount > 0) {
+      @let topResult = store.searchResult().searchedTracks[0];
       <app-search-top-result-track-card
         [track]="topResult"
-        [isPlaying]="currentTrack()?.id === topResult.id"
+        [isPlaying]="store.currentTrack()?.id === topResult.id"
         (playTrack)="onPlay($event)"
         (pauseTrack)="onPause($event)"
       />
 
       <div class="results">
-        @for (item of successState.results; track item.id) {
+        @for (item of store.searchResult().searchedTracks; track item.id) {
           @if (!$first) {
             <app-search-track-card
               [track]="item"
-              [isPlaying]="currentTrack()?.id === item.id"
+              [isPlaying]="store.currentTrack()?.id === item.id"
               (playTrack)="onPlay($event)"
               (pauseTrack)="onPause($event)"
             />
