@@ -73,6 +73,14 @@ export class SearchFiltersPanel {
     this.emitFilters();
   }
 
+  protected clearFilters(): void {
+    this.selectedGenres.set([]);
+    this.duration.set(null);
+    this.selectedSort.set(null);
+
+    this.emitFilters();
+  }
+
   private toApiFilters(): SearchFilters {
     const genres = this.selectedGenres();
     const sortBy = this.selectedSort()?.value;
