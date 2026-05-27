@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, effect, inject, linkedSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, input, linkedSignal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { debounceTime, distinctUntilChanged, map, tap } from 'rxjs';
+import { Router } from '@angular/router';
+import { debounceTime, distinctUntilChanged, tap } from 'rxjs';
 
 import { SearchTrack } from '@features/search/interfaces/search-track';
 import { SearchStore } from '@features/search/services/search-store';
@@ -19,15 +19,12 @@ import { TuiTooltip } from '@taiga-ui/kit';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchPage {
-  private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   protected readonly store = inject(SearchStore);
 
-  private readonly queryParam = toSignal(this.route.queryParamMap.pipe(map((parameters) => parameters.get('q') ?? '')), {
-    initialValue: this.route.snapshot.queryParamMap.get('q') ?? '',
-  });
+  protected readonly q = input('');
 
-  protected readonly searchQuery = linkedSignal(() => this.queryParam());
+  protected readonly searchQuery = linkedSignal(() => this.q());
 
   protected readonly debouncedQuery = toSignal(
     toObservable(this.searchQuery).pipe(
@@ -41,7 +38,7 @@ export class SearchPage {
         });
       }),
     ),
-    { initialValue: this.route.snapshot.queryParamMap.get('q') ?? '' },
+    { initialValue: this.q() },
   );
 
   constructor() {
