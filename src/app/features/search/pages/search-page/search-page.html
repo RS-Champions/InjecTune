@@ -16,21 +16,21 @@
     <div class="top-result"></div>
 
     <div class="results">
-      @if (searchResource.isLoading()) {
+      @if (store.api.tracksResource.isLoading()) {
         <div class="loader">Loading...</div>
-      } @else if (errorMessage) {
-        <p class="error-state">{{ errorMessage }}</p>
-      } @else if (successState) {
-        @for (item of successState.results; track item.id) {
+      } @else if (store.api.tracksResource.error()) {
+        <p class="error-state">{{ store.api.tracksResource.error()?.message }}</p>
+      } @else if (store.searchResult().totalCount > 0) {
+        @for (item of store.searchResult().searchedTracks; track item.id) {
           <app-search-track-card
             [track]="item"
-            [isPlaying]="currentTrack()?.id === item.id"
+            [isPlaying]="store.currentTrack()?.id === item.id"
             (playTrack)="onPlay($event)"
             (pauseTrack)="onPause($event)"
           ></app-search-track-card>
         }
-      } @else if (debouncedQuery().trim()) {
-        <p class="empty-state">No tracks found for "{{ debouncedQuery() }}"</p>
+      } @else if (store.query().trim()) {
+        <p class="empty-state">No tracks found for "{{ store.query() }}"</p>
       }
     </div>
   </div>
