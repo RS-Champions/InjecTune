@@ -15,7 +15,7 @@ const DURATION_RANGES: Record<NonNullable<DurationFilter>, DurationRange> = {
  * Converts a UI duration filter value to API min/max parameters.
  * Returns an empty object when duration is null (no filter applied).
  */
-export function mapDurationToApiParametrs(duration: DurationFilter): Pick<SearchFilters, 'durationMin' | 'durationMax'> {
+export function mapDurationToApiParameters(duration: DurationFilter): Pick<SearchFilters, 'durationMin' | 'durationMax'> {
   if (!duration) return {};
 
   const range = DURATION_RANGES[duration];
@@ -31,7 +31,7 @@ export function mapDurationToApiParametrs(duration: DurationFilter): Pick<Search
  * Returns null when no duration filter is active.
  */
 
-export function mapApiParametrsToDuration(filters: Pick<SearchFilters, 'durationMin' | 'durationMax'>): DurationFilter {
+export function mapApiParametersToDuration(filters: Pick<SearchFilters, 'durationMin' | 'durationMax'>): DurationFilter {
   const { durationMin, durationMax } = filters;
 
   if (durationMin === undefined && durationMax === undefined) return null;

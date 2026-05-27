@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, effect, input, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DurationFilter, SearchFilters, SortBy } from '@features/search/interfaces/search-filters';
-import { mapApiParametrsToDuration, mapDurationToApiParametrs } from '@features/search/utils/duration-filter';
+import { mapApiParametersToDuration, mapDurationToApiParameters } from '@features/search/utils/duration-filter';
 import { TuiStringHandler } from '@taiga-ui/cdk';
 import { TuiButton, TuiIcon, TuiLabel, TuiRadio } from '@taiga-ui/core';
 import { TuiChevron, TuiChip, TuiSelect, TuiDataListWrapper } from '@taiga-ui/kit';
@@ -26,7 +26,7 @@ export class SearchFiltersPanel {
   readonly initialFilters = input<SearchFilters>({});
   readonly filtersChange = output<SearchFilters>();
 
-  protected readonly genres = ['Electronic', 'Synthwave', 'Ambient', 'Lo-Fi', 'Rock', 'Jazz', 'Pop'];
+  protected readonly genres = ['Electronic', 'Synthwave', 'Ambient', 'Funk', 'Lo-Fi', 'Rock', 'Jazz', 'Pop'];
   protected readonly sortOptions: SortOption[] = [
     { label: 'Relevance', value: 'relevance' },
     { label: 'Popularity', value: 'popularity' },
@@ -43,7 +43,7 @@ export class SearchFiltersPanel {
       const initial = this.initialFilters();
 
       this.selectedGenres.set(initial.genres ?? []);
-      this.duration.set(mapApiParametrsToDuration(initial));
+      this.duration.set(mapApiParametersToDuration(initial));
 
       const matchedSort = initial.sortBy == null ? null : (this.sortOptions.find((o) => o.value === initial.sortBy) ?? null);
 
@@ -78,7 +78,7 @@ export class SearchFiltersPanel {
     const sortBy = this.selectedSort()?.value;
 
     const duration = this.duration();
-    const range = mapDurationToApiParametrs(duration);
+    const range = mapDurationToApiParameters(duration);
 
     return {
       ...(genres.length > 0 && { genres }),
