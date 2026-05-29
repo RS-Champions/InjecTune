@@ -1,0 +1,125 @@
+:host {
+  display: block;
+  width: 100%;
+  padding: 24px;
+  background: var(--dim-gradient);
+  border-radius: var(--bdrd);
+  border: 1px solid var(--inverse-on-surface);
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 32px;
+
+  h2 {
+    margin: 0;
+    color: var(--primary);
+    font-size: var(--md);
+    font-weight: 700;
+  }
+
+  button[data-appearance='primary'] {
+    --t-bg: transprent;
+    --tui-text-primary-on-accent-1: var(--on-surface-variant);
+    --tui-background-accent-1-hover: var(--surface-bright);
+  }
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-transform: capitalize;
+
+  & + & {
+    margin-top: 32px;
+  }
+}
+
+.section-title {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+
+  opacity: 0.7;
+}
+
+.genre-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.genre-chip {
+  cursor: pointer;
+  transition: var(--transition);
+
+  &[data-appearance='accent'] {
+    --tui-text-primary-on-accent-2: var(--secondary);
+    --tui-background-accent-2: rgba(0, 26, 66, 0.5);
+    --tui-background-accent-2-hover: rgba(255, 255, 255, 0.1);
+    --tui-background-accent-2-pressed: var(--on-surface-variant);
+    box-shadow:
+      0 0 0 1px rgba(173, 198, 255, 0.8),
+      0 0 24px rgba(129, 170, 255, 0.35);
+  }
+
+  &[data-appearance='outline'] {
+    --tui-text-action: var(--on-surface-variant);
+  }
+}
+
+.duration-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  label {
+    color: var(--on-surface-variant);
+
+    &:hover {
+      color: var(--primary);
+    }
+
+    &:has(input[tuiRadio]:checked) {
+      color: var(--primary);
+      font-weight: 700;
+    }
+  }
+
+  input {
+    position: relative;
+    vertical-align: middle;
+    margin-right: 5px;
+    width: 15px;
+    height: 15px;
+  }
+
+  input::after {
+    position: absolute;
+    inset: 0;
+    content: '';
+    background: var(--surface);
+    border-radius: 50%;
+    border: 1px solid var(--inverse-on-surface);
+  }
+
+  input:checked::after {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    content: '🗸';
+    border-color: var(--primary);
+    color: var(--primary);
+    font-size: 0.7rem;
+    font-weight: 700;
+    filter: var(--filter-neon-shadow);
+  }
+}
+
+tui-select {
+  width: 100%;
+}

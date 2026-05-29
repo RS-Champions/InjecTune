@@ -10,36 +10,45 @@
 </tui-textfield>
 
 <div class="search-page">
-  <div class="filters"></div>
+  <app-search-filters-panel [initialFilters]="initialFilters()" (filtersChange)="onFiltersChange($event)" />
 
   <div class="content">
-    @if (store.api.tracksResource.isLoading()) {
-      <tui-loader />
-    } @else if (store.api.tracksResource.error()) {
-      <p class="error-state">{{ store.api.tracksResource.error()?.message }}</p>
-    } @else if (store.searchResult().totalCount > 0) {
-      @let topResult = store.searchResult().searchedTracks[0];
-      <app-search-top-result-track-card
-        [track]="topResult"
-        [isPlaying]="store.currentTrack()?.id === topResult.id"
-        (playTrack)="onPlay($event)"
-        (pauseTrack)="onPause($event)"
-      />
+    @switch (store.api.tracksResource.status()) {
+      @case ('local')
+      @case ('resolved') {
+        @let searchResult = store.searchResult();
+        @let topResult = searchResult.searchedTracks[0];
 
-      <div class="results">
-        @for (item of store.searchResult().searchedTracks; track item.id) {
-          @if (!$first) {
-            <app-search-track-card
-              [track]="item"
-              [isPlaying]="store.currentTrack()?.id === item.id"
-              (playTrack)="onPlay($event)"
-              (pauseTrack)="onPause($event)"
-            />
-          }
+        @if (topResult) {
+          <app-search-top-result-track-card
+            [track]="topResult"
+            [isPlaying]="store.currentTrack()?.id === topResult.id"
+            (playTrack)="onPlay($event)"
+            (pauseTrack)="onPause($event)"
+          />
+
+          <div class="results">
+            @for (item of searchResult.searchedTracks; track item.id) {
+              @if (!$first) {
+                <app-search-track-card
+                  [track]="item"
+                  [isPlaying]="store.currentTrack()?.id === item.id"
+                  (playTrack)="onPlay($event)"
+                  (pauseTrack)="onPause($event)"
+                />
+              }
+            }
+          </div>
+        } @else if (store.query().trim()) {
+          <p class="empty-state">No tracks found for "{{ store.query() }}"</p>
         }
-      </div>
-    } @else if (debouncedQuery().trim()) {
-      <p class="empty-state">No tracks found for "{{ debouncedQuery() }}"</p>
+      }
+      @case ('error') {
+        <p class="error-state">{{ store.api.tracksResource.error()?.message }}</p>
+      }
+      @default {
+        <tui-loader />
+      }
     }
   </div>
 </div>

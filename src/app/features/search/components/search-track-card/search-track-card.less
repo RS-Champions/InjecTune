@@ -6,7 +6,7 @@
   flex-wrap: nowrap;
   align-items: center;
   gap: 16px;
-  border-radius: 35px;
+  border-radius: var(--bdrd);
   padding: 10px 15px;
   overflow: hidden;
   transition: var(--transition-box-shadow), var(--transition-bgc);
@@ -28,7 +28,7 @@
 
     &::before {
       background-color: var(--primary);
-      filter: drop-shadow(0 0 5px rgba(183, 109, 255, 0.5)) drop-shadow(1px 0 5px rgba(221, 183, 255, 0.5));
+      filter: var(--filter-neon-shadow);
     }
 
     .title {
