@@ -14,12 +14,7 @@
 
   <div class="content">
     @switch (store.api.tracksResource.status()) {
-      @case ('loading') {
-        <tui-loader />
-      }
-      @case ('error') {
-        <p class="error-state">{{ store.api.tracksResource.error()?.message }}</p>
-      }
+      @case ('local')
       @case ('resolved') {
         @let searchResult = store.searchResult();
         @let topResult = searchResult.searchedTracks[0];
@@ -47,6 +42,12 @@
         } @else if (store.query().trim()) {
           <p class="empty-state">No tracks found for "{{ store.query() }}"</p>
         }
+      }
+      @case ('error') {
+        <p class="error-state">{{ store.api.tracksResource.error()?.message }}</p>
+      }
+      @default {
+        <tui-loader />
       }
     }
   </div>
