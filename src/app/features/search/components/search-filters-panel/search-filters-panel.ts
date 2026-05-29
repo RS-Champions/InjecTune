@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { DurationFilter, SearchFilters, SortBy } from '@features/search/interfaces/search-filters';
 import { mapApiParametersToDuration, mapDurationToApiParameters } from '@features/search/utils/duration-filter';
 import { TuiStringHandler } from '@taiga-ui/cdk';
-import { TuiButton, TuiIcon, TuiLabel, TuiRadio } from '@taiga-ui/core';
+import { TuiButton, TuiHint, TuiIcon, TuiLabel, TuiRadio } from '@taiga-ui/core';
 import { TuiChevron, TuiChip, TuiSelect, TuiDataListWrapper } from '@taiga-ui/kit';
 
 export interface SortOption {
@@ -17,7 +17,18 @@ export interface SearchFilterState {
 }
 @Component({
   selector: 'app-search-filters-panel',
-  imports: [FormsModule, TuiButton, TuiChevron, TuiChip, TuiDataListWrapper, TuiIcon, TuiLabel, TuiRadio, TuiSelect],
+  imports: [
+    FormsModule,
+    TuiButton,
+    TuiChevron,
+    TuiChip,
+    TuiHint,
+    TuiDataListWrapper,
+    TuiIcon,
+    TuiLabel,
+    TuiRadio,
+    TuiSelect,
+  ],
   templateUrl: './search-filters-panel.html',
   styleUrl: './search-filters-panel.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

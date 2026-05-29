@@ -6,7 +6,9 @@
 </div>
 
 <div class="description">
-  <h2 class="title" tuiHint="{{ track().name }}">{{ track().name }}</h2>
+  <h2 class="title" tuiHint="{{ track().name }}" tuiHintDirection="bottom-end" tuiHintAppearance="custom-hint">
+    {{ track().name }}
+  </h2>
   <a class="artist" [routerLink]="['/artist', track().artist_id]">{{ track().artist_name }}</a>
 
   <div class="meta">

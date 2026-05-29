@@ -14,7 +14,9 @@
   ></button>
 </div>
 <div class="description">
-  <h3 class="title title-md" tuiHint="{{ track().name }}">{{ track().name }}</h3>
+  <h3 class="title title-md" tuiHint="{{ track().name }}" tuiHintDirection="top-end" tuiHintAppearance="custom-hint">
+    {{ track().name }}
+  </h3>
   <a class="artist body-md" [routerLink]="['/artist', track().artist_id]">{{ track().artist_name }}</a>
 </div>
 @if (track().album_id) {
