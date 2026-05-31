@@ -1,35 +1,33 @@
-import { httpResource } from '@angular/common/http';
-import { computed, Injectable, Signal } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
-import { Artist } from '@features/artist/interfaces/artist.model';
-import { JamendoResponse } from '@shared/interfaces/jamendo-response';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ArtistApi {
-  private readonly baseUrl = `${environment.jamendo.apiUrl}/artists/albums`;
+  readonly albumsUrl = `${environment.jamendo.apiUrl}/artists/albums`;
+  readonly tracksUrl = `${environment.jamendo.apiUrl}/tracks`;
+  readonly clientId = environment.jamendo.clientId;
 
-  createArtistResource(artistId: Signal<string>) {
-    const resource = httpResource<JamendoResponse<Artist>>(() => ({
-      url: this.baseUrl,
-      params: {
-        client_id: environment.jamendo.clientId,
-        id: artistId(),
-        limit: 'all',
-        imagesize: 300,
-        format: 'jsonpretty',
-      },
-    }));
+  albumsParams(artistId: string) {
+    return {
+      client_id: this.clientId,
+      id: artistId,
+      limit: 'all',
+      imagesize: 300,
+      format: 'json',
+    };
+  }
 
-    const artist = computed<Artist | null>(() => {
-      const response = resource.value();
-
-      if (!response?.results.length) return null;
-
-      return response.results[0];
-    });
-
-    return { resource, artist };
+  tracksParams(artistId: string) {
+    return {
+      client_id: this.clientId,
+      artist_id: artistId,
+      limit: '3',
+      order: 'popularity_total',
+      include: 'stats',
+      imagesize: 300,
+      format: 'json',
+    };
   }
 }
