@@ -1,8 +1,16 @@
-export interface Album {
+import { BaseTrack } from '@shared/track/interfaces/base-track';
+
+export interface ArtistAlbum {
   id: string;
   name: string;
   releasedate: string;
   image: string;
+}
+
+export interface ArtistTrack extends BaseTrack {
+  album_id?: string;
+  album_name?: string;
+  album_image?: string;
 }
 
 export interface Artist {
@@ -12,6 +20,6 @@ export interface Artist {
   image: string;
   website: string;
   shareurl: string;
-  albums?: Album[];
+  albums?: ArtistAlbum[];
   tracks?: ArtistTrack[];
 }

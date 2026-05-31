@@ -6,7 +6,7 @@ export interface BaseTrack {
   releasedate: string;
   audio: string;
   stats: {
-    listens_total: number;
+    rate_listened_total: number;
   };
   musicinfo?: {
     tags?: {
