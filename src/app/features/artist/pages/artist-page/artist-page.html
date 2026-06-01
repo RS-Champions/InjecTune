@@ -23,6 +23,7 @@
     @if (a.tracks?.length) {
       <section class="section">
         <h2 class="section-title">Top Tracks</h2>
+
         @for (track of a.tracks; track track.id) {
           <app-artist-track-card
             [track]="track"
@@ -38,12 +39,13 @@
       <section class="section">
         <div class="section-header">
           <h2 class="section-title">Discography</h2>
-          <button tuiButton appearance="ghost" size="s">Show All</button>
         </div>
 
         <div class="albums-grid">
           @for (album of a.albums; track album.id) {
-            <p>album-card works!</p>
+            <a class="album" [routerLink]="['/album', album.id]">
+              <app-artist-album-card [album]="album" />
+            </a>
           }
         </div>
       </section>

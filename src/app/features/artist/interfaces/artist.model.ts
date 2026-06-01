@@ -5,6 +5,14 @@ export interface ArtistAlbum {
   name: string;
   releasedate: string;
   image: string;
+  tracks?: ArtistAlbumTrack[];
+  tracksCount?: number;
+}
+
+export interface ArtistAlbumTrack {
+  id: string;
+  name: string;
+  position: string;
 }
 
 export interface ArtistTrack extends BaseTrack {
