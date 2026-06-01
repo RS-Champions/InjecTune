@@ -1,7 +1,7 @@
 <div class="cover">
   <img src="{{ track().image }}" alt="{{ track().name }}" />
   @if (isPlaying()) {
-    <div class="equalizer"><span></span><span></span><span></span><span></span><span></span></div>
+    <app-equalizer />
   }
   <button
     tuiIconButton
@@ -14,8 +14,15 @@
   ></button>
 </div>
 <div class="description">
-  <h3 class="title title-md">{{ track().name }}</h3>
-  <p class="artist body-md">{{ track().artist_name }}</p>
+  <h3
+    class="title title-md"
+    tuiHint="{{ track().name }}"
+    tuiHintDirection="top-start"
+    tuiHintPointer
+    tuiHintAppearance="neutral"
+  >
+    {{ track().name }}
+  </h3>
 </div>
 <div class="album body-md">{{ track().album_name }}</div>
 <div class="meta body-md">

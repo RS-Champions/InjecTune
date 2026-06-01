@@ -12,7 +12,15 @@
         <span class="verified__label">VERIFIED ARTIST</span>
       </div>
 
-      <h1 class="name">{{ artist().name }}</h1>
+      <h1
+        class="name"
+        tuiHint="{{ artist().name }}"
+        tuiHintDirection="bottom-start"
+        tuiHintPointer
+        tuiHintAppearance="neutral"
+      >
+        {{ artist().name }}
+      </h1>
 
       <p class="meta">
         {{ artist().albums?.length ?? 0 }}

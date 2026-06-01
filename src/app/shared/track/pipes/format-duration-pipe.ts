@@ -6,12 +6,12 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class FormatDurationPipe implements PipeTransform {
   transform(duration: number): string {
     if (!Number.isFinite(duration)) {
-      return '0:00';
+      return '00:00';
     }
 
     const seconds = duration % 60;
     const minutes = (duration - seconds) / 60;
 
-    return `${minutes.toString()}:${seconds.toString().padStart(2, '0')}`;
+    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   }
 }

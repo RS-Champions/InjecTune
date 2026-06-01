@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { Artist } from '@features/artist/interfaces/artist.model';
-import { TuiButton, TuiIcon } from '@taiga-ui/core';
+import { TuiButton, TuiHint, TuiIcon } from '@taiga-ui/core';
 
 @Component({
   selector: 'app-artist-header',
-  imports: [TuiIcon, TuiButton],
+  imports: [TuiButton, TuiHint, TuiIcon],
   templateUrl: './artist-header.html',
   styleUrl: './artist-header.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
