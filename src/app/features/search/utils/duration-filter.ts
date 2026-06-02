@@ -30,7 +30,6 @@ export function mapDurationToApiParameters(duration: DurationFilter): Pick<Searc
  * Reverse-maps API durationMin/Max parameters back to a UI DurationFilter value.
  * Returns null when no duration filter is active.
  */
-
 export function mapApiParametersToDuration(filters: Pick<SearchFilters, 'durationMin' | 'durationMax'>): DurationFilter {
   const { durationMin, durationMax } = filters;
 
