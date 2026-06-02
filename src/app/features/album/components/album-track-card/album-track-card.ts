@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { AlbumTrack } from '@features/album/interfaces/album-track';
+import { AlbumTrack } from '@features/album/interfaces/album.model';
 import { Track } from '@shared/track/directives/track';
 import { FormatDurationPipe } from '@shared/track/pipes/format-duration-pipe';
 import { FormatPlayCountPipe } from '@shared/track/pipes/format-play-count-pipe';
