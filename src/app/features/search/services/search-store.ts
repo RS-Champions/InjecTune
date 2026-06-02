@@ -20,7 +20,7 @@ export class SearchStore {
   readonly currentTrack = signal<SearchTrack | null>(null);
 
   readonly searchResult = computed<SearchResultPage>(() => {
-    const tracks = this.api.tracksResource.value() ?? [];
+    const tracks = this.api.tracksResource.value()?.results ?? [];
     const query = this.query().trim().toLowerCase();
 
     if (!query) {
