@@ -12,8 +12,9 @@ export class FormatDurationPipe implements PipeTransform {
     }
 
     const seconds = time % 60;
-    const minutes = (time - seconds) / 60;
+    const hours = Math.floor(time / 3600);
+    const minutes = Math.floor(time / 60) - (hours ? hours * 60 : 0);
 
-    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    return `${hours ? hours.toString() : ''}${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   }
 }
