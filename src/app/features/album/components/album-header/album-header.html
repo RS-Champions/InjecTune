@@ -25,7 +25,7 @@
         <span class="separator">·</span>
         <span class="release-date">{{ album().releasedate | date: 'y' }}</span>
         <span class="separator">·</span>
-        <span class="duration">{{ album().duration ?? 0 | formatDuration }}</span>
+        <span class="duration">{{ album().duration | formatDuration }}</span>
       </div>
 
       <div class="actions">
