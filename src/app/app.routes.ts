@@ -6,6 +6,10 @@ export const routes: Routes = [
     loadComponent: () => import('./features/about/pages/about-page/about-page').then((module) => module.AboutPage),
   },
   {
+    path: 'album',
+    loadChildren: () => import('./features/album/album.routes').then((module) => module.ALBUM_ROUTES),
+  },
+  {
     path: 'search',
     loadChildren: () => import('./features/search/search.routes').then((module) => module.SEARCH_ROUTES),
   },
