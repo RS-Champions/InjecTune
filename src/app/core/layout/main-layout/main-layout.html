@@ -19,7 +19,14 @@
   </div>
 
   @if (isMobile() && sidebarOpen()) {
-    <div class="backdrop" (click)="onBackdropClick()"></div>
+    <div
+      class="backdrop"
+      (click)="onBackdropClick()"
+      tabindex="0"
+      role="button"
+      (keydown.enter)="onBackdropClick()"
+      (keydown.space)="onBackdropClick()"
+    ></div>
   }
 
   @if (isMobile()) {
