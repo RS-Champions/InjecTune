@@ -26,7 +26,7 @@ export class SidebarComponent {
   private readonly router = inject(Router);
   private readonly url = toSignal(
     this.router.events.pipe(
-      filter((e): e is NavigationEnd => e instanceof NavigationEnd),
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd),
       map(() => this.router.url),
     ),
     { initialValue: this.router.url },
