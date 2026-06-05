@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { MainLayoutComponent } from './core/layout/main-layout/main-layout';
+import { EmptyLayoutComponent } from './core/layout/empty-layout/empty-layout';
 
 export const ROUTE_PATHS = {
   ABOUT: 'about',
@@ -8,17 +10,40 @@ export const ROUTE_PATHS = {
 
 export const routes: Routes = [
   {
+    path: '',
+    redirectTo: ROUTE_PATHS.DISCOVER,
+    pathMatch: 'full',
+  },
+  {
     path: ROUTE_PATHS.ABOUT,
-    loadComponent: () => import('./features/about/pages/about-page/about-page').then((module) => module.AboutPage),
+    component: EmptyLayoutComponent,
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('./features/about/pages/about-page/about-page').then((module) => module.AboutPage),
+      },
+    ],
   },
   {
     path: ROUTE_PATHS.SEARCH,
-    loadChildren: () => import('./features/search/search.routes').then((module) => module.SEARCH_ROUTES),
+    component: MainLayoutComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('./features/search/search.routes').then((module) => module.SEARCH_ROUTES),
+      },
+    ],
   },
   {
     path: ROUTE_PATHS.DISCOVER,
-    loadComponent: () =>
-      import('./features/discover/pages/discover-page/discover-page').then((module) => module.DiscoverPage),
+    component: MainLayoutComponent,
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('./features/discover/pages/discover-page/discover-page').then((module) => module.DiscoverPage),
+      },
+    ],
   },
 ];
 
