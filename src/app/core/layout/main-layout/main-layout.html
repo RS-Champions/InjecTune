@@ -1,0 +1,37 @@
+<div class="main-layout" [class.mobile]="isMobile()">
+  @if (!isMobile()) {
+    <aside class="sidebar-wrapper">
+      <app-sidebar [navigationItems]="navigationItems"></app-sidebar>
+    </aside>
+  }
+
+  <div class="content-wrapper">
+    @if (isMobile()) {
+      <header class="mobile-header">
+        <app-hamburger (toggleSidebar)="onToggleSidebar()"></app-hamburger>
+        <h1 class="mobile-title">InjecTune</h1>
+      </header>
+    }
+
+    <main class="page-content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+
+  @if (isMobile() && sidebarOpen()) {
+    <div
+      class="backdrop"
+      (click)="onBackdropClick()"
+      tabindex="0"
+      role="button"
+      (keydown.enter)="onBackdropClick()"
+      (keydown.space)="onBackdropClick()"
+    ></div>
+  }
+
+  @if (isMobile()) {
+    <aside class="sidebar-wrapper sidebar-mobile" [class.open]="sidebarOpen()">
+      <app-sidebar [navigationItems]="navigationItems"></app-sidebar>
+    </aside>
+  }
+</div>

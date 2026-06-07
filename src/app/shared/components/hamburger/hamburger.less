@@ -1,0 +1,40 @@
+:host {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: block;
+  }
+}
+
+.hamburger-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  gap: 5px;
+  transition: all var(--transition);
+
+  &:hover {
+    background-color: var(--surface-container);
+    border-radius: 8px;
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.hamburger-line {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background-color: var(--on-surface);
+  border-radius: 1px;
+  transition: all var(--transition);
+}

@@ -1,7 +1,7 @@
 export interface BaseTrack {
   id: string;
   name: string;
-  duration: number;
+  duration: number | string;
   artist_name: string;
   releasedate: string;
   audio: string;
