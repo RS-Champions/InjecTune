@@ -1,0 +1,43 @@
+@switch (albumResource.status()) {
+  @case ('local')
+  @case ('resolved') {
+    @if (album(); as alb) {
+      <app-album-header [album]="alb" />
+
+      <div class="content">
+        <div class="track-list-header">
+          <span>#</span>
+          <span>TITLE</span>
+          <span class="col-plays">PLAYS</span>
+          <span class="col-duration">
+            <tui-icon icon="@tui.clock" size="xs" />
+          </span>
+        </div>
+        @for (item of alb.tracks; track item.id) {
+          <app-album-track-card
+            [track]="item"
+            [isPlaying]="currentTrack()?.id === item.id"
+            (playTrack)="onPlay($event)"
+            (pauseTrack)="onPause($event)"
+          />
+        }
+      </div>
+    } @else {
+      <p class="empty-state">Album not found</p>
+    }
+  }
+  @case ('error') {
+    <p class="error-state">Failed to load album data. Please try again later. Error: {{ albumResource.error()?.message }}</p>
+  }
+  @default {
+    <div class="loading-skeleton">
+      <div class="hero-skeleton" [tuiSkeleton]="true"></div>
+      <div class="content">
+        <div class="section-title" [tuiSkeleton]="true">Top Tracks</div>
+        @for (i of [1, 2, 3, 4, 5]; track i) {
+          <div class="track-skeleton" [tuiSkeleton]="true"></div>
+        }
+      </div>
+    </div>
+  }
+}

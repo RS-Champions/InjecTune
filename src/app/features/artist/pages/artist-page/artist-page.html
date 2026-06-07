@@ -1,0 +1,58 @@
+@if (isLoading) {
+  <div class="loading-skeleton">
+    <div class="hero-skeleton" [tuiSkeleton]="isLoading"></div>
+    <div class="content">
+      <div class="section-title" [tuiSkeleton]="isLoading">Top Tracks</div>
+      @for (i of [1, 2, 3]; track i) {
+        <div class="track-skeleton" [tuiSkeleton]="isLoading"></div>
+      }
+      <div class="section-title" [tuiSkeleton]="isLoading">Discography</div>
+      @for (i of [1, 2, 3, 4, 5]; track i) {
+        <div class="album-skeleton" [tuiSkeleton]="isLoading"></div>
+      }
+    </div>
+  </div>
+} @else if (hasError) {
+  <div class="error">
+    <p>Failed to load artist data. Please try again later.</p>
+  </div>
+} @else if (artist(); as a) {
+  <app-artist-header [artist]="a" />
+
+  <div class="content">
+    @if (a.tracks?.length) {
+      <section class="section">
+        <h2 class="section-title">Top Tracks</h2>
+
+        @for (track of a.tracks; track track.id) {
+          <app-artist-track-card
+            [track]="track"
+            [isPlaying]="currentTrack()?.id === track.id"
+            (playTrack)="onPlay($event)"
+            (pauseTrack)="onPause($event)"
+          />
+        }
+      </section>
+    }
+
+    @if (a.albums?.length) {
+      <section class="section">
+        <div class="section-header">
+          <h2 class="section-title">Discography</h2>
+        </div>
+
+        <div class="albums-grid">
+          @for (album of a.albums; track album.id) {
+            <a class="album" [routerLink]="['/album', album.id]">
+              <app-artist-album-card [album]="album" />
+            </a>
+          }
+        </div>
+      </section>
+    }
+  </div>
+} @else {
+  <div class="empty">
+    <p>Artist not found.</p>
+  </div>
+}

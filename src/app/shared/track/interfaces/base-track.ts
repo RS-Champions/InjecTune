@@ -1,12 +1,12 @@
 export interface BaseTrack {
   id: string;
   name: string;
-  duration: number;
+  duration: number | string;
   artist_name: string;
   releasedate: string;
   audio: string;
   stats: {
-    listens_total: number;
+    rate_listened_total: number;
   };
   musicinfo?: {
     tags?: {
