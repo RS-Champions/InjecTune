@@ -18,7 +18,7 @@ describe('SearchTopResultTrackCard', () => {
     album_id: '100',
     album_name: 'Test Album',
     stats: {
-      listens_total: 123,
+      rate_listened_total: 123,
     },
   } as SearchTrack;
 

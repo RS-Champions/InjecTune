@@ -63,11 +63,11 @@ export class SearchStore {
     }
 
     if (durationMin !== undefined) {
-      processedTracks = processedTracks.filter((track) => track.duration >= durationMin);
+      processedTracks = processedTracks.filter((track) => Number(track.duration) >= durationMin);
     }
 
     if (durationMax !== undefined) {
-      processedTracks = processedTracks.filter((track) => track.duration <= durationMax);
+      processedTracks = processedTracks.filter((track) => Number(track.duration) <= durationMax);
     }
 
     return processedTracks;
@@ -76,7 +76,7 @@ export class SearchStore {
   private sortTracks(tracks: SearchTrack[], sortBy: SortBy): SearchTrack[] {
     switch (sortBy) {
       case 'popularity': {
-        return tracks.toSorted((a, b) => b.stats.listens_total - a.stats.listens_total);
+        return tracks.toSorted((a, b) => b.stats.rate_listened_total - a.stats.rate_listened_total);
       }
       case 'releasedate_desc': {
         return tracks.toSorted((a, b) => new Date(b.releasedate).getTime() - new Date(a.releasedate).getTime());

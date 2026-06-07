@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'formatDuration',
 })
 export class FormatDurationPipe implements PipeTransform {
-  transform(duration: number | string): string {
+  transform(duration: number | string | undefined): string {
     const time = Number(duration);
 
     if (!Number.isFinite(time)) {

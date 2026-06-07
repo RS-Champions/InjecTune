@@ -18,7 +18,7 @@
     }
     <span class="duration">{{ track().duration | formatDuration }}</span>
     <span class="separator">·</span>
-    <span class="play-count">{{ track().stats.listens_total | formatPlayCount }}</span>
+    <span class="play-count">{{ track().stats.rate_listened_total | formatPlayCount }}</span>
   </div>
 
   <button
