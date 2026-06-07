@@ -10,13 +10,13 @@ import { FormatPlayCountPipe } from '@shared/track/pipes/format-play-count-pipe'
 import { TuiAppearance, TuiButton, TuiHint } from '@taiga-ui/core';
 
 @Component({
-  selector: 'app-search-track-card',
+  selector: 'app-search-top-result-track-card',
   imports: [Equalizer, FormatDurationPipe, FormatPlayCountPipe, RouterLink, TuiAppearance, TuiButton, TuiHint],
-  templateUrl: './search-track-card.html',
-  styleUrl: './search-track-card.less',
+  templateUrl: './search-top-result-track-card.html',
+  styleUrl: './search-top-result-track-card.less',
   host: {
     '[class.active]': 'isPlaying()',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SearchTrackCard extends Track<SearchTrack> {}
+export class SearchTopResultTrackCard extends Track<SearchTrack> {}

@@ -1,23 +1,53 @@
 <tui-textfield iconStart="@tui.search">
   <input
-    placeholder="Search traks, artists, albums..."
+    placeholder="Search tracks, artists, albums..."
     tuiInput
     [ngModel]="searchQuery()"
     (ngModelChange)="searchQuery.set($event)"
   />
-  <tui-icon tuiTooltip="Start type trak, artist, album..." />
+
+  <tui-icon tuiTooltip="Start typing track, artist, album..." />
 </tui-textfield>
+
 <div class="search-page">
-  <div class="results">
-    @if (searchResult(); as result) {
-      <p>Total: {{ result.totalCount }}</p>
-      @for (item of result.results; track item.id) {
-        <app-search-track-card
-          [track]="item"
-          [isPlaying]="currentTrack()?.id === item.id"
-          (playTrack)="onPlay($event)"
-          (pauseTrack)="onPause($event)"
-        ></app-search-track-card>
+  <app-search-filters-panel [initialFilters]="initialFilters()" (filtersChange)="onFiltersChange($event)" />
+
+  <div class="content">
+    @switch (store.api.tracksResource.status()) {
+      @case ('local')
+      @case ('resolved') {
+        @let searchResult = store.searchResult();
+        @let topResult = searchResult.searchedTracks[0];
+
+        @if (topResult) {
+          <app-search-top-result-track-card
+            [track]="topResult"
+            [isPlaying]="store.currentTrack()?.id === topResult.id"
+            (playTrack)="onPlay($event)"
+            (pauseTrack)="onPause($event)"
+          />
+
+          <div class="results">
+            @for (item of searchResult.searchedTracks; track item.id) {
+              @if (!$first) {
+                <app-search-track-card
+                  [track]="item"
+                  [isPlaying]="store.currentTrack()?.id === item.id"
+                  (playTrack)="onPlay($event)"
+                  (pauseTrack)="onPause($event)"
+                />
+              }
+            }
+          </div>
+        } @else if (store.query().trim()) {
+          <p class="empty-state">No tracks found for "{{ store.query() }}"</p>
+        }
+      }
+      @case ('error') {
+        <p class="error-state">Error: Something went wrong</p>
+      }
+      @default {
+        <tui-loader />
       }
     }
   </div>

@@ -1,19 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideRouter } from '@angular/router';
 
-import { SearchPage } from './search-page';
+import { SearchFiltersPanel } from './search-filters-panel';
 
-describe('SearchPage', () => {
-  let component: SearchPage;
-  let fixture: ComponentFixture<SearchPage>;
+describe('SearchFiltersPanel', () => {
+  let component: SearchFiltersPanel;
+  let fixture: ComponentFixture<SearchFiltersPanel>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SearchPage],
-      providers: [provideRouter([])],
+      imports: [SearchFiltersPanel],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SearchPage);
+    fixture = TestBed.createComponent(SearchFiltersPanel);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
