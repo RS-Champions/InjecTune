@@ -1,0 +1,130 @@
+@if (store.currentTrack(); as track) {
+  <div class="player-bar">
+    <!-- LEFT: track info -->
+    <div class="player-bar__track">
+      <img class="player-bar__cover" [src]="track.image" [alt]="track.name" />
+      <div class="player-bar__info">
+        <span class="player-bar__title">{{ track.name }}</span>
+        <span class="player-bar__artist">{{ track.artist_name }}</span>
+      </div>
+    </div>
+
+    <!-- CENTER: controls + progress -->
+    <div class="player-bar__center">
+      <div class="player-bar__controls">
+        <!-- Shuffle -->
+        <button
+          tuiIconButton
+          iconStart="@tui.shuffle"
+          appearance="ghost"
+          size="s"
+          type="button"
+          tuiHint="Shuffle"
+          tuiHintSize="s"
+          tuiHintDirection="top"
+          tuiHintAppearance="neutral"
+          [class.active]="store.shuffle()"
+          aria-label="Shuffle"
+          (click)="toggleShuffle()"
+        ></button>
+
+        <!-- Previous -->
+        <button
+          tuiIconButton
+          iconStart="@tui.skip-back"
+          appearance="ghost"
+          size="s"
+          type="button"
+          tuiHint="Previous"
+          tuiHintDirection="top"
+          tuiHintAppearance="neutral"
+          [disabled]="!store.hasPrevious()"
+          aria-label="Previous"
+          (click)="audio.previous()"
+        ></button>
+
+        <!-- Play / Pause -->
+        <button
+          tuiIconButton
+          [iconStart]="store.isPlaying() ? '@tui.pause' : '@tui.play'"
+          appearance="primary"
+          size="m"
+          type="button"
+          [class.loading]="store.isLoading()"
+          aria-label="Play or Pause"
+          (click)="togglePlay()"
+        ></button>
+
+        <!-- Next -->
+        <button
+          tuiIconButton
+          iconStart="@tui.skip-forward"
+          appearance="ghost"
+          size="s"
+          type="button"
+          tuiHint="Next"
+          tuiHintDirection="top"
+          tuiHintAppearance="neutral"
+          [disabled]="!store.hasNext()"
+          aria-label="Next"
+          (click)="audio.next()"
+        ></button>
+
+        <!-- Repeat -->
+        <button
+          tuiIconButton
+          [iconStart]="repeatIcon"
+          appearance="ghost"
+          size="s"
+          type="button"
+          tuiHint="Repeat"
+          tuiHintDirection="top"
+          tuiHintAppearance="neutral"
+          [class.active]="store.repeat() !== 'off'"
+          aria-label="Repeat"
+          (click)="toggleRepeat()"
+        ></button>
+      </div>
+
+      <!-- Progress bar -->
+      <div class="player-bar__progress">
+        <span class="player-bar__time">
+          {{ store.currentTime() | formatDuration }}
+        </span>
+
+        <input
+          tuiSlider
+          class="player-bar__slider"
+          type="range"
+          min="0"
+          [max]="store.duration()"
+          step="1"
+          [value]="progressValue"
+          (input)="onProgressInput($event)"
+          (change)="onProgressChange($event)"
+          aria-label="Playback progress"
+        />
+
+        <span class="player-bar__time">
+          {{ store.duration() | formatDuration }}
+        </span>
+      </div>
+    </div>
+
+    <!-- RIGHT: volume -->
+    <div class="player-bar__right">
+      <tui-icon class="player-bar__volume-icon" [icon]="store.volume() === 0 ? '@tui.volume-x' : '@tui.volume-2'" />
+      <input
+        tuiSlider
+        class="player-bar__volume-slider"
+        type="range"
+        min="0"
+        max="100"
+        step="1"
+        [value]="volumePercent"
+        (change)="onVolumeChange($event)"
+        aria-label="Volume"
+      />
+    </div>
+  </div>
+}

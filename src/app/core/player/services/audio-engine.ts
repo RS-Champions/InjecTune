@@ -10,7 +10,7 @@ export class AudioEngine {
   private readonly audioElement: HTMLAudioElement = new Audio();
 
   constructor() {
-    this.audioElement.crossOrigin = 'anonymous';
+    this.audioElement.crossOrigin = null;
     this.setupListeners();
     this.audioElement.volume = this.store.volume();
 

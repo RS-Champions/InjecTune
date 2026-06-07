@@ -11,10 +11,10 @@ export class FormatDurationPipe implements PipeTransform {
       return '00:00';
     }
 
-    const seconds = time % 60;
+    const seconds = (time % 60).toFixed(0);
     const hours = Math.floor(time / 3600);
     const minutes = Math.floor(time / 60) - (hours ? hours * 60 : 0);
-
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-conversion
     return `${hours ? hours.toString() : ''}${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   }
 }
