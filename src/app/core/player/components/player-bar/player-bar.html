@@ -1,6 +1,5 @@
 @if (store.currentTrack(); as track) {
   <div class="player-bar">
-    <!-- LEFT: track info -->
     <div class="player-bar__track">
       <img class="player-bar__cover" [src]="track.image" [alt]="track.name" />
       <div class="player-bar__info">
@@ -9,10 +8,8 @@
       </div>
     </div>
 
-    <!-- CENTER: controls + progress -->
     <div class="player-bar__center">
       <div class="player-bar__controls">
-        <!-- Shuffle -->
         <button
           tuiIconButton
           iconStart="@tui.shuffle"
@@ -28,7 +25,6 @@
           (click)="toggleShuffle()"
         ></button>
 
-        <!-- Previous -->
         <button
           tuiIconButton
           iconStart="@tui.skip-back"
@@ -43,7 +39,6 @@
           (click)="audio.previous()"
         ></button>
 
-        <!-- Play / Pause -->
         <button
           tuiIconButton
           [iconStart]="store.isPlaying() ? '@tui.pause' : '@tui.play'"
@@ -55,7 +50,6 @@
           (click)="togglePlay()"
         ></button>
 
-        <!-- Next -->
         <button
           tuiIconButton
           iconStart="@tui.skip-forward"
@@ -70,7 +64,6 @@
           (click)="audio.next()"
         ></button>
 
-        <!-- Repeat -->
         <button
           tuiIconButton
           [iconStart]="repeatIcon"
@@ -86,7 +79,6 @@
         ></button>
       </div>
 
-      <!-- Progress bar -->
       <div class="player-bar__progress">
         <span class="player-bar__time">
           {{ store.currentTime() | formatDuration }}
@@ -111,7 +103,6 @@
       </div>
     </div>
 
-    <!-- RIGHT: volume -->
     <div class="player-bar__right">
       <tui-icon class="player-bar__volume-icon" [icon]="store.volume() === 0 ? '@tui.volume-x' : '@tui.volume-2'" />
       <input

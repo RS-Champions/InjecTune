@@ -29,7 +29,9 @@
       </div>
 
       <div class="actions">
-        <button tuiButton appearance="primary" size="s" class="play-btn">▶ Play</button>
+        <button tuiButton appearance="primary" size="s" class="play-btn" [disabled]="isPlayingAll()" (click)="onPlayAll()">
+          ▶ Play All
+        </button>
       </div>
     </div>
   </div>
