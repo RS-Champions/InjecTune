@@ -5,6 +5,7 @@ import { EmptyLayoutComponent } from './core/layout/empty-layout/empty-layout';
 export const ROUTE_PATHS = {
   ABOUT: 'about',
   ALBUM: 'album',
+  ARTIST: 'artist ',
   SEARCH: 'search',
   DISCOVER: 'discover',
 } as const;
@@ -28,6 +29,10 @@ export const routes: Routes = [
   {
     path: ROUTE_PATHS.ALBUM,
     loadChildren: () => import('./features/album/album.routes').then((module) => module.ALBUM_ROUTES),
+  },
+  {
+    path: ROUTE_PATHS.ARTIST,
+    loadChildren: () => import('./features/artist/artist.routes').then((module) => module.ARTIST_ROUTES),
   },
   {
     path: ROUTE_PATHS.SEARCH,

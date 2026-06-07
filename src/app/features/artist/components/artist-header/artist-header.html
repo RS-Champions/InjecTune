@@ -1,0 +1,51 @@
+<div class="overlay">
+  <div class="container">
+    <div class="artist-photo">
+      <img [src]="artist().image" [alt]="artist().name" loading="lazy" />
+    </div>
+
+    <div class="info">
+      <div class="verified">
+        <span class="verified__badge">
+          <tui-icon icon="@tui.badge-check" />
+        </span>
+        <span class="verified__label">VERIFIED ARTIST</span>
+      </div>
+
+      <h1
+        class="name"
+        tuiHint="{{ artist().name }}"
+        tuiHintDirection="bottom-start"
+        tuiHintPointer
+        tuiHintAppearance="neutral"
+      >
+        {{ artist().name }}
+      </h1>
+
+      <p class="meta">
+        {{ artist().albums?.length ?? 0 }}
+        {{ artist().albums?.length === 1 ? 'album' : 'albums' }}
+      </p>
+
+      <div class="actions">
+        <button tuiButton appearance="primary" size="s" class="play-btn">▶ Play</button>
+
+        <button tuiButton appearance="outline" size="s" class="follow-btn">Follow</button>
+
+        @if (artist().website) {
+          <a [href]="artist().website" target="_blank" rel="noopener noreferrer">
+            <button
+              tuiIconButton
+              iconStart="@tui.ellipsis"
+              appearance="outline"
+              size="s"
+              type="button"
+              class="more-btn"
+              aria-label="More options"
+            ></button>
+          </a>
+        }
+      </div>
+    </div>
+  </div>
+</div>
