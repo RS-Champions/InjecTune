@@ -4,14 +4,17 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'formatDuration',
 })
 export class FormatDurationPipe implements PipeTransform {
-  transform(duration: number): string {
-    if (!Number.isFinite(duration)) {
-      return '0:00';
+  transform(duration: number | string): string {
+    const time = Number(duration);
+
+    if (!Number.isFinite(time)) {
+      return '00:00';
     }
 
-    const seconds = duration % 60;
-    const minutes = (duration - seconds) / 60;
+    const seconds = time % 60;
+    const hours = Math.floor(time / 3600);
+    const minutes = Math.floor(time / 60) - (hours ? hours * 60 : 0);
 
-    return `${minutes.toString()}:${seconds.toString().padStart(2, '0')}`;
+    return `${hours ? hours.toString() : ''}${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   }
 }

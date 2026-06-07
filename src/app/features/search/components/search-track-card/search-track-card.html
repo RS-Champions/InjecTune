@@ -19,6 +19,6 @@
 </div>
 <a class="album body-md" [routerLink]="['/album', track().album_id]">{{ track().album_name }}</a>
 <div class="meta body-md">
-  <span class="play-count">{{ track().stats.listens_total | formatPlayCount }}</span>
+  <span class="play-count">{{ track().stats.rate_listened_total | formatPlayCount }}</span>
   <span class="duration">{{ track().duration | formatDuration }}</span>
 </div>

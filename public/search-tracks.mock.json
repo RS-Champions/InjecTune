@@ -18,7 +18,7 @@
       }
     },
     "stats": {
-      "listens_total": 1234567
+      "rate_listened_total": 1234567
     }
   },
   {
@@ -40,7 +40,7 @@
       }
     },
     "stats": {
-      "listens_total": 123456
+      "rate_listened_total": 123456
     }
   },
   {
@@ -62,7 +62,7 @@
       }
     },
     "stats": {
-      "listens_total": 45230
+      "rate_listened_total": 45230
     }
   },
   {
@@ -84,7 +84,7 @@
       }
     },
     "stats": {
-      "listens_total": 38912
+      "rate_listened_total": 38912
     }
   },
   {
@@ -106,7 +106,7 @@
       }
     },
     "stats": {
-      "listens_total": 52104
+      "rate_listened_total": 52104
     }
   },
   {
@@ -128,7 +128,7 @@
       }
     },
     "stats": {
-      "listens_total": 61845
+      "rate_listened_total": 61845
     }
   },
   {
@@ -150,7 +150,7 @@
       }
     },
     "stats": {
-      "listens_total": 33567
+      "rate_listened_total": 33567
     }
   },
   {
@@ -172,7 +172,7 @@
       }
     },
     "stats": {
-      "listens_total": 47321
+      "rate_listened_total": 47321
     }
   },
   {
@@ -194,7 +194,7 @@
       }
     },
     "stats": {
-      "listens_total": 29834
+      "rate_listened_total": 29834
     }
   },
   {
@@ -216,7 +216,7 @@
       }
     },
     "stats": {
-      "listens_total": 54672
+      "rate_listened_total": 54672
     }
   },
   {
@@ -238,7 +238,7 @@
       }
     },
     "stats": {
-      "listens_total": 41293
+      "rate_listened_total": 41293
     }
   },
   {
@@ -260,7 +260,7 @@
       }
     },
     "stats": {
-      "listens_total": 35876
+      "rate_listened_total": 35876
     }
   }
 ]
