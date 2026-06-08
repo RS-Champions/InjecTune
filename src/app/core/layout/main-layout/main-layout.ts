@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet, NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { SidebarComponent } from '../../../shared/components/sidebar/sidebar';
-import { HamburgerComponent } from '../../../shared/components/hamburger/hamburger';
-import { NavItem } from '../../../shared/components/sidebar/sidebar';
+import { SidebarComponent } from '@shared/components/sidebar/sidebar';
+import { HamburgerComponent } from '@shared/components/hamburger/hamburger';
+import { NavItem } from '@shared/components/sidebar/sidebar';
 import { ROUTE_PATHS } from '../../../app.routes';
 
 @Component({
@@ -23,6 +23,7 @@ export class MainLayoutComponent {
   protected readonly sidebarOpen = signal(false);
 
   protected readonly navigationItems: NavItem[] = [
+    { label: 'About', route: ROUTE_PATHS.ABOUT, icon: '🎭' },
     { label: 'Discover', route: ROUTE_PATHS.DISCOVER, icon: '🎵' },
     { label: 'Search', route: ROUTE_PATHS.SEARCH, icon: '🔍' },
   ];
