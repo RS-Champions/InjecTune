@@ -30,14 +30,6 @@
     <p class="error-state">Failed to load album data. Please try again later.</p>
   }
   @default {
-    <div class="loading-skeleton">
-      <div class="hero-skeleton" [tuiSkeleton]="true"></div>
-      <div class="content">
-        <div class="section-title" [tuiSkeleton]="true">Top Tracks</div>
-        @for (i of [1, 2, 3, 4, 5]; track i) {
-          <div class="track-skeleton" [tuiSkeleton]="true"></div>
-        }
-      </div>
-    </div>
+    <app-loading-skeleton [pageName]="pageName" [isLoading]="true" />
   }
 }

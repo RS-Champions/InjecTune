@@ -1,0 +1,24 @@
+<div class="hero-skeleton">
+  <div class="hero-image" [tuiSkeleton]="isLoading()"></div>
+  <div class="hero-description" [tuiSkeleton]="isLoading()"></div>
+</div>
+<div class="content">
+  @switch (pageName()) {
+    @case ('album') {
+      <div class="section-title section-title_table" [tuiSkeleton]="isLoading()"></div>
+    }
+    @case ('artist') {
+      <div class="section-title" [tuiSkeleton]="isLoading()">Tracks</div>
+      @for (i of [1, 2, 3]; track i) {
+        <div class="track-skeleton" [tuiSkeleton]="isLoading()"></div>
+      }
+      <div class="section-title section-title_discography" [tuiSkeleton]="isLoading()">Discography</div>
+    }
+    @default {
+      <div class="section-title" [tuiSkeleton]="isLoading()">Tracks</div>
+    }
+  }
+  @for (i of [1, 2, 3, 4, 5]; track i) {
+    <div class="track-skeleton" [tuiSkeleton]="isLoading()"></div>
+  }
+</div>

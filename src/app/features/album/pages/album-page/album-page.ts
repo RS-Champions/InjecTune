@@ -10,14 +10,14 @@ import { AlbumHeader } from '@features/album/components/album-header/album-heade
 import { AlbumTrackCard } from '@features/album/components/album-track-card/album-track-card';
 import { Album, AlbumTrack } from '@features/album/interfaces/album.model';
 import { AlbumApi } from '@features/album/services/album-api';
+import { LoadingSkeleton, PageName } from '@shared/components/loading-skeleton/loading-skeleton';
 import { JamendoResponse } from '@shared/interfaces/jamendo-response';
 import { BaseTrack } from '@shared/track/interfaces/base-track';
-import { TuiSkeleton } from '@taiga-ui/kit';
 import { TuiIcon } from '@taiga-ui/core';
 
 @Component({
   selector: 'app-album-page',
-  imports: [AlbumHeader, AlbumTrackCard, TuiIcon, TuiSkeleton],
+  imports: [AlbumHeader, AlbumTrackCard, LoadingSkeleton, TuiIcon],
   templateUrl: './album-page.html',
   styleUrl: './album-page.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,6 +28,8 @@ export class AlbumPage {
 
   protected readonly audio = inject(AudioEngine);
   protected readonly store = inject(PlayerStore);
+
+  protected readonly pageName = PageName.ALBUM;
 
   protected readonly currentTrack = this.store.currentTrack;
 
