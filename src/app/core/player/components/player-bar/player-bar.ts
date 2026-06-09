@@ -5,11 +5,23 @@ import { RepeatMode } from '@core/player/interfaces/player-state';
 import { AudioEngine } from '@core/player/services/audio-engine';
 import { PlayerStore } from '@core/player/services/player.store';
 import { FormatDurationPipe } from '@shared/track/pipes/format-duration-pipe';
-import { TuiAppearance, TuiButton, TuiHint, TuiIcon, TuiSlider } from '@taiga-ui/core';
+import { TuiAppearance, TuiButton, TuiHint, TuiIcon, TuiPopup, TuiSlider } from '@taiga-ui/core';
+import { TuiDrawer } from '@taiga-ui/kit';
 
 @Component({
   selector: 'app-player-bar',
-  imports: [FormsModule, FormatDurationPipe, PlayerQueue, TuiAppearance, TuiButton, TuiHint, TuiIcon, TuiSlider],
+  imports: [
+    FormsModule,
+    FormatDurationPipe,
+    PlayerQueue,
+    TuiAppearance,
+    TuiButton,
+    TuiHint,
+    TuiIcon,
+    TuiSlider,
+    TuiDrawer,
+    TuiPopup,
+  ],
   templateUrl: './player-bar.html',
   styleUrl: './player-bar.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -23,7 +35,6 @@ export class PlayerBar {
     this.queueOpen.update((value) => !value);
   }
 
-  // local signal to avoid slider fighting timeupdate while dragging
   protected readonly isDragging = signal(false);
   protected readonly dragValue = signal(0);
 

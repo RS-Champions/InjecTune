@@ -132,6 +132,13 @@
     </div>
   </div>
 }
-@if (queueOpen()) {
-  <app-player-queue (close)="queueOpen.set(false)" />
-}
+
+<tui-drawer
+  *tuiPopup="queueOpen()"
+  class="queue-drawer"
+  direction="end"
+  [overlay]="true"
+  (click.self)="queueOpen.set(false)"
+>
+  <app-player-queue (closeQueuePanel)="queueOpen.set(false)" />
+</tui-drawer>

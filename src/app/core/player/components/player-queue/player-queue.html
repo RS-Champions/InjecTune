@@ -1,13 +1,16 @@
 <div class="queue-panel__header">
   <h3>Now Playing</h3>
-
   <button
     tuiIconButton
     iconStart="@tui.x"
     appearance="ghost"
-    size="l"
+    size="s"
     type="button"
-    aria-label="Close queue panel"
+    tuiHint="Close panel"
+    tuiHintSize="s"
+    tuiHintDirection="start"
+    tuiHintAppearance="neutral"
+    aria-label="Close the queue panel"
     (click)="closeQueuePanel.emit()"
   ></button>
 </div>

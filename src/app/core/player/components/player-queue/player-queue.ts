@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, Component, inject, output } from '@angular/cor
 import { PlayerQueueItem } from '../player-queue-item/player-queue-item';
 import { PlayerStore } from '@core/player/services/player.store';
 import { AudioEngine } from '@core/player/services/audio-engine';
+import { TuiButton, TuiHint } from '@taiga-ui/core';
 
 @Component({
   selector: 'app-player-queue',
-  imports: [PlayerQueueItem],
+  imports: [PlayerQueueItem, TuiButton, TuiHint],
   templateUrl: './player-queue.html',
   styleUrl: './player-queue.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
