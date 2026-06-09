@@ -14,6 +14,12 @@ export class AudioEngine {
     this.setupListeners();
     this.audioElement.volume = this.store.volume();
 
+    // re-apply shuffle on reload if it was active in previous session
+    if (this.store.shuffle()) {
+      this.store.shuffle.set(false); // reset so setShuffle sees the false→true transition
+      this.setShuffle(true); // re-shuffles queue and saves originalQueue correctly
+    }
+
     // restore position from last session
     const savedTime = this.store.currentTime();
     if (savedTime > 0) {
@@ -176,25 +182,23 @@ export class AudioEngine {
    * @param enabled True to enable shuffle
    */
   setShuffle(enabled: boolean): void {
-    if (enabled && !this.store.shuffle()) {
-      // Enable shuffle: randomize queue but keep current track
+    const wasEnabled = this.store.shuffle();
+    this.store.shuffle.set(enabled); // write first
+
+    if (enabled && !wasEnabled) {
       const queue = this.store.queue();
       if (queue.length === 0) return;
 
       const currentIndex = this.store.queueIndex();
       const currentTrack = queue[currentIndex];
-
-      // Remove current track, shuffle rest, then put current at front
       const otherTracks = queue.filter((_, index) => index !== currentIndex);
       const shuffled = this.shuffleArray([...otherTracks]);
 
       this.store.queue.set([currentTrack, ...shuffled]);
       this.store.queueIndex.set(0);
-      this.store.originalQueue.set([...queue]); // Save for toggle-off
-    } else if (!enabled && this.store.shuffle()) {
-      // Disable shuffle: restore original queue order, keep current track
+      this.store.originalQueue.set([...queue]);
+    } else if (!enabled && wasEnabled) {
       const currentTrack = this.store.currentTrack();
-
       if (currentTrack && this.store.originalQueue().length > 0) {
         const newIndex = this.store.originalQueue().findIndex((t) => t.id === currentTrack.id);
         if (newIndex !== -1) {
@@ -203,8 +207,6 @@ export class AudioEngine {
         }
       }
     }
-
-    this.store.shuffle.set(enabled);
   }
 
   /**

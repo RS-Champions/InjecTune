@@ -150,7 +150,9 @@ export class PlayerStore {
   private setupStoragePersistence(): void {
     effect(() => {
       try {
-        localStorage.setItem(PLAYER_STORAGE_KEYS.QUEUE, JSON.stringify(this.queue()));
+        // always persist the ORIGINAL order, not the shuffled one
+        const queueToPersist = this.originalQueue().length > 0 ? this.originalQueue() : this.queue();
+        localStorage.setItem(PLAYER_STORAGE_KEYS.QUEUE, JSON.stringify(queueToPersist));
         localStorage.setItem(PLAYER_STORAGE_KEYS.QUEUE_INDEX, String(this.queueIndex()));
         localStorage.setItem(PLAYER_STORAGE_KEYS.VOLUME, String(this.volume()));
         localStorage.setItem(PLAYER_STORAGE_KEYS.SHUFFLE, String(this.shuffle()));

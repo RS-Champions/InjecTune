@@ -74,8 +74,11 @@
     gap: 0.5rem;
 
     // highlight active state for shuffle/repeat
-    button.active {
-      color: var(--tui-background-accent-1);
+    [tuiIconButton] {
+      &.active {
+        color: var(--primary);
+        filter: var(--filter-neon-shadow);
+      }
     }
   }
 
