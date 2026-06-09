@@ -18,7 +18,7 @@
           type="button"
           tuiHint="Shuffle"
           tuiHintSize="s"
-          tuiHintDirection="top"
+          tuiHintDirection="start"
           tuiHintAppearance="neutral"
           [class.active]="store.shuffle()"
           aria-label="Shuffle"
@@ -71,7 +71,7 @@
           size="s"
           type="button"
           tuiHint="Repeat"
-          tuiHintDirection="top"
+          tuiHintDirection="end"
           tuiHintAppearance="neutral"
           [class.active]="store.repeat() !== 'off'"
           aria-label="Repeat"
@@ -104,6 +104,19 @@
     </div>
 
     <div class="player-bar__right">
+      <button
+        tuiIconButton
+        iconStart="@tui.list-music"
+        appearance="ghost"
+        size="s"
+        type="button"
+        tuiHint="Play Queue"
+        tuiHintSize="s"
+        tuiHintDirection="top"
+        tuiHintAppearance="neutral"
+        aria-label="Queue"
+        (click)="toggleQueue()"
+      ></button>
       <tui-icon class="player-bar__volume-icon" [icon]="store.volume() === 0 ? '@tui.volume-x' : '@tui.volume-2'" />
       <input
         tuiSlider
@@ -118,4 +131,7 @@
       />
     </div>
   </div>
+}
+@if (queueOpen()) {
+  <app-player-queue (close)="queueOpen.set(false)" />
 }

@@ -1,0 +1,16 @@
+<button class="queue-item" [class.queue-item--active]="isActive()" type="button" (click)="selectTrack.emit()">
+  <span class="queue-item__index">
+    @if (isActive()) {
+      <tui-icon icon="@tui.volume-2" class="queue-item__playing-icon" />
+    } @else {
+      {{ track().position }}
+    }
+  </span>
+
+  <img [src]="track().image" [alt]="track().name" class="queue-item__cover" loading="lazy" />
+  <span class="queue-item__info">
+    <span class="queue-item__title">{{ track().name }}</span>
+    <span class="queue-item__artist">{{ track().artist_name }}</span>
+  </span>
+  <span class="queue-item__duration">{{ track().duration | formatDuration }}</span>
+</button>

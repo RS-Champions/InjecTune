@@ -45,6 +45,23 @@ export class AudioEngine {
   }
 
   /**
+   * Play a single track from existing queue
+   * @param index Index of track in the queue to play
+   */
+  playTrackAt(index: number): void {
+    const queue = this.store.queue();
+
+    if (index < 0 || index >= queue.length) {
+      return;
+    }
+
+    this.store.queueIndex.set(index);
+
+    this.loadCurrentTrack();
+    this.play();
+  }
+
+  /**
    * Play a queue of tracks starting at a specific index
    * @param tracks Array of tracks to play
    * @param startIndex Starting index (default: 0)

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { PlayerQueue } from '@core/player/components/player-queue/player-queue';
 import { RepeatMode } from '@core/player/interfaces/player-state';
 import { AudioEngine } from '@core/player/services/audio-engine';
 import { PlayerStore } from '@core/player/services/player.store';
@@ -8,7 +9,7 @@ import { TuiAppearance, TuiButton, TuiHint, TuiIcon, TuiSlider } from '@taiga-ui
 
 @Component({
   selector: 'app-player-bar',
-  imports: [FormsModule, FormatDurationPipe, TuiAppearance, TuiButton, TuiHint, TuiIcon, TuiSlider],
+  imports: [FormsModule, FormatDurationPipe, PlayerQueue, TuiAppearance, TuiButton, TuiHint, TuiIcon, TuiSlider],
   templateUrl: './player-bar.html',
   styleUrl: './player-bar.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -16,6 +17,11 @@ import { TuiAppearance, TuiButton, TuiHint, TuiIcon, TuiSlider } from '@taiga-ui
 export class PlayerBar {
   protected readonly store = inject(PlayerStore);
   protected readonly audio = inject(AudioEngine);
+
+  protected readonly queueOpen = signal(false);
+  protected toggleQueue(): void {
+    this.queueOpen.update((value) => !value);
+  }
 
   // local signal to avoid slider fighting timeupdate while dragging
   protected readonly isDragging = signal(false);
