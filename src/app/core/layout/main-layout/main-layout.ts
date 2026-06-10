@@ -23,9 +23,9 @@ export class MainLayoutComponent {
   protected readonly sidebarOpen = signal(false);
 
   protected readonly navigationItems: NavItem[] = [
-    { label: 'About', route: ROUTE_PATHS.ABOUT, icon: '🎭' },
-    { label: 'Discover', route: ROUTE_PATHS.DISCOVER, icon: '🎵' },
-    { label: 'Search', route: ROUTE_PATHS.SEARCH, icon: '🔍' },
+    { label: 'Discover', route: ROUTE_PATHS.DISCOVER, icon: '@tui.music-4' },
+    { label: 'Search', route: ROUTE_PATHS.SEARCH, icon: '@tui.search' },
+    { label: 'About', route: ROUTE_PATHS.ABOUT, icon: '@tui.info' },
   ];
 
   constructor() {
