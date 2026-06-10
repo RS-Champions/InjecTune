@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
-import { MainLayoutComponent } from './core/layout/main-layout/main-layout';
-import { EmptyLayoutComponent } from './core/layout/empty-layout/empty-layout';
+import { MainLayoutComponent } from '@core/layout/main-layout/main-layout';
+import { EmptyLayoutComponent } from '@core/layout/empty-layout/empty-layout';
+import { aboutLeaveGuard } from '@features/about/guards/about-leave-guard';
 
 export const ROUTE_PATHS = {
   ABOUT: 'about',
@@ -22,6 +23,7 @@ export const routes: Routes = [
     children: [
       {
         path: '',
+        canDeactivate: [aboutLeaveGuard],
         loadComponent: () => import('@features/about/pages/about-page/about-page').then((module) => module.AboutPage),
       },
     ],
