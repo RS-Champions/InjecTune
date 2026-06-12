@@ -14,8 +14,8 @@ import { TuiButton, TuiHint } from '@taiga-ui/core';
 export class PlayerQueue {
   protected readonly playerStore = inject(PlayerStore);
   protected readonly audio = inject(AudioEngine);
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-arguments
-  readonly closeQueuePanel = output<void>(); // eslint-disable-line @typescript-eslint/no-invalid-void-type
+
+  readonly closeQueuePanel = output();
 
   protected selectTrack(index: number): void {
     this.audio.playTrackAt(index);

@@ -31,9 +31,6 @@ export class PlayerBar {
   protected readonly audio = inject(AudioEngine);
 
   protected readonly queueOpen = signal(false);
-  protected toggleQueue(): void {
-    this.queueOpen.update((value) => !value);
-  }
 
   protected readonly isDragging = signal(false);
   protected readonly dragValue = signal(0);
@@ -57,6 +54,10 @@ export class PlayerBar {
   protected onVolumeChange(event: Event): void {
     const value = Number((event.target as HTMLInputElement).value);
     this.audio.setVolume(value / 100);
+  }
+
+  protected toggleQueue(): void {
+    this.queueOpen.update((value) => !value);
   }
 
   protected togglePlay(): void {

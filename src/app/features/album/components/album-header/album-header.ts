@@ -14,9 +14,9 @@ import { TuiButton, TuiHint, TuiIcon } from '@taiga-ui/core';
 })
 export class AlbumHeader {
   readonly album = input.required<Album>();
-  readonly playAll = output();
-
   readonly isPlayingAll = input(false);
+
+  readonly playAll = output();
 
   onPlayAll(): void {
     this.playAll.emit();

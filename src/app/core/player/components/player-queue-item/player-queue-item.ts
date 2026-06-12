@@ -14,6 +14,6 @@ export class PlayerQueueItem {
   readonly track = input.required<BaseTrack>();
   readonly index = input.required<number>();
   readonly isActive = input(false);
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-arguments
-  readonly selectTrack = output<void>(); // eslint-disable-line @typescript-eslint/no-invalid-void-type
+
+  readonly selectTrack = output();
 }
