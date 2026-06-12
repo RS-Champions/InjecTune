@@ -44,7 +44,7 @@ export class ArtistPage {
   });
 
   protected readonly albumsResource = httpResource<JamendoResponse<Artist>>(() => ({
-    url: this.artistApi.albumsUrl,
+    url: this.artistApi.artistsAlbumsUrl,
     params: this.artistApi.albumsParams(this.artistId()),
   }));
 

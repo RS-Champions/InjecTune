@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { forkJoin, map, Observable, of } from 'rxjs';
-import { environment } from '@environments/environment';
+import { JamendoApiBase } from '@core/jamendo/jamendo-api-base';
 import { ArtistAlbum } from '@features/artist/interfaces/artist.model';
 import { JamendoResponse } from '@shared/interfaces/jamendo-response';
 
@@ -10,31 +10,23 @@ import { JamendoResponse } from '@shared/interfaces/jamendo-response';
 })
 export class ArtistApi {
   private readonly http = inject(HttpClient);
-
-  readonly albumsUrl = `${environment.jamendo.apiUrl}/artists/albums`;
-  readonly albumsTracksUrl = `${environment.jamendo.apiUrl}/albums/tracks`;
-  readonly tracksUrl = `${environment.jamendo.apiUrl}/tracks`;
-  readonly clientId = environment.jamendo.clientId;
+  private readonly jamendoApi = inject(JamendoApiBase);
+  readonly artistsAlbumsUrl = this.jamendoApi.artistsAlbumsUrl;
+  readonly albumsTracksUrl = this.jamendoApi.albumsTracksUrl;
+  readonly tracksUrl = this.jamendoApi.tracksUrl;
 
   albumsParams(artistId: string) {
-    return {
-      client_id: this.clientId,
-      id: artistId,
-      limit: 'all',
-      imagesize: 300,
-      format: 'json',
-    };
+    return { ...this.jamendoApi.baseParams(), id: artistId, limit: 'all', imagesize: 300 };
   }
 
   tracksParams(artistId: string) {
     return {
-      client_id: this.clientId,
+      ...this.jamendoApi.baseParams(),
       artist_id: artistId,
       limit: '3',
       order: 'popularity_total',
       include: 'stats',
       imagesize: 300,
-      format: 'json',
     };
   }
 
@@ -51,12 +43,7 @@ export class ArtistApi {
 
     const requests = batches.map((batch) =>
       this.http.get<JamendoResponse<ArtistAlbum>>(this.albumsTracksUrl, {
-        params: {
-          client_id: this.clientId,
-          id: batch.join('+'),
-          limit: 'all',
-          format: 'json',
-        },
+        params: { ...this.jamendoApi.baseParams(), id: batch.join('+'), limit: 'all' },
       }),
     );
 
