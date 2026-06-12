@@ -1,4 +1,4 @@
-@if (store.currentTrack(); as track) {
+@if (playerStore.currentTrack(); as track) {
   <div class="player-bar">
     <div class="player-bar__track">
       <img class="player-bar__cover" [src]="track.image" [alt]="track.name" />
@@ -16,11 +16,11 @@
           appearance="ghost"
           size="s"
           type="button"
-          tuiHint="{{ store.shuffle() ? 'Restore' : 'Shuffle' }}"
+          tuiHint="{{ playerStore.shuffle() ? 'Restore' : 'Shuffle' }}"
           tuiHintSize="s"
           tuiHintDirection="start"
           tuiHintAppearance="neutral"
-          [class.active]="store.shuffle()"
+          [class.active]="playerStore.shuffle()"
           aria-label="Shuffle"
           (click)="toggleShuffle()"
         ></button>
@@ -34,18 +34,18 @@
           tuiHint="Previous"
           tuiHintDirection="top"
           tuiHintAppearance="neutral"
-          [disabled]="!store.hasPrevious()"
+          [disabled]="!playerStore.hasPrevious()"
           aria-label="Previous"
           (click)="audio.previous()"
         ></button>
 
         <button
           tuiIconButton
-          [iconStart]="store.isPlaying() ? '@tui.pause' : '@tui.play'"
+          [iconStart]="playerStore.isPlaying() ? '@tui.pause' : '@tui.play'"
           appearance="primary"
           size="m"
           type="button"
-          [class.loading]="store.isLoading()"
+          [class.loading]="playerStore.isLoading()"
           aria-label="Play or Pause"
           (click)="togglePlay()"
         ></button>
@@ -59,7 +59,7 @@
           tuiHint="Next"
           tuiHintDirection="top"
           tuiHintAppearance="neutral"
-          [disabled]="!store.hasNext()"
+          [disabled]="!playerStore.hasNext()"
           aria-label="Next"
           (click)="audio.next()"
         ></button>
@@ -73,7 +73,7 @@
           tuiHint="Repeat"
           tuiHintDirection="end"
           tuiHintAppearance="neutral"
-          [class.active]="store.repeat() !== 'off'"
+          [class.active]="playerStore.repeat() !== 'off'"
           aria-label="Repeat"
           (click)="toggleRepeat()"
         ></button>
@@ -81,7 +81,7 @@
 
       <div class="player-bar__progress">
         <span class="player-bar__time">
-          {{ store.currentTime() | formatDuration }}
+          {{ playerStore.currentTime() | formatDuration }}
         </span>
 
         <input
@@ -89,7 +89,7 @@
           class="player-bar__slider"
           type="range"
           min="0"
-          [max]="store.duration()"
+          [max]="playerStore.duration()"
           step="1"
           [value]="progressValue"
           (input)="onProgressInput($event)"
@@ -98,7 +98,7 @@
         />
 
         <span class="player-bar__time">
-          {{ store.duration() | formatDuration }}
+          {{ playerStore.duration() | formatDuration }}
         </span>
       </div>
     </div>
@@ -117,7 +117,7 @@
         aria-label="Queue"
         (click)="toggleQueue()"
       ></button>
-      <tui-icon class="player-bar__volume-icon" [icon]="store.volume() === 0 ? '@tui.volume-x' : '@tui.volume-2'" />
+      <tui-icon class="player-bar__volume-icon" [icon]="playerStore.volume() === 0 ? '@tui.volume-x' : '@tui.volume-2'" />
       <input
         tuiSlider
         class="player-bar__volume-slider"

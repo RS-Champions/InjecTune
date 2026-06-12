@@ -12,7 +12,7 @@ import { TuiButton, TuiHint } from '@taiga-ui/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlayerQueue {
-  protected readonly store = inject(PlayerStore);
+  protected readonly playerStore = inject(PlayerStore);
   protected readonly audio = inject(AudioEngine);
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-arguments
   readonly closeQueuePanel = output<void>(); // eslint-disable-line @typescript-eslint/no-invalid-void-type

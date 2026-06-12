@@ -6,22 +6,22 @@ import { BaseTrack } from '@shared/track/interfaces/base-track';
   providedIn: 'root',
 })
 export class AudioEngine {
-  private readonly store = inject(PlayerStore);
+  private readonly playerStore = inject(PlayerStore);
   private readonly audioElement: HTMLAudioElement = new Audio();
 
   constructor() {
     this.audioElement.crossOrigin = null;
     this.setupListeners();
-    this.audioElement.volume = this.store.volume();
+    this.audioElement.volume = this.playerStore.volume();
 
     // re-apply shuffle on reload if it was active in previous session
-    if (this.store.shuffle()) {
-      this.store.shuffle.set(false); // reset so setShuffle sees the false→true transition
-      this.setShuffle(true); // re-shuffles queue and saves originalQueue correctly
+    if (this.playerStore.shuffle()) {
+      this.playerStore.shuffle.set(false);
+      this.setShuffle(true);
     }
 
     // restore position from last session
-    const savedTime = this.store.currentTime();
+    const savedTime = this.playerStore.currentTime();
     if (savedTime > 0) {
       // set after src loads — can't seek before loadedmetadata
       this.audioElement.addEventListener(
@@ -55,13 +55,13 @@ export class AudioEngine {
    * @param index Index of track in the queue to play
    */
   playTrackAt(index: number): void {
-    const queue = this.store.queue();
+    const queue = this.playerStore.queue();
 
     if (index < 0 || index >= queue.length) {
       return;
     }
 
-    this.store.queueIndex.set(index);
+    this.playerStore.queueIndex.set(index);
 
     this.loadCurrentTrack();
     this.play();
@@ -78,11 +78,11 @@ export class AudioEngine {
       return;
     }
 
-    this.store.queue.set([...queue]);
-    this.store.originalQueue.set([...queue]);
+    this.playerStore.queue.set([...queue]);
+    this.playerStore.originalQueue.set([...queue]);
 
     const validIndex = Math.max(0, Math.min(startIndex, queue.length - 1));
-    this.store.queueIndex.set(validIndex);
+    this.playerStore.queueIndex.set(validIndex);
 
     this.loadCurrentTrack();
     this.play();
@@ -92,10 +92,10 @@ export class AudioEngine {
    * Play next track in queue
    */
   next(): void {
-    if (!this.store.hasNext()) {
+    if (!this.playerStore.hasNext()) {
       // No next track
-      if (this.store.repeat() === 'all') {
-        this.store.queueIndex.set(0);
+      if (this.playerStore.repeat() === 'all') {
+        this.playerStore.queueIndex.set(0);
         this.loadCurrentTrack();
         this.play();
       } else {
@@ -104,7 +104,7 @@ export class AudioEngine {
       return;
     }
 
-    this.store.queueIndex.update((index) => index + 1);
+    this.playerStore.queueIndex.update((index) => index + 1);
     this.loadCurrentTrack();
     this.play();
   }
@@ -113,13 +113,13 @@ export class AudioEngine {
    * Play previous track in queue
    */
   previous(): void {
-    if (!this.store.hasPrevious()) {
+    if (!this.playerStore.hasPrevious()) {
       // No previous track, restart current
       this.seek(0);
       return;
     }
 
-    this.store.queueIndex.update((index) => index - 1);
+    this.playerStore.queueIndex.update((index) => index - 1);
     this.loadCurrentTrack();
     this.play();
   }
@@ -158,11 +158,11 @@ export class AudioEngine {
    */
   seek(seconds: number): void {
     const audio = this.audioElement;
-    const duration = this.store.duration();
+    const duration = this.playerStore.duration();
     const validTime = Math.max(0, Math.min(seconds, duration));
 
     audio.currentTime = validTime;
-    this.store.currentTime.set(validTime);
+    this.playerStore.currentTime.set(validTime);
   }
 
   /**
@@ -174,7 +174,7 @@ export class AudioEngine {
     const audio = this.audioElement;
 
     audio.volume = validVolume;
-    this.store.volume.set(validVolume);
+    this.playerStore.volume.set(validVolume);
   }
 
   /**
@@ -182,28 +182,28 @@ export class AudioEngine {
    * @param enabled True to enable shuffle
    */
   setShuffle(enabled: boolean): void {
-    const wasEnabled = this.store.shuffle();
-    this.store.shuffle.set(enabled); // write first
+    const wasEnabled = this.playerStore.shuffle();
+    this.playerStore.shuffle.set(enabled);
 
     if (enabled && !wasEnabled) {
-      const queue = this.store.queue();
+      const queue = this.playerStore.queue();
       if (queue.length === 0) return;
 
-      const currentIndex = this.store.queueIndex();
+      const currentIndex = this.playerStore.queueIndex();
       const currentTrack = queue[currentIndex];
       const otherTracks = queue.filter((_, index) => index !== currentIndex);
       const shuffled = this.shuffleArray([...otherTracks]);
 
-      this.store.queue.set([currentTrack, ...shuffled]);
-      this.store.queueIndex.set(0);
-      this.store.originalQueue.set([...queue]);
+      this.playerStore.queue.set([currentTrack, ...shuffled]);
+      this.playerStore.queueIndex.set(0);
+      this.playerStore.originalQueue.set([...queue]);
     } else if (!enabled && wasEnabled) {
-      const currentTrack = this.store.currentTrack();
-      if (currentTrack && this.store.originalQueue().length > 0) {
-        const newIndex = this.store.originalQueue().findIndex((t) => t.id === currentTrack.id);
+      const currentTrack = this.playerStore.currentTrack();
+      if (currentTrack && this.playerStore.originalQueue().length > 0) {
+        const newIndex = this.playerStore.originalQueue().findIndex((t) => t.id === currentTrack.id);
         if (newIndex !== -1) {
-          this.store.queue.set([...this.store.originalQueue()]);
-          this.store.queueIndex.set(newIndex);
+          this.playerStore.queue.set([...this.playerStore.originalQueue()]);
+          this.playerStore.queueIndex.set(newIndex);
         }
       }
     }
@@ -218,7 +218,7 @@ export class AudioEngine {
       console.warn(`[AudioService] Invalid repeat mode: ${mode}`);
       return;
     }
-    this.store.repeat.set(mode);
+    this.playerStore.repeat.set(mode);
   }
 
   // ============================================================================
@@ -232,14 +232,14 @@ export class AudioEngine {
     // Track time update
     this.audioElement.addEventListener('timeupdate', () => {
       if (!Number.isNaN(this.audioElement.currentTime)) {
-        this.store.currentTime.set(this.audioElement.currentTime);
+        this.playerStore.currentTime.set(this.audioElement.currentTime);
       }
     });
 
     // Track duration change
     this.audioElement.addEventListener('durationchange', () => {
       if (!Number.isNaN(this.audioElement.duration)) {
-        this.store.duration.set(this.audioElement.duration);
+        this.playerStore.duration.set(this.audioElement.duration);
       }
     });
 
@@ -250,21 +250,20 @@ export class AudioEngine {
 
     // Loading states
     this.audioElement.addEventListener('loadstart', () => {
-      this.store.isLoading.set(true);
+      this.playerStore.isLoading.set(true);
     });
     this.audioElement.addEventListener('canplay', () => {
-      this.store.isLoading.set(false);
+      this.playerStore.isLoading.set(false);
     });
     this.audioElement.addEventListener('playing', () => {
-      this.store.isPlaying.set(true);
+      this.playerStore.isPlaying.set(true);
     });
     this.audioElement.addEventListener('pause', () => {
-      this.store.isPlaying.set(false);
+      this.playerStore.isPlaying.set(false);
     });
 
-    // Error handling
     this.audioElement.addEventListener('error', () => {
-      this.store.isLoading.set(false);
+      this.playerStore.isLoading.set(false);
       console.error('[PlayerStore] Audio element error:', this.audioElement.error);
     });
   }
@@ -285,19 +284,18 @@ export class AudioEngine {
     }
 
     audio.src = track.audio;
-    audio.volume = this.store.volume();
+    audio.volume = this.playerStore.volume();
 
-    // Reset time on new track
-    this.store.currentTime.set(0);
-    this.store.duration.set(0);
+    this.playerStore.currentTime.set(0);
+    this.playerStore.duration.set(0);
   }
 
   /**
    * Load and play current track from queue
    */
   private loadCurrentTrack(): void {
-    const queue = this.store.queue();
-    const index = this.store.queueIndex();
+    const queue = this.playerStore.queue();
+    const index = this.playerStore.queueIndex();
 
     if (queue.length === 0 || index < 0 || index >= queue.length) {
       console.warn('[AudioService] Invalid queue index:', index);
@@ -323,17 +321,14 @@ export class AudioEngine {
    * Handle track end event
    */
   private handleTrackEnd(): void {
-    const repeatMode = this.store.repeat();
+    const repeatMode = this.playerStore.repeat();
 
     if (repeatMode === 'one') {
-      // Replay current track
       this.seek(0);
       this.play();
-    } else if (repeatMode === 'all' || this.store.hasNext()) {
-      // Go to next or loop queue
+    } else if (repeatMode === 'all' || this.playerStore.hasNext()) {
       this.next();
     } else {
-      // Stop playback
       this.stop();
     }
   }

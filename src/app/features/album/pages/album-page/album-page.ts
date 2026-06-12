@@ -27,11 +27,11 @@ export class AlbumPage {
   private readonly route = inject(ActivatedRoute);
 
   protected readonly audio = inject(AudioEngine);
-  protected readonly store = inject(PlayerStore);
+  protected readonly playerStore = inject(PlayerStore);
 
   protected readonly pageName = PageName.ALBUM;
 
-  protected readonly currentTrack = this.store.currentTrack;
+  protected readonly currentTrack = this.playerStore.currentTrack;
 
   private readonly albumId = toSignal(this.route.params.pipe(map((p) => p['id'] as string)), {
     initialValue: this.route.snapshot.params['id'] as string,

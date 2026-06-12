@@ -2,7 +2,7 @@
   @case ('local')
   @case ('resolved') {
     @if (album(); as alb) {
-      <app-album-header [album]="alb" [isPlayingAll]="store.isPlaying()" (playAll)="onPlayAll()" />
+      <app-album-header [album]="alb" [isPlayingAll]="playerStore.isPlaying()" (playAll)="onPlayAll()" />
 
       <div class="content">
         <div class="track-list-header">
@@ -16,7 +16,7 @@
         @for (item of alb.tracks; track item.id) {
           <app-album-track-card
             [track]="item"
-            [isPlaying]="store.isPlaying() && currentTrack()?.id === item.id"
+            [isPlaying]="playerStore.isPlaying() && currentTrack()?.id === item.id"
             (playTrack)="onPlay($event)"
             (pauseTrack)="audio.pause()"
           />

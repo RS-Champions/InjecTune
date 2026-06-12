@@ -27,7 +27,7 @@ import { TuiDrawer } from '@taiga-ui/kit';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlayerBar {
-  protected readonly store = inject(PlayerStore);
+  protected readonly playerStore = inject(PlayerStore);
   protected readonly audio = inject(AudioEngine);
 
   protected readonly queueOpen = signal(false);
@@ -39,7 +39,7 @@ export class PlayerBar {
   protected readonly dragValue = signal(0);
 
   protected get progressValue(): number {
-    return this.isDragging() ? this.dragValue() : this.store.currentTime();
+    return this.isDragging() ? this.dragValue() : this.playerStore.currentTime();
   }
 
   protected onProgressInput(event: Event): void {
@@ -60,7 +60,7 @@ export class PlayerBar {
   }
 
   protected togglePlay(): void {
-    if (this.store.isPlaying()) {
+    if (this.playerStore.isPlaying()) {
       this.audio.pause();
     } else {
       this.audio.resume();
@@ -68,21 +68,21 @@ export class PlayerBar {
   }
 
   protected toggleShuffle(): void {
-    this.audio.setShuffle(!this.store.shuffle());
+    this.audio.setShuffle(!this.playerStore.shuffle());
   }
 
   protected toggleRepeat(): void {
     const modes: RepeatMode[] = ['off', 'all', 'one'];
-    const current = this.store.repeat();
+    const current = this.playerStore.repeat();
     const next = modes[(modes.indexOf(current) + 1) % modes.length];
     this.audio.setRepeatMode(next);
   }
 
   protected get repeatIcon(): string {
-    return this.store.repeat() === 'one' ? '@tui.repeat-1' : '@tui.repeat';
+    return this.playerStore.repeat() === 'one' ? '@tui.repeat-1' : '@tui.repeat';
   }
 
   protected get volumePercent(): number {
-    return Math.round(this.store.volume() * 100);
+    return Math.round(this.playerStore.volume() * 100);
   }
 }

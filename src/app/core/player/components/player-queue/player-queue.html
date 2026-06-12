@@ -17,11 +17,11 @@
 
 <div class="queue-panel__content">
   <div class="queue__list">
-    @for (item of store.queue(); track item.id; let index = $index) {
+    @for (item of playerStore.queue(); track item.id; let index = $index) {
       <app-player-queue-item
         [track]="item"
         [index]="item.position || 0"
-        [isActive]="index === store.queueIndex()"
+        [isActive]="index === playerStore.queueIndex()"
         (selectTrack)="selectTrack(index)"
       />
     }
