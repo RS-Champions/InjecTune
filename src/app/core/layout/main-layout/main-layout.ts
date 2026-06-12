@@ -6,7 +6,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SidebarComponent } from '@shared/components/sidebar/sidebar';
 import { HamburgerComponent } from '@shared/components/hamburger/hamburger';
 import { NavItem } from '@shared/components/sidebar/sidebar';
-import { ROUTE_PATHS } from '../../../app.routes';
+import { PageName } from '@shared/constants/page-name';
 
 @Component({
   selector: 'app-main-layout',
@@ -23,9 +23,9 @@ export class MainLayoutComponent {
   protected readonly sidebarOpen = signal(false);
 
   protected readonly navigationItems: NavItem[] = [
-    { label: 'Discover', route: ROUTE_PATHS.DISCOVER, icon: '@tui.music-4' },
-    { label: 'Search', route: ROUTE_PATHS.SEARCH, icon: '@tui.search' },
-    { label: 'About', route: ROUTE_PATHS.ABOUT, icon: '@tui.info' },
+    { label: 'Discover', route: PageName.DISCOVER, icon: '@tui.music-4' },
+    { label: 'Search', route: PageName.SEARCH, icon: '@tui.search' },
+    { label: 'About', route: PageName.ABOUT, icon: '@tui.info' },
   ];
 
   constructor() {

@@ -10,7 +10,8 @@ import { AlbumHeader } from '@features/album/components/album-header/album-heade
 import { AlbumTrackCard } from '@features/album/components/album-track-card/album-track-card';
 import { Album, AlbumTrack } from '@features/album/interfaces/album.model';
 import { AlbumApi } from '@features/album/services/album-api';
-import { LoadingSkeleton, PageName } from '@shared/components/loading-skeleton/loading-skeleton';
+import { LoadingSkeleton } from '@shared/components/loading-skeleton/loading-skeleton';
+import { PageName } from '@shared/constants/page-name';
 import { JamendoResponse } from '@shared/interfaces/jamendo-response';
 import { TuiIcon } from '@taiga-ui/core';
 

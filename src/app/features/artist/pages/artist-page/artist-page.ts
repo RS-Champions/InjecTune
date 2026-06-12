@@ -10,7 +10,8 @@ import { ArtistHeader } from '@features/artist/components/artist-header/artist-h
 import { ArtistTrackCard } from '@features/artist/components/artist-track-card/artist-track-card';
 import { Artist, ArtistAlbum, ArtistTrack } from '@features/artist/interfaces/artist.model';
 import { ArtistApi } from '@features/artist/services/artist-api';
-import { LoadingSkeleton, PageName } from '@shared/components/loading-skeleton/loading-skeleton';
+import { LoadingSkeleton } from '@shared/components/loading-skeleton/loading-skeleton';
+import { PageName } from '@shared/constants/page-name';
 import { JamendoResponse } from '@shared/interfaces/jamendo-response';
 
 @Component({
@@ -92,6 +93,6 @@ export class ArtistPage {
   }
 
   protected navigateToAlbum(albumId: string): void {
-    void this.router.navigate(['album', albumId]);
+    void this.router.navigate([PageName.ALBUM, albumId]);
   }
 }
