@@ -1,31 +1,11 @@
 import { Injectable, computed, effect, signal } from '@angular/core';
-import { PLAYER_STORAGE_KEYS, RepeatMode } from '@core/player';
+import { RepeatMode } from '@core/player';
+import { PlayerStorageKeys } from '@shared/constants/player-storage-keys';
 import { BaseTrack } from '@shared/track/interfaces/base-track';
 import { isRepeatMode } from '@shared/utils';
 
 /**
  * Global Player Store Service
- *
- * Manages audio playback, queue state, and player UI state using Angular Signals.
- * Provides a single HTMLAudioElement instance for the entire application.
- * Persists queue and playback state to localStorage.
- *
- * Singleton service - survives route navigation.
- *
- * @example
- * ```typescript
- * constructor() {
- *   private playerStore = inject(PlayerStore);
- *
- *   playTrack(track: BaseTrack) {
- *     this.playerStore.playTrack(track);
- *   }
- *
- *   next() {
- *     this.playerStore.next();
- *   }
- * }
- * ```
  */
 @Injectable({
   providedIn: 'root',
@@ -35,31 +15,14 @@ export class PlayerStore {
   // State Signals
   // ============================================================================
 
-  /** Queue of tracks to be played */
   readonly queue = signal<BaseTrack[]>([]);
-
-  /** Current index in the queue */
   readonly queueIndex = signal<number>(0);
-
-  /** Playback is active */
   readonly isPlaying = signal<boolean>(false);
-
-  /** Current playback position in seconds */
   readonly currentTime = signal<number>(0);
-
-  /** Total duration of current track in seconds */
   readonly duration = signal<number>(0);
-
-  /** Volume level (0-1) */
   readonly volume = signal<number>(0.5);
-
-  /** Repeat mode */
   readonly repeat = signal<RepeatMode>('off');
-
-  /** Shuffle mode enabled */
   readonly shuffle = signal<boolean>(false);
-
-  /** Track is buffering/loading */
   readonly isLoading = signal<boolean>(false);
 
   // ============================================================================
@@ -104,12 +67,12 @@ export class PlayerStore {
    */
   private initializeState(): void {
     try {
-      const storedQueue = localStorage.getItem(PLAYER_STORAGE_KEYS.QUEUE);
-      const storedIndex = localStorage.getItem(PLAYER_STORAGE_KEYS.QUEUE_INDEX);
-      const storedTime = localStorage.getItem(PLAYER_STORAGE_KEYS.CURRENT_TIME);
-      const storedVolume = localStorage.getItem(PLAYER_STORAGE_KEYS.VOLUME);
-      const storedShuffle = localStorage.getItem(PLAYER_STORAGE_KEYS.SHUFFLE);
-      const storedRepeat = localStorage.getItem(PLAYER_STORAGE_KEYS.REPEAT);
+      const storedQueue = localStorage.getItem(PlayerStorageKeys.QUEUE);
+      const storedIndex = localStorage.getItem(PlayerStorageKeys.QUEUE_INDEX);
+      const storedTime = localStorage.getItem(PlayerStorageKeys.CURRENT_TIME);
+      const storedVolume = localStorage.getItem(PlayerStorageKeys.VOLUME);
+      const storedShuffle = localStorage.getItem(PlayerStorageKeys.SHUFFLE);
+      const storedRepeat = localStorage.getItem(PlayerStorageKeys.REPEAT);
 
       if (storedQueue) {
         const queue = JSON.parse(storedQueue) as BaseTrack[];
@@ -152,19 +115,19 @@ export class PlayerStore {
       try {
         // always persist the ORIGINAL order, not the shuffled one
         const queueToPersist = this.originalQueue().length > 0 ? this.originalQueue() : this.queue();
-        localStorage.setItem(PLAYER_STORAGE_KEYS.QUEUE, JSON.stringify(queueToPersist));
-        localStorage.setItem(PLAYER_STORAGE_KEYS.QUEUE_INDEX, String(this.queueIndex()));
-        localStorage.setItem(PLAYER_STORAGE_KEYS.VOLUME, String(this.volume()));
-        localStorage.setItem(PLAYER_STORAGE_KEYS.SHUFFLE, String(this.shuffle()));
-        localStorage.setItem(PLAYER_STORAGE_KEYS.REPEAT, this.repeat());
+        localStorage.setItem(PlayerStorageKeys.QUEUE, JSON.stringify(queueToPersist));
+        localStorage.setItem(PlayerStorageKeys.QUEUE_INDEX, String(this.queueIndex()));
+        localStorage.setItem(PlayerStorageKeys.VOLUME, String(this.volume()));
+        localStorage.setItem(PlayerStorageKeys.SHUFFLE, String(this.shuffle()));
+        localStorage.setItem(PlayerStorageKeys.REPEAT, this.repeat());
       } catch (error) {
         console.error('[PlayerStore] Error persisting to localStorage:', error);
       }
     });
   }
 
-  /*
-   * Set valid value of number type
+  /**
+   * Set a valid value of number type
    */
   private parseStoredNumber(stored: string | null, min: number, max = Infinity, isFloat = true): number | null {
     if (!stored) return null;

@@ -14,11 +14,6 @@ export type RepeatMode = 'off' | 'all' | 'one';
 export type PlaybackState = 'playing' | 'paused' | 'stopped';
 
 /**
- * Extended track type for the player
- * Uses BaseTrack as the foundation for all player tracks
- */
-
-/**
  * Player configuration and state snapshot
  */
 export interface PlayerStateSnapshot {
@@ -33,15 +28,3 @@ export interface PlayerStateSnapshot {
   repeat: RepeatMode;
   isLoading: boolean;
 }
-
-/**
- * localStorage keys for player state persistence
- */
-export const PLAYER_STORAGE_KEYS = {
-  QUEUE: 'player:queue',
-  CURRENT_TIME: 'player:currentTime',
-  QUEUE_INDEX: 'player:queueIndex',
-  VOLUME: 'player:volume',
-  SHUFFLE: 'player:shuffle',
-  REPEAT: 'player:repeat',
-} as const;
