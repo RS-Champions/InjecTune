@@ -12,7 +12,6 @@ import { TuiIcon } from '@taiga-ui/core';
 })
 export class PlayerQueueItem {
   readonly track = input.required<BaseTrack>();
-  readonly index = input.required<number>();
   readonly isActive = input(false);
 
   readonly selectTrack = output();
