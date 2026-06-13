@@ -75,12 +75,18 @@ export class AudioEngine {
    */
   playQueue(queue: BaseTrack[], startIndex = 0): void {
     if (queue.length === 0) {
-      console.warn('[AudioService] Attempt to play empty queue');
+      console.warn('[AudioEngine] Attempt to play empty queue');
       return;
     }
 
     this.playerStore.queue.set([...queue]);
     this.playerStore.originalQueue.set([...queue]);
+
+    // re-apply shuffle if it was active in previous session
+    if (this.playerStore.shuffle()) {
+      this.playerStore.shuffle.set(false);
+      this.setShuffle(true);
+    }
 
     const validIndex = Math.max(0, Math.min(startIndex, queue.length - 1));
     this.playerStore.queueIndex.set(validIndex);
@@ -140,7 +146,7 @@ export class AudioEngine {
     const audio = this.audioElement;
     if (audio.src) {
       audio.play().catch((error: unknown) => {
-        console.error('[AudioService] Error resuming playback:', error);
+        console.error('[AudioEngine] Error resuming playback:', error);
       });
     }
   }
@@ -216,7 +222,7 @@ export class AudioEngine {
    */
   setRepeatMode(mode: string): void {
     if (!isRepeatMode(mode)) {
-      console.warn(`[AudioService] Invalid repeat mode: ${mode}`);
+      console.warn(`[AudioEngine] Invalid repeat mode: ${mode}`);
       return;
     }
     this.playerStore.repeat.set(mode);
@@ -280,7 +286,7 @@ export class AudioEngine {
     const audio = this.audioElement;
 
     if (!track.audio) {
-      console.error('[AudioService] Track has no audio URL:', track);
+      console.error('[AudioEngine] Track has no audio URL:', track);
       return;
     }
 
@@ -299,7 +305,7 @@ export class AudioEngine {
     const index = this.playerStore.queueIndex();
 
     if (queue.length === 0 || index < 0 || index >= queue.length) {
-      console.warn('[AudioService] Invalid queue index:', index);
+      console.warn('[AudioEngine] Invalid queue index:', index);
       return;
     }
 
@@ -313,7 +319,7 @@ export class AudioEngine {
     const audio = this.audioElement;
     if (audio.src) {
       audio.play().catch((error: unknown) => {
-        console.error('[AudioService] Error playing track:', error);
+        console.error('[AudioEngine] Error playing track:', error);
       });
     }
   }

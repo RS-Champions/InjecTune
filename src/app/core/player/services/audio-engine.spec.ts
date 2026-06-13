@@ -118,7 +118,7 @@ describe('AudioEngine', () => {
       const warn = vi.spyOn(console, 'warn').mockImplementation(vi.fn());
       engine.playQueue([]);
 
-      expect(warn).toHaveBeenCalledWith('[AudioService] Attempt to play empty queue');
+      expect(warn).toHaveBeenCalledWith('[AudioEngine] Attempt to play empty queue');
       expect(mockAudioInstance.play).not.toHaveBeenCalled();
     });
 
