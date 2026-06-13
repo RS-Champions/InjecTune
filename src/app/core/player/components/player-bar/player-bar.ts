@@ -8,6 +8,8 @@ import { FormatDurationPipe } from '@shared/track/pipes/format-duration-pipe';
 import { TuiAppearance, TuiButton, TuiHint, TuiIcon, TuiPopup, TuiSlider } from '@taiga-ui/core';
 import { TuiDrawer } from '@taiga-ui/kit';
 
+type DragState = { isDragging: false } | { isDragging: true; value: number };
+
 @Component({
   selector: 'app-player-bar',
   imports: [
@@ -32,24 +34,23 @@ export class PlayerBar {
 
   protected readonly queueOpen = signal(false);
 
-  protected readonly isDragging = signal(false);
-  protected readonly dragValue = signal(0);
+  protected readonly drag = signal<DragState>({ isDragging: false });
 
   protected get progressValue(): number {
-    return this.isDragging() ? this.dragValue() : this.playerStore.currentTime();
+    const drag = this.drag();
+    return drag.isDragging ? drag.value : this.playerStore.currentTime();
   }
 
-  protected onProgressInput(progressValue: number): void {
-    if (Number.isFinite(progressValue)) {
-      this.isDragging.set(true);
-      this.dragValue.set(progressValue);
+  protected onProgressInput(value: number): void {
+    if (Number.isFinite(value)) {
+      this.drag.set({ isDragging: true, value });
     }
   }
 
-  protected onProgressChange(progressValue: number): void {
-    if (Number.isFinite(progressValue)) {
-      this.audio.seek(progressValue);
-      this.isDragging.set(false);
+  protected onProgressChange(value: number): void {
+    if (Number.isFinite(value)) {
+      this.audio.seek(value);
+      this.drag.set({ isDragging: false });
     }
   }
 
