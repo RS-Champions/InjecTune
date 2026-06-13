@@ -39,21 +39,24 @@ export class PlayerBar {
     return this.isDragging() ? this.dragValue() : this.playerStore.currentTime();
   }
 
-  protected onProgressInput(event: Event): void {
-    const value = Number((event.target as HTMLInputElement).value);
-    this.isDragging.set(true);
-    this.dragValue.set(value);
+  protected onProgressInput(progressValue: number): void {
+    if (Number.isFinite(progressValue)) {
+      this.isDragging.set(true);
+      this.dragValue.set(progressValue);
+    }
   }
 
-  protected onProgressChange(event: Event): void {
-    const value = Number((event.target as HTMLInputElement).value);
-    this.audio.seek(value);
-    this.isDragging.set(false);
+  protected onProgressChange(progressValue: number): void {
+    if (Number.isFinite(progressValue)) {
+      this.audio.seek(progressValue);
+      this.isDragging.set(false);
+    }
   }
 
-  protected onVolumeChange(event: Event): void {
-    const value = Number((event.target as HTMLInputElement).value);
-    this.audio.setVolume(value / 100);
+  protected onVolumeChange(volumeValue: number): void {
+    if (Number.isFinite(volumeValue)) {
+      this.audio.setVolume(volumeValue / 100);
+    }
   }
 
   protected toggleQueue(): void {

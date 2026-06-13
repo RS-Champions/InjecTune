@@ -92,9 +92,10 @@
           [max]="playerStore.duration()"
           step="1"
           [value]="progressValue"
-          (input)="onProgressInput($event)"
-          (change)="onProgressChange($event)"
+          (input)="onProgressInput(progressInput.value)"
+          (change)="onProgressChange(progressInput.value)"
           aria-label="Playback progress"
+          #progressInput
         />
 
         <span class="player-bar__time">
@@ -126,8 +127,9 @@
         max="100"
         step="1"
         [value]="volumePercent"
-        (change)="onVolumeChange($event)"
+        (change)="onVolumeChange(volumeInput.value)"
         aria-label="Volume"
+        #volumeInput
       />
     </div>
   </div>
