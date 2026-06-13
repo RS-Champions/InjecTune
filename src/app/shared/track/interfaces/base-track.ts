@@ -14,5 +14,4 @@ export interface BaseTrack {
       genres?: string[];
     };
   };
-  position?: number;
 }

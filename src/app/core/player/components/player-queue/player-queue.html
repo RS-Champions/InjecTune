@@ -20,6 +20,7 @@
     @for (item of playerStore.queue(); track item.id; let index = $index) {
       <app-player-queue-item
         [track]="item"
+        [index]="index + 1"
         [isActive]="index === playerStore.queueIndex()"
         (selectTrack)="selectTrack(index)"
       />

@@ -12,7 +12,6 @@ import { Album, AlbumTrack } from '@features/album/interfaces/album.model';
 import { AlbumApi } from '@features/album/services/album-api';
 import { LoadingSkeleton, PageName } from '@shared/components/loading-skeleton/loading-skeleton';
 import { JamendoResponse } from '@shared/interfaces/jamendo-response';
-import { BaseTrack } from '@shared/track/interfaces/base-track';
 import { TuiIcon } from '@taiga-ui/core';
 
 @Component({
@@ -79,7 +78,7 @@ export class AlbumPage {
   protected onPlayAll(): void {
     const tracks = this.album()?.tracks ?? [];
     const startIndex = 0;
-    this.audio.playQueue(tracks as BaseTrack[], startIndex);
+    this.audio.playQueue(tracks, startIndex);
   }
 
   protected onPlay(track: AlbumTrack): void {
