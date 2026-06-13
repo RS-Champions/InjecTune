@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { PlayerStore } from '@core/player';
 import { AudioEngine } from './audio-engine';
 import type { RepeatMode } from '@core/player/interfaces/player-state';
+import { LOCAL_STORAGE } from '@core/tokens/browser.tokens';
 import type { BaseTrack } from '@shared/track/interfaces/base-track';
 
 // ── Mock HTMLAudioElement ─────────────────────────────────────────────────────
@@ -34,6 +35,8 @@ class MockAudio {
   }
 }
 
+const mockStorage = new Map<string, string>();
+
 // module-level — runs before any test
 vi.stubGlobal('Audio', MockAudio);
 
@@ -53,10 +56,23 @@ describe('AudioEngine', () => {
 
   beforeEach(() => {
     mockAudioListeners = {};
-    localStorage.clear();
+    mockStorage.clear();
 
     TestBed.resetTestingModule();
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: LOCAL_STORAGE,
+          useValue: {
+            getItem: (key: string) => mockStorage.get(key) ?? null,
+            setItem: (key: string, value: string) => mockStorage.set(key, value),
+            clear: () => {
+              mockStorage.clear();
+            },
+          },
+        },
+      ],
+    });
     engine = TestBed.inject(AudioEngine);
     store = TestBed.inject(PlayerStore);
 
@@ -202,7 +218,7 @@ describe('AudioEngine', () => {
       mockAudioInstance.currentTime = 42;
       engine.pause();
 
-      expect(localStorage.getItem('player:currentTime')).toBe('42');
+      expect(mockStorage.get('player:currentTime')).toBe('42');
     });
   });
 

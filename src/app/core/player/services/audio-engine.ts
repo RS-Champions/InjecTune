@@ -1,5 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { PlayerStore } from '@core/player';
+import { LOCAL_STORAGE, WINDOW } from '@core/tokens/browser.tokens';
 import { PlayerStorageKeys } from '@shared/constants/player-storage-keys';
 import { BaseTrack } from '@shared/track/interfaces/base-track';
 import { isRepeatMode, shuffleArray } from '@shared/utils';
@@ -8,6 +9,8 @@ import { isRepeatMode, shuffleArray } from '@shared/utils';
   providedIn: 'root',
 })
 export class AudioEngine {
+  private readonly storage = inject(LOCAL_STORAGE);
+  private readonly window = inject(WINDOW);
   private readonly playerStore = inject(PlayerStore);
   private readonly audioElement: HTMLAudioElement = new Audio();
 
@@ -40,8 +43,8 @@ export class AudioEngine {
       );
     }
 
-    window.addEventListener('beforeunload', () => {
-      localStorage.setItem(PlayerStorageKeys.CURRENT_TIME, String(this.audioElement.currentTime));
+    this.window.addEventListener('beforeunload', () => {
+      this.storage.setItem(PlayerStorageKeys.CURRENT_TIME, String(this.audioElement.currentTime));
     });
   }
 
@@ -142,7 +145,7 @@ export class AudioEngine {
    */
   pause(): void {
     this.audioElement.pause();
-    localStorage.setItem(PlayerStorageKeys.CURRENT_TIME, String(this.audioElement.currentTime));
+    this.storage.setItem(PlayerStorageKeys.CURRENT_TIME, String(this.audioElement.currentTime));
   }
 
   /**

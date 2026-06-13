@@ -1,5 +1,6 @@
-import { Injectable, computed, effect, signal } from '@angular/core';
+import { Injectable, computed, effect, inject, signal } from '@angular/core';
 import { RepeatMode } from '@core/player';
+import { LOCAL_STORAGE } from '@core/tokens/browser.tokens';
 import { PlayerStorageKeys } from '@shared/constants/player-storage-keys';
 import { BaseTrack } from '@shared/track/interfaces/base-track';
 import { isRepeatMode } from '@shared/utils';
@@ -11,6 +12,7 @@ import { isRepeatMode } from '@shared/utils';
   providedIn: 'root',
 })
 export class PlayerStore {
+  private readonly storage = inject(LOCAL_STORAGE);
   // ============================================================================
   // State Signals
   // ============================================================================
@@ -67,12 +69,12 @@ export class PlayerStore {
    */
   private initializeState(): void {
     try {
-      const storedQueue = localStorage.getItem(PlayerStorageKeys.QUEUE);
-      const storedIndex = localStorage.getItem(PlayerStorageKeys.QUEUE_INDEX);
-      const storedTime = localStorage.getItem(PlayerStorageKeys.CURRENT_TIME);
-      const storedVolume = localStorage.getItem(PlayerStorageKeys.VOLUME);
-      const storedShuffle = localStorage.getItem(PlayerStorageKeys.SHUFFLE);
-      const storedRepeat = localStorage.getItem(PlayerStorageKeys.REPEAT);
+      const storedQueue = this.storage.getItem(PlayerStorageKeys.QUEUE);
+      const storedIndex = this.storage.getItem(PlayerStorageKeys.QUEUE_INDEX);
+      const storedTime = this.storage.getItem(PlayerStorageKeys.CURRENT_TIME);
+      const storedVolume = this.storage.getItem(PlayerStorageKeys.VOLUME);
+      const storedShuffle = this.storage.getItem(PlayerStorageKeys.SHUFFLE);
+      const storedRepeat = this.storage.getItem(PlayerStorageKeys.REPEAT);
 
       if (storedQueue) {
         const queue = JSON.parse(storedQueue) as BaseTrack[];
@@ -115,11 +117,11 @@ export class PlayerStore {
       try {
         // always persist the ORIGINAL order, not the shuffled one
         const queueToPersist = this.originalQueue().length > 0 ? this.originalQueue() : this.queue();
-        localStorage.setItem(PlayerStorageKeys.QUEUE, JSON.stringify(queueToPersist));
-        localStorage.setItem(PlayerStorageKeys.QUEUE_INDEX, String(this.queueIndex()));
-        localStorage.setItem(PlayerStorageKeys.VOLUME, String(this.volume()));
-        localStorage.setItem(PlayerStorageKeys.SHUFFLE, String(this.shuffle()));
-        localStorage.setItem(PlayerStorageKeys.REPEAT, this.repeat());
+        this.storage.setItem(PlayerStorageKeys.QUEUE, JSON.stringify(queueToPersist));
+        this.storage.setItem(PlayerStorageKeys.QUEUE_INDEX, String(this.queueIndex()));
+        this.storage.setItem(PlayerStorageKeys.VOLUME, String(this.volume()));
+        this.storage.setItem(PlayerStorageKeys.SHUFFLE, String(this.shuffle()));
+        this.storage.setItem(PlayerStorageKeys.REPEAT, this.repeat());
       } catch (error) {
         console.error('[PlayerStore] Error persisting to localStorage:', error);
       }
