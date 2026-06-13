@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
-import { PLAYER_STORAGE_KEYS, PlayerStore, RepeatMode } from '@core/player';
+import { PLAYER_STORAGE_KEYS, PlayerStore } from '@core/player';
 import { BaseTrack } from '@shared/track/interfaces/base-track';
+import { isRepeatMode, shuffleArray } from '@shared/utils';
 
 @Injectable({
   providedIn: 'root',
@@ -192,7 +193,7 @@ export class AudioEngine {
       const currentIndex = this.playerStore.queueIndex();
       const currentTrack = queue[currentIndex];
       const otherTracks = queue.filter((_, index) => index !== currentIndex);
-      const shuffled = this.shuffleArray([...otherTracks]);
+      const shuffled = shuffleArray([...otherTracks]);
 
       this.playerStore.queue.set([currentTrack, ...shuffled]);
       this.playerStore.queueIndex.set(0);
@@ -213,8 +214,8 @@ export class AudioEngine {
    * Set repeat mode
    * @param mode Repeat mode: 'off', 'all', or 'one'
    */
-  setRepeatMode(mode: RepeatMode): void {
-    if (!['off', 'all', 'one'].includes(mode)) {
+  setRepeatMode(mode: string): void {
+    if (!isRepeatMode(mode)) {
       console.warn(`[AudioService] Invalid repeat mode: ${mode}`);
       return;
     }
@@ -331,17 +332,5 @@ export class AudioEngine {
     } else {
       this.stop();
     }
-  }
-
-  /**
-   * Fisher-Yates shuffle algorithm
-   */
-  private shuffleArray<T>(array: T[]): T[] {
-    const result = [...array];
-    for (let index = result.length - 1; index > 0; index--) {
-      const index_ = Math.floor(Math.random() * (index + 1));
-      [result[index], result[index_]] = [result[index_], result[index]];
-    }
-    return result;
   }
 }

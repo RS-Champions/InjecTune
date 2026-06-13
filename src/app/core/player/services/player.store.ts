@@ -1,6 +1,7 @@
 import { Injectable, computed, effect, signal } from '@angular/core';
 import { PLAYER_STORAGE_KEYS, RepeatMode } from '@core/player';
 import { BaseTrack } from '@shared/track/interfaces/base-track';
+import { isRepeatMode } from '@shared/utils';
 
 /**
  * Global Player Store Service
@@ -133,11 +134,8 @@ export class PlayerStore {
         this.shuffle.set(storedShuffle === 'true');
       }
 
-      if (storedRepeat) {
-        const repeat = storedRepeat as RepeatMode;
-        if (['off', 'all', 'one'].includes(repeat)) {
-          this.repeat.set(repeat);
-        }
+      if (storedRepeat && isRepeatMode(storedRepeat)) {
+        this.repeat.set(storedRepeat);
       }
     } catch (error) {
       console.error('[PlayerStore] Error initializing from localStorage:', error);
