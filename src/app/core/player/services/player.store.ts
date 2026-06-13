@@ -117,17 +117,19 @@ export class PlayerStore {
         this.originalQueue.set([...queue]);
       }
 
-      if (storedIndex) {
-        this.queueIndex.set(Math.max(0, Number.parseInt(storedIndex, 10)));
+      const parsedIndex = this.parseStoredNumber(storedIndex, 0, Infinity, false);
+      if (parsedIndex !== null) {
+        this.queueIndex.set(parsedIndex);
       }
 
-      if (storedTime) {
-        this.currentTime.set(Math.max(0, Number.parseFloat(storedTime)));
+      const parsedTime = this.parseStoredNumber(storedTime, 0);
+      if (parsedTime !== null) {
+        this.currentTime.set(parsedTime);
       }
 
-      if (storedVolume) {
-        const vol = Math.max(0, Math.min(1, Number.parseFloat(storedVolume)));
-        this.volume.set(vol);
+      const parsedVolume = this.parseStoredNumber(storedVolume, 0, 1);
+      if (parsedVolume !== null) {
+        this.volume.set(parsedVolume);
       }
 
       if (storedShuffle) {
@@ -159,5 +161,18 @@ export class PlayerStore {
         console.error('[PlayerStore] Error persisting to localStorage:', error);
       }
     });
+  }
+
+  /*
+   * Set valid value of number type
+   */
+  private parseStoredNumber(stored: string | null, min: number, max = Infinity, isFloat = true): number | null {
+    if (!stored) return null;
+
+    const parsed = isFloat ? Number.parseFloat(stored) : Number.parseInt(stored, 10);
+
+    if (!Number.isFinite(parsed)) return null;
+
+    return Math.max(min, Math.min(max, parsed));
   }
 }
