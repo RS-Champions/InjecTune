@@ -21,6 +21,11 @@ export class AudioEngine {
       this.setShuffle(true);
     }
 
+    // load (but don't play) the restored track so the audio element is ready
+    if (this.playerStore.queue().length > 0) {
+      this.loadCurrentTrack();
+    }
+
     // restore position from last session
     const savedTime = this.playerStore.currentTime();
     if (savedTime > 0) {
