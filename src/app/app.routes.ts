@@ -6,7 +6,7 @@ import { aboutLeaveGuard } from '@features/about/guards/about-leave-guard';
 export const ROUTE_PATHS = {
   ABOUT: 'about',
   ALBUM: 'album',
-  ARTIST: 'artist ',
+  ARTIST: 'artist',
   DISCOVER: 'discover',
   SEARCH: 'search',
 } as const;

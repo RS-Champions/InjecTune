@@ -26,6 +26,7 @@ export class AlbumApi {
       limit: 'all',
       include: 'stats',
       imagesize: 300,
+      audioformat: 'mp31',
       format: 'json',
     };
   }
