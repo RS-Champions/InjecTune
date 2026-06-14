@@ -1,17 +1,5 @@
 @if (isLoading) {
-  <div class="loading-skeleton">
-    <div class="hero-skeleton" [tuiSkeleton]="isLoading"></div>
-    <div class="content">
-      <div class="section-title" [tuiSkeleton]="isLoading">Top Tracks</div>
-      @for (i of [1, 2, 3]; track i) {
-        <div class="track-skeleton" [tuiSkeleton]="isLoading"></div>
-      }
-      <div class="section-title" [tuiSkeleton]="isLoading">Discography</div>
-      @for (i of [1, 2, 3, 4, 5]; track i) {
-        <div class="album-skeleton" [tuiSkeleton]="isLoading"></div>
-      }
-    </div>
-  </div>
+  <app-loading-skeleton [pageName]="pageName" [isLoading]="isLoading" />
 } @else if (hasError) {
   <div class="error">
     <p>Failed to load artist data. Please try again later.</p>

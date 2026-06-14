@@ -57,13 +57,13 @@
   border-radius: 8px;
   color: var(--on-surface);
   text-decoration: none;
-  transition: all var(--transition);
+  transition: var(--transition-color), var(--transition-bgc);
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
 
   &:hover {
-    background-color: var(--surface-container);
+    background-color: var(--on-primary);
     color: var(--primary);
   }
 
@@ -73,16 +73,6 @@
     border-left: 4px solid var(--primary);
     padding-left: 12px;
   }
-}
-
-.nav-icon {
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  flex-shrink: 0;
 }
 
 .nav-label {

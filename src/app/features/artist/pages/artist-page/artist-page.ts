@@ -10,12 +10,13 @@ import { ArtistHeader } from '@features/artist/components/artist-header/artist-h
 import { ArtistTrackCard } from '@features/artist/components/artist-track-card/artist-track-card';
 import { Artist, ArtistAlbum, ArtistTrack } from '@features/artist/interfaces/artist.model';
 import { ArtistApi } from '@features/artist/services/artist-api';
+import { LoadingSkeleton } from '@shared/components/loading-skeleton/loading-skeleton';
+import { PageName } from '@shared/constants/page-name';
 import { JamendoResponse } from '@shared/interfaces/jamendo-response';
-import { TuiSkeleton } from '@taiga-ui/kit';
 
 @Component({
   selector: 'app-artist-page',
-  imports: [ArtistAlbumCard, ArtistHeader, ArtistTrackCard, RouterLink, TuiSkeleton],
+  imports: [ArtistAlbumCard, ArtistHeader, ArtistTrackCard, LoadingSkeleton, RouterLink],
   templateUrl: './artist-page.html',
   styleUrl: './artist-page.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -24,6 +25,8 @@ export class ArtistPage {
   private readonly artistApi = inject(ArtistApi);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
+
+  protected readonly pageName = PageName.ARTIST;
 
   private readonly artistId = toSignal(this.route.params.pipe(map((p) => p['id'] as string)), {
     initialValue: this.route.snapshot.params['id'] as string,
@@ -42,7 +45,7 @@ export class ArtistPage {
   });
 
   protected readonly albumsResource = httpResource<JamendoResponse<Artist>>(() => ({
-    url: this.artistApi.albumsUrl,
+    url: this.artistApi.artistsAlbumsUrl,
     params: this.artistApi.albumsParams(this.artistId()),
   }));
 
@@ -90,6 +93,6 @@ export class ArtistPage {
   }
 
   protected navigateToAlbum(albumId: string): void {
-    void this.router.navigate(['album', albumId]);
+    void this.router.navigate([PageName.ALBUM, albumId]);
   }
 }

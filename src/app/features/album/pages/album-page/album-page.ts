@@ -1,20 +1,23 @@
 import { httpResource } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
 
+import { PlayerStore } from '@core/player';
+import { AudioEngine } from '@core/player/services/audio-engine';
 import { AlbumHeader } from '@features/album/components/album-header/album-header';
 import { AlbumTrackCard } from '@features/album/components/album-track-card/album-track-card';
 import { Album, AlbumTrack } from '@features/album/interfaces/album.model';
 import { AlbumApi } from '@features/album/services/album-api';
+import { LoadingSkeleton } from '@shared/components/loading-skeleton/loading-skeleton';
+import { PageName } from '@shared/constants/page-name';
 import { JamendoResponse } from '@shared/interfaces/jamendo-response';
-import { TuiSkeleton } from '@taiga-ui/kit';
 import { TuiIcon } from '@taiga-ui/core';
 
 @Component({
   selector: 'app-album-page',
-  imports: [AlbumHeader, AlbumTrackCard, TuiIcon, TuiSkeleton],
+  imports: [AlbumHeader, AlbumTrackCard, LoadingSkeleton, TuiIcon],
   templateUrl: './album-page.html',
   styleUrl: './album-page.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -23,7 +26,12 @@ export class AlbumPage {
   private readonly albumApi = inject(AlbumApi);
   private readonly route = inject(ActivatedRoute);
 
-  protected readonly currentTrack = signal<AlbumTrack | null>(null);
+  protected readonly audio = inject(AudioEngine);
+  protected readonly playerStore = inject(PlayerStore);
+
+  protected readonly pageName = PageName.ALBUM;
+
+  protected readonly currentTrack = this.playerStore.currentTrack;
 
   private readonly albumId = toSignal(this.route.params.pipe(map((p) => p['id'] as string)), {
     initialValue: this.route.snapshot.params['id'] as string,
@@ -68,11 +76,13 @@ export class AlbumPage {
     } satisfies Album;
   });
 
-  protected onPlay(track: AlbumTrack): void {
-    if (this.currentTrack()?.id !== track.id) this.currentTrack.set(track);
+  protected onPlayAll(): void {
+    const tracks = this.album()?.tracks ?? [];
+    const startIndex = 0;
+    this.audio.playQueue(tracks, startIndex);
   }
 
-  protected onPause(track: AlbumTrack): void {
-    if (this.currentTrack()?.id === track.id) this.currentTrack.set(null);
+  protected onPlay(track: AlbumTrack): void {
+    this.audio.playTrack(track);
   }
 }

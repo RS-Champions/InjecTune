@@ -1,33 +1,28 @@
 import { Routes } from '@angular/router';
-import { MainLayoutComponent } from './core/layout/main-layout/main-layout';
-import { EmptyLayoutComponent } from './core/layout/empty-layout/empty-layout';
-
-export const ROUTE_PATHS = {
-  ABOUT: 'about',
-  ALBUM: 'album',
-  ARTIST: 'artist',
-  DISCOVER: 'discover',
-  SEARCH: 'search',
-} as const;
+import { MainLayoutComponent } from '@core/layout/main-layout/main-layout';
+import { EmptyLayoutComponent } from '@core/layout/empty-layout/empty-layout';
+import { aboutLeaveGuard } from '@features/about/guards/about-leave-guard';
+import { PageName } from '@shared/constants/page-name';
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: ROUTE_PATHS.DISCOVER,
+    redirectTo: PageName.DISCOVER,
     pathMatch: 'full',
   },
   {
-    path: ROUTE_PATHS.ABOUT,
+    path: PageName.ABOUT,
     component: EmptyLayoutComponent,
     children: [
       {
         path: '',
+        canDeactivate: [aboutLeaveGuard],
         loadComponent: () => import('@features/about/pages/about-page/about-page').then((module) => module.AboutPage),
       },
     ],
   },
   {
-    path: ROUTE_PATHS.ALBUM,
+    path: PageName.ALBUM,
     component: MainLayoutComponent,
     children: [
       {
@@ -37,7 +32,7 @@ export const routes: Routes = [
     ],
   },
   {
-    path: ROUTE_PATHS.ARTIST,
+    path: PageName.ARTIST,
     component: MainLayoutComponent,
     children: [
       {
@@ -47,7 +42,7 @@ export const routes: Routes = [
     ],
   },
   {
-    path: ROUTE_PATHS.DISCOVER,
+    path: PageName.DISCOVER,
     component: MainLayoutComponent,
     children: [
       {
@@ -58,7 +53,7 @@ export const routes: Routes = [
     ],
   },
   {
-    path: ROUTE_PATHS.SEARCH,
+    path: PageName.SEARCH,
     component: MainLayoutComponent,
     children: [
       {
@@ -69,4 +64,4 @@ export const routes: Routes = [
   },
 ];
 
-export type RoutePath = (typeof ROUTE_PATHS)[keyof typeof ROUTE_PATHS];
+export type RoutePath = PageName;

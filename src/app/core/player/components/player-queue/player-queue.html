@@ -1,0 +1,29 @@
+<div class="queue-panel__header">
+  <h3>Now Playing</h3>
+  <button
+    tuiIconButton
+    iconStart="@tui.x"
+    appearance="ghost"
+    size="s"
+    type="button"
+    tuiHint="Close panel"
+    tuiHintSize="s"
+    tuiHintDirection="start"
+    tuiHintAppearance="neutral"
+    aria-label="Close the queue panel"
+    (click)="closeQueuePanel.emit()"
+  ></button>
+</div>
+
+<div class="queue-panel__content">
+  <div class="queue__list">
+    @for (item of playerStore.queue(); track item.id; let index = $index) {
+      <app-player-queue-item
+        [track]="item"
+        [index]="index + 1"
+        [isActive]="index === playerStore.queueIndex()"
+        (selectTrack)="selectTrack(index)"
+      />
+    }
+  </div>
+</div>
