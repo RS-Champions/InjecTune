@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { Artist } from '@features/artist/interfaces/artist.model';
 import { TuiButton, TuiHint, TuiIcon } from '@taiga-ui/core';
 
@@ -11,4 +11,11 @@ import { TuiButton, TuiHint, TuiIcon } from '@taiga-ui/core';
 })
 export class ArtistHeader {
   readonly artist = input.required<Artist>();
+  readonly isPlayingAll = input(false);
+
+  readonly playAll = output();
+
+  onPlayAll(): void {
+    this.playAll.emit();
+  }
 }
