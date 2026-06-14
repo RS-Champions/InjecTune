@@ -37,7 +37,7 @@ jobs:
           export const environment = {
             production: true,
             apiUrl: '${{ secrets.API_URL }}',
-            clientId: '${{ secrets.API_KEY }}'
+            clientId: '${{ secrets.CLIENT_ID }}'
           };
           EOF
 
