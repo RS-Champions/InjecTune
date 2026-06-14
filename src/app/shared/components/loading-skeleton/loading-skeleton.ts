@@ -1,11 +1,6 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { PageName } from '@shared/constants/page-name';
 import { TuiSkeleton } from '@taiga-ui/kit';
-
-export enum PageName {
-  ALBUM = 'album',
-  ARTIST = 'artist',
-  SEARCH = 'search',
-}
 
 @Component({
   selector: 'app-loading-skeleton',
