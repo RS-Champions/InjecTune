@@ -39,8 +39,8 @@
               }
             }
           </div>
-        } @else if (store.query().trim()) {
-          <p class="empty-state">No tracks found for "{{ store.query() }}"</p>
+        } @else if (store.query()) {
+          <p class="empty-state">No tracks found for "{{ store.query().trim() }}"</p>
         }
       }
       @case ('error') {

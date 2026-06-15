@@ -20,13 +20,12 @@ export class SearchStore {
   readonly currentTrack = signal<SearchTrack | null>(null);
 
   readonly searchResult = computed<SearchResultPage>(() => {
-    const tracks = this.api.tracksResource.value()?.results ?? [];
-    const query = this.query().trim().toLowerCase();
-
-    if (!query) {
+    if (!this.query() && !this.filters().genres?.length) {
       return { searchedTracks: [], totalCount: 0 };
     }
 
+    const query = this.query() ? this.query().trim().toLowerCase() : '';
+    const tracks = this.api.tracksResource.value()?.results ?? [];
     const sortedFilteredTracks = this.sortTracks(
       this.filterTracks(tracks, query, this.filters()),
       this.filters().sortBy ?? 'relevance',
