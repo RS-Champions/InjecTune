@@ -10,7 +10,7 @@
 </tui-textfield>
 
 <div class="search-page">
-  <app-search-filters-panel [initialFilters]="initialFilters()" (filtersChange)="onFiltersChange($event)" />
+  <app-search-filters-panel [initialFilters]="filters()" (filtersChange)="onFiltersChange($event)" />
 
   <div class="content">
     @switch (store.api.tracksResource.status()) {

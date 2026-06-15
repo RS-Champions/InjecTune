@@ -65,12 +65,15 @@ export class SearchFiltersPanel {
   protected stringify: TuiStringHandler<SortOption> = (option) => option.label;
 
   protected isGenreSelected(genre: string): boolean {
-    return this.selectedGenres().includes(genre);
+    return this.selectedGenres().includes(genre.toLowerCase());
   }
 
   protected toggleGenre(genre: string): void {
+    const normalized = genre.toLowerCase();
     const current = this.selectedGenres();
-    this.selectedGenres.set(current.includes(genre) ? current.filter((g) => g !== genre) : [...current, genre]);
+    this.selectedGenres.set(
+      current.includes(normalized) ? current.filter((g) => g !== normalized) : [...current, normalized],
+    );
     this.emitFilters();
   }
 
