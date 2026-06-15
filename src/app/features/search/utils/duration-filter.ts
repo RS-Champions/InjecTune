@@ -1,14 +1,14 @@
 import { DurationFilter, SearchFilters } from '../interfaces/search-filters';
 
 interface DurationRange {
-  max?: number;
-  min?: number;
+  max: number;
+  min: number;
 }
 
 const DURATION_RANGES: Record<NonNullable<DurationFilter>, DurationRange> = {
-  short: { max: 180 },
+  short: { min: 0, max: 180 },
   medium: { min: 180, max: 300 },
-  long: { min: 300 },
+  long: { min: 300, max: 24 * 60 * 60 },
 };
 
 /**
@@ -21,8 +21,8 @@ export function mapDurationToApiParameters(duration: DurationFilter): Pick<Searc
   const range = DURATION_RANGES[duration];
 
   return {
-    ...(range.min !== undefined && { durationMin: range.min }),
-    ...(range.max !== undefined && { durationMax: range.max }),
+    durationMin: range.min,
+    durationMax: range.max,
   };
 }
 
@@ -33,7 +33,7 @@ export function mapDurationToApiParameters(duration: DurationFilter): Pick<Searc
 export function mapApiParametersToDuration(filters: Pick<SearchFilters, 'durationMin' | 'durationMax'>): DurationFilter {
   const { durationMin, durationMax } = filters;
 
-  if (durationMin === undefined && durationMax === undefined) return null;
+  if (durationMin === undefined || durationMax === undefined) return null;
 
   for (const [key, range] of Object.entries(DURATION_RANGES) as [NonNullable<DurationFilter>, DurationRange][]) {
     if (range.min === durationMin && range.max === durationMax) {

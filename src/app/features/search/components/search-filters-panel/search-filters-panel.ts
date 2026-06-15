@@ -40,7 +40,7 @@ export class SearchFiltersPanel {
   protected readonly genres = ['Electronic', 'Synthwave', 'Ambient', 'Funk', 'Lo-Fi', 'Rock', 'Jazz', 'Pop'];
   protected readonly sortOptions: SortOption[] = [
     { label: 'Relevance', value: 'relevance' },
-    { label: 'Popularity', value: 'popularity' },
+    { label: 'Popularity', value: 'popularity_total' },
     { label: 'Release Date', value: 'releasedate_desc' },
     { label: 'Name', value: 'name' },
   ];

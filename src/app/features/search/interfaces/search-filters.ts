@@ -1,5 +1,5 @@
 export type DurationFilter = null | 'short' | 'medium' | 'long';
-export type SortBy = 'relevance' | 'popularity' | 'releasedate_desc' | 'name';
+export type SortBy = 'relevance' | 'popularity_total' | 'releasedate_desc' | 'name';
 
 export interface SearchFilters {
   genres?: string[];

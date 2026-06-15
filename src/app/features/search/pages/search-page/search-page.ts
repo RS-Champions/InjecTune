@@ -1,16 +1,18 @@
-import { ChangeDetectionStrategy, Component, effect, inject, input, linkedSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input, linkedSignal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { debounceTime, distinctUntilChanged, map, tap } from 'rxjs';
 
+import { AudioEngine, PlayerStore } from '@core/player';
 import { SearchTrack } from '@features/search/interfaces/search-track';
 import { SearchFiltersPanel } from '@features/search/components/search-filters-panel/search-filters-panel';
 import { SearchTopResultTrackCard } from '@features/search/components/search-top-result-track-card/search-top-result-track-card';
 import { SearchTrackCard } from '@features/search/components/search-track-card/search-track-card';
-import { SearchFilters, DurationFilter } from '@features/search/interfaces/search-filters';
-import { SearchStore } from '@features/search/services/search-store';
-import { mapApiParametersToDuration, mapDurationToApiParameters } from '@features/search/utils/duration-filter';
+import { DurationFilter, SearchFilters } from '@features/search/interfaces/search-filters';
+import { SearchApi } from '@features/search/services/search-api';
+import { mapDurationToApiParameters, mapApiParametersToDuration } from '@features/search/utils/duration-filter';
+import { PageName } from '@shared/constants/page-name';
 
 import { TuiIcon, TuiInput, TuiLoader } from '@taiga-ui/core';
 import { TuiTooltip } from '@taiga-ui/kit';
@@ -34,10 +36,20 @@ import { TuiTooltip } from '@taiga-ui/kit';
 export class SearchPage {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
-  protected readonly store = inject(SearchStore);
 
-  protected readonly q = input('');
-  protected readonly searchQuery = linkedSignal(() => this.q());
+  protected readonly searchApi = inject(SearchApi);
+
+  protected readonly audio = inject(AudioEngine);
+  protected readonly playerStore = inject(PlayerStore);
+
+  protected readonly pageName = PageName;
+
+  protected readonly currentTrack = this.playerStore.currentTrack;
+
+  protected readonly tracks = computed(() => this.searchApi.tracksResource.value()?.results ?? []);
+
+  protected readonly search = input('');
+  protected readonly searchQuery = linkedSignal(() => this.search());
 
   protected readonly initialFilters = toSignal<SearchFilters, SearchFilters>(
     this.route.queryParamMap.pipe(map((parameters) => this.filtersFromParameters(parameters))),
@@ -54,14 +66,18 @@ export class SearchPage {
         this.syncUrl(query, this.filters());
       }),
     ),
-    { initialValue: this.q() },
+    { initialValue: this.search() },
   );
 
   constructor() {
     effect(() => {
-      this.store.query.set(this.debouncedQuery());
-      this.store.filters.set(this.filters());
+      this.searchApi.query.set(this.debouncedQuery());
+      this.searchApi.filters.set(this.filters());
     });
+  }
+
+  protected onPlay(track: SearchTrack): void {
+    this.audio.playTrack(track);
   }
 
   protected onFiltersChange(filters: SearchFilters): void {
@@ -70,15 +86,15 @@ export class SearchPage {
   }
 
   private filtersFromParameters(parameters: ParamMap): SearchFilters {
-    const genres = parameters.get('genres')?.split(',').filter(Boolean) ?? [];
+    const genres = parameters.get('fuzzytags')?.split('+').filter(Boolean) ?? [];
     const duration = parameters.get('duration') as DurationFilter | null;
-    const sortBy = parameters.get('sort') ?? undefined;
+    const sortBy = parameters.get('order') ?? undefined;
 
-    const range = mapDurationToApiParameters(duration);
+    const durationRange = mapDurationToApiParameters(duration);
 
     return {
       ...(genres.length > 0 && { genres }),
-      ...range,
+      ...durationRange,
       ...(sortBy && { sortBy: sortBy as SearchFilters['sortBy'] }),
     };
   }
@@ -88,21 +104,13 @@ export class SearchPage {
 
     void this.router.navigate([], {
       queryParams: {
-        q: query || null,
-        genres: filters.genres?.join(',') ?? null,
+        search: query || null,
+        fuzzytags: filters.genres?.join('+') ?? null,
         duration,
-        sort: filters.sortBy ?? null,
+        order: filters.sortBy ?? null,
       },
       queryParamsHandling: 'merge',
       replaceUrl: false,
     });
-  }
-
-  onPlay(track: SearchTrack): void {
-    if (this.store.currentTrack()?.id !== track.id) this.store.currentTrack.set(track);
-  }
-
-  onPause(track: SearchTrack): void {
-    if (this.store.currentTrack()?.id === track.id) this.store.currentTrack.set(null);
   }
 }
