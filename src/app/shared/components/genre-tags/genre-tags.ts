@@ -24,6 +24,6 @@ export class GenreTags {
   ];
 
   protected getQueryParams(genre: string) {
-    return { genre: genre.toLowerCase() };
+    return { genres: genre.toLowerCase() };
   }
 }
