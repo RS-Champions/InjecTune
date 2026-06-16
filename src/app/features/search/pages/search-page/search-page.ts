@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, input, linkedSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, input, linkedSignal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
@@ -14,7 +14,7 @@ import { SearchApi } from '@features/search/services/search-api';
 import { mapDurationToApiParameters, mapApiParametersToDuration } from '@features/search/utils/duration-filter';
 import { PageName } from '@shared/constants/page-name';
 
-import { TuiIcon, TuiInput, TuiLoader } from '@taiga-ui/core';
+import { TuiButton, TuiIcon, TuiInput, TuiLoader } from '@taiga-ui/core';
 import { TuiTooltip } from '@taiga-ui/kit';
 
 @Component({
@@ -24,6 +24,7 @@ import { TuiTooltip } from '@taiga-ui/kit';
     SearchFiltersPanel,
     SearchTrackCard,
     SearchTopResultTrackCard,
+    TuiButton,
     TuiIcon,
     TuiInput,
     TuiLoader,
@@ -45,8 +46,6 @@ export class SearchPage {
   protected readonly pageName = PageName;
 
   protected readonly currentTrack = this.playerStore.currentTrack;
-
-  protected readonly tracks = computed(() => this.searchApi.tracksResource.value()?.results ?? []);
 
   protected readonly search = input('');
   protected readonly searchQuery = linkedSignal(() => this.search());
@@ -74,6 +73,10 @@ export class SearchPage {
       this.searchApi.query.set(this.debouncedQuery());
       this.searchApi.filters.set(this.filters());
     });
+  }
+
+  loadMore(): void {
+    this.searchApi.offset.update((o) => o + this.searchApi.limit());
   }
 
   protected onPlay(track: SearchTrack): void {

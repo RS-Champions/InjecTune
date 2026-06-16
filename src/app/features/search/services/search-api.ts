@@ -1,5 +1,5 @@
 import { httpResource } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
+import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { JamendoApiBase } from '@core/jamendo/jamendo-api-base';
 
 import { SearchFilters } from '@features/search/interfaces/search-filters';
@@ -15,16 +15,48 @@ export class SearchApi {
 
   readonly query = signal('');
   readonly filters = signal<SearchFilters>({});
-
   readonly offset = signal(0);
   readonly limit = signal(20);
+
+  readonly allTracksResource = httpResource<JamendoResponse<SearchTrack>>(() => ({
+    url: this.tracksUrl,
+    params: this.tracksParams(this.query(), this.filters(), 0, 'all'),
+  }));
 
   readonly tracksResource = httpResource<JamendoResponse<SearchTrack>>(() => ({
     url: this.tracksUrl,
     params: this.tracksParams(this.query(), this.filters(), this.offset(), this.limit()),
   }));
 
-  private tracksParams(query: string, filters: SearchFilters, offset: number, limit = 20) {
+  readonly tracks = signal<SearchTrack[]>([]);
+
+  readonly totalAvailable = computed(() => Math.min(this.allTracksResource.value()?.headers.results_count ?? 0, 200));
+
+  constructor() {
+    // reset on query/filters change
+    effect(() => {
+      this.query();
+      this.filters();
+      this.tracks.set([]);
+      this.offset.set(0);
+    });
+
+    // append resolved page
+    effect(() => {
+      const results = this.tracksResource.value()?.results;
+      if (results?.length && this.tracksResource.status() === 'resolved') {
+        this.tracks.update((current) => [...current, ...results]);
+      }
+    });
+  }
+
+  readonly hasMore = computed(() => {
+    const count = this.allTracksResource.value()?.headers.results_count ?? 0;
+    return this.tracks().length < Math.min(count, 200);
+  });
+
+  private tracksParams(query: string, filters: SearchFilters, offset: number, limit: number | 'all') {
+    // Jamendo accepts limit='all' to return up to its server-side cap (200)
     const order = filters.sortBy ?? 'relevance';
     const durationbetween =
       filters.durationMin !== undefined && filters.durationMax !== undefined

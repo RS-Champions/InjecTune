@@ -16,7 +16,7 @@
     @switch (searchApi.tracksResource.status()) {
       @case ('local')
       @case ('resolved') {
-        @let topResult = tracks()[0];
+        @let topResult = searchApi.tracks()[0];
 
         @if (topResult) {
           <app-search-top-result-track-card
@@ -26,7 +26,7 @@
           />
 
           <div class="results">
-            @for (item of tracks(); track item.id) {
+            @for (item of searchApi.tracks(); track item.id) {
               @if (!$first) {
                 <app-search-track-card
                   [track]="item"
@@ -34,6 +34,20 @@
                   (playTrack)="onPlay(item)"
                 />
               }
+            }
+            @if (searchApi.hasMore()) {
+              <div class="load-more-wrapper">
+                <button
+                  tuiButton
+                  appearance="outline"
+                  size="m"
+                  type="button"
+                  [disabled]="searchApi.tracksResource.status() === 'loading'"
+                  (click)="loadMore()"
+                >
+                  Load More ({{ searchApi.tracks().length }} / {{ this.searchApi.totalAvailable() }})
+                </button>
+              </div>
             }
           </div>
         } @else if (debouncedQuery()) {
