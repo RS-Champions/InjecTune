@@ -12,22 +12,23 @@ import { SearchTrackCard } from '@features/search/components/search-track-card/s
 import { DurationFilter, SearchFilters } from '@features/search/interfaces/search-filters';
 import { SearchApi } from '@features/search/services/search-api';
 import { mapDurationToApiParameters, mapApiParametersToDuration } from '@features/search/utils/duration-filter';
+import { LoadingSkeleton } from '@shared/components/loading-skeleton/loading-skeleton';
 import { PageName } from '@shared/constants/page-name';
 
-import { TuiButton, TuiIcon, TuiInput, TuiLoader } from '@taiga-ui/core';
+import { TuiButton, TuiIcon, TuiInput } from '@taiga-ui/core';
 import { TuiTooltip } from '@taiga-ui/kit';
 
 @Component({
   selector: 'app-search-page',
   imports: [
     FormsModule,
+    LoadingSkeleton,
     SearchFiltersPanel,
     SearchTrackCard,
     SearchTopResultTrackCard,
     TuiButton,
     TuiIcon,
     TuiInput,
-    TuiLoader,
     TuiTooltip,
   ],
   templateUrl: './search-page.html',
@@ -43,7 +44,7 @@ export class SearchPage {
   protected readonly audio = inject(AudioEngine);
   protected readonly playerStore = inject(PlayerStore);
 
-  protected readonly pageName = PageName;
+  protected readonly pageName = PageName.SEARCH;
 
   protected readonly currentTrack = this.playerStore.currentTrack;
 

@@ -58,7 +58,7 @@
         <p class="error-state">Error: Something went wrong</p>
       }
       @default {
-        <tui-loader />
+        <app-loading-skeleton [pageName]="pageName" [isLoading]="true" />
       }
     }
   </div>
