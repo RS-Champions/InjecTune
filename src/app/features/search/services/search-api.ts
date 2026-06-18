@@ -18,11 +18,6 @@ export class SearchApi {
   readonly offset = signal(0);
   readonly limit = signal(20);
 
-  readonly allTracksResource = httpResource<JamendoResponse<SearchTrack>>(() => ({
-    url: this.tracksUrl,
-    params: this.tracksParams(this.query(), this.filters(), 0, 'all'),
-  }));
-
   readonly tracksResource = httpResource<JamendoResponse<SearchTrack>>(() => ({
     url: this.tracksUrl,
     params: this.tracksParams(this.query(), this.filters(), this.offset(), this.limit()),
@@ -30,7 +25,7 @@ export class SearchApi {
 
   readonly tracks = signal<SearchTrack[]>([]);
 
-  readonly totalAvailable = computed(() => Math.min(this.allTracksResource.value()?.headers.results_count ?? 0, 200));
+  readonly totalAvailable = signal(0);
 
   constructor() {
     // reset on query/filters change
@@ -48,16 +43,16 @@ export class SearchApi {
         this.tracks.update((current) => [...current, ...results]);
       }
     });
+
+    effect(() => {
+      const total = this.tracksResource.value()?.headers.results_fullcount;
+      if (total !== undefined) this.totalAvailable.set(total);
+    });
   }
 
-  readonly hasMore = computed(() => {
-    if (this.allTracksResource.status() !== 'resolved') return false;
-    const count = this.allTracksResource.value()?.headers.results_count ?? 0;
-    return this.tracks().length < Math.min(count, 200);
-  });
+  readonly hasMore = computed(() => this.tracks().length < this.totalAvailable());
 
-  private tracksParams(query: string, filters: SearchFilters, offset: number, limit: number | 'all') {
-    // Jamendo accepts limit='all' to return up to its server-side cap (200)
+  private tracksParams(query: string, filters: SearchFilters, offset: number, limit: number) {
     const order = filters.sortBy ?? 'relevance';
     const durationbetween =
       filters.durationMin !== undefined && filters.durationMax !== undefined
@@ -73,6 +68,7 @@ export class SearchApi {
       order,
       offset,
       limit,
+      fullcount: true,
       include: 'stats',
       imagesize: 300,
       audioformat: 'mp31',
