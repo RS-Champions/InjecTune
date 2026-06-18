@@ -16,7 +16,7 @@ import { LoadingSkeleton } from '@shared/components/loading-skeleton/loading-ske
 import { PageName } from '@shared/constants/page-name';
 
 import { TuiButton, TuiIcon, TuiInput } from '@taiga-ui/core';
-import { TuiTooltip } from '@taiga-ui/kit';
+import { TuiButtonLoading, TuiTooltip } from '@taiga-ui/kit';
 
 @Component({
   selector: 'app-search-page',
@@ -27,6 +27,7 @@ import { TuiTooltip } from '@taiga-ui/kit';
     SearchTrackCard,
     SearchTopResultTrackCard,
     TuiButton,
+    TuiButtonLoading,
     TuiIcon,
     TuiInput,
     TuiTooltip,

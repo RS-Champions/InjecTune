@@ -51,6 +51,7 @@ export class SearchApi {
   }
 
   readonly hasMore = computed(() => {
+    if (this.allTracksResource.status() !== 'resolved') return false;
     const count = this.allTracksResource.value()?.headers.results_count ?? 0;
     return this.tracks().length < Math.min(count, 200);
   });
