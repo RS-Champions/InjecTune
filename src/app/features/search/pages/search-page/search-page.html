@@ -1,14 +1,3 @@
-<tui-textfield iconStart="@tui.search">
-  <input
-    placeholder="Search tracks, artists, albums..."
-    tuiInput
-    [ngModel]="searchQuery()"
-    (ngModelChange)="searchQuery.set($event)"
-  />
-
-  <tui-icon tuiTooltip="Start typing track, artist, album..." />
-</tui-textfield>
-
 <div class="search-page">
   <app-search-filters-panel [initialFilters]="filters()" (filtersChange)="onFiltersChange($event)" />
 

@@ -1,0 +1,21 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+tui-textfield {
+  border-radius: var(--bdrd, 35px);
+  background-color: var(--surface-container);
+
+  input {
+    color: var(--on-surface);
+
+    &::placeholder {
+      color: var(--on-surface-variant);
+    }
+  }
+
+  tui-icon {
+    color: var(--on-surface-variant);
+  }
+}

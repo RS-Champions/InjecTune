@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, effect, inject, input, linkedSignal } from '@angular/core';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { debounceTime, distinctUntilChanged, map, tap } from 'rxjs';
+import { distinctUntilChanged, map } from 'rxjs';
 
 import { AudioEngine, PlayerStore } from '@core/player';
 import { SearchTrack } from '@features/search/interfaces/search-track';
@@ -15,8 +15,8 @@ import { mapDurationToApiParameters, mapApiParametersToDuration } from '@feature
 import { LoadingSkeleton } from '@shared/components/loading-skeleton/loading-skeleton';
 import { PageName } from '@shared/constants/page-name';
 
-import { TuiButton, TuiIcon, TuiInput } from '@taiga-ui/core';
-import { TuiButtonLoading, TuiTooltip } from '@taiga-ui/kit';
+import { TuiButton, TuiInput } from '@taiga-ui/core';
+import { TuiButtonLoading } from '@taiga-ui/kit';
 
 @Component({
   selector: 'app-search-page',
@@ -28,9 +28,7 @@ import { TuiButtonLoading, TuiTooltip } from '@taiga-ui/kit';
     SearchTopResultTrackCard,
     TuiButton,
     TuiButtonLoading,
-    TuiIcon,
     TuiInput,
-    TuiTooltip,
   ],
   templateUrl: './search-page.html',
   styleUrl: './search-page.less',
@@ -50,7 +48,6 @@ export class SearchPage {
   protected readonly currentTrack = this.playerStore.currentTrack;
 
   protected readonly search = input('');
-  protected readonly searchQuery = linkedSignal(() => this.search());
 
   protected readonly initialFilters = toSignal<SearchFilters, SearchFilters>(
     this.route.queryParamMap.pipe(map((parameters) => this.filtersFromParameters(parameters))),
@@ -60,14 +57,11 @@ export class SearchPage {
   protected readonly filters = linkedSignal<SearchFilters>(this.initialFilters);
 
   protected readonly debouncedQuery = toSignal(
-    toObservable(this.searchQuery).pipe(
-      debounceTime(500),
+    this.route.queryParamMap.pipe(
+      map((parameters) => parameters.get('search') ?? ''),
       distinctUntilChanged(),
-      tap((query) => {
-        this.syncUrl(query, this.filters());
-      }),
     ),
-    { initialValue: this.search() },
+    { initialValue: this.route.snapshot.queryParamMap.get('search') ?? '' },
   );
 
   constructor() {
@@ -87,7 +81,7 @@ export class SearchPage {
 
   protected onFiltersChange(filters: SearchFilters): void {
     this.filters.set(filters);
-    this.syncUrl(this.debouncedQuery(), filters);
+    this.syncUrl(filters);
   }
 
   private filtersFromParameters(parameters: ParamMap): SearchFilters {
@@ -104,18 +98,17 @@ export class SearchPage {
     };
   }
 
-  private syncUrl(query: string, filters: SearchFilters): void {
+  private syncUrl(filters: SearchFilters): void {
     const duration = mapApiParametersToDuration(filters);
 
     void this.router.navigate([], {
       queryParams: {
-        search: query || null,
         fuzzytags: filters.genres?.join('+') ?? null,
         duration,
         order: filters.sortBy ?? null,
       },
       queryParamsHandling: 'merge',
-      replaceUrl: false,
+      replaceUrl: true,
     });
   }
 }

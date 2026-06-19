@@ -1,0 +1,9 @@
+<tui-textfield iconStart="@tui.search">
+  <input
+    placeholder="Search tracks, artists, albums..."
+    tuiInput
+    [ngModel]="inputValue()"
+    (ngModelChange)="inputValue.set($event)"
+  />
+  <tui-icon tuiTooltip="Start typing track, artist, album..." />
+</tui-textfield>
