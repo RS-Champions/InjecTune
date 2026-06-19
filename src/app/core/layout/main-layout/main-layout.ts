@@ -1,16 +1,18 @@
-import { Component, ChangeDetectionStrategy, signal, inject, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, ChangeDetectionStrategy, signal, inject, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterOutlet, NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Header } from '@core/layout/header/header';
 import { SidebarComponent } from '@shared/components/sidebar/sidebar';
 import { HamburgerComponent } from '@shared/components/hamburger/hamburger';
 import { NavItem } from '@shared/components/sidebar/sidebar';
 import { PageName } from '@shared/constants/page-name';
+import { TuiNavigation } from '@taiga-ui/layout';
 
 @Component({
   selector: 'app-main-layout',
-  imports: [CommonModule, RouterOutlet, SidebarComponent, HamburgerComponent],
+  imports: [CommonModule, HamburgerComponent, Header, RouterOutlet, SidebarComponent, TuiNavigation],
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -23,9 +25,10 @@ export class MainLayoutComponent {
   protected readonly sidebarOpen = signal(false);
 
   protected readonly navigationItems: NavItem[] = [
-    { label: 'Discover', route: PageName.DISCOVER, icon: '@tui.music-4' },
+    { label: 'Discover', route: PageName.DISCOVER, icon: '@tui.compass' },
     { label: 'Search', route: PageName.SEARCH, icon: '@tui.search' },
-    { label: 'About', route: PageName.ABOUT, icon: '@tui.info' },
+    { label: 'Library', route: PageName.LIBRARY, icon: '@tui.square-library' },
+    { label: 'About Us', route: PageName.ABOUT, icon: '@tui.info' },
   ];
 
   constructor() {
