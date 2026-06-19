@@ -18,10 +18,14 @@ export class SearchApi {
   readonly offset = signal(0);
   readonly limit = signal(20);
 
-  readonly tracksResource = httpResource<JamendoResponse<SearchTrack>>(() => ({
-    url: this.tracksUrl,
-    params: this.tracksParams(this.query(), this.filters(), this.offset(), this.limit()),
-  }));
+  readonly tracksResource = httpResource<JamendoResponse<SearchTrack>>(() => {
+    if (!this.query() && Object.keys(this.filters()).length === 0) return;
+
+    return {
+      url: this.tracksUrl,
+      params: this.tracksParams(this.query(), this.filters(), this.offset(), this.limit()),
+    };
+  });
 
   readonly tracks = signal<SearchTrack[]>([]);
 
