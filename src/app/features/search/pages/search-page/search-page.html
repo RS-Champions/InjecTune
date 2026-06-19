@@ -10,44 +10,51 @@
 </tui-textfield>
 
 <div class="search-page">
-  <app-search-filters-panel [initialFilters]="initialFilters()" (filtersChange)="onFiltersChange($event)" />
+  <app-search-filters-panel [initialFilters]="filters()" (filtersChange)="onFiltersChange($event)" />
 
   <div class="content">
-    @switch (store.api.tracksResource.status()) {
-      @case ('local')
-      @case ('resolved') {
-        @let searchResult = store.searchResult();
-        @let topResult = searchResult.searchedTracks[0];
+    @if (searchApi.tracksResource.status() === 'error') {
+      <p class="error-state">Error: Something went wrong</p>
+    } @else if (searchApi.tracks().length === 0 && searchApi.tracksResource.status() === 'loading') {
+      <app-loading-skeleton [pageName]="pageName" [isLoading]="true" />
+    } @else {
+      @let topResult = searchApi.tracks()[0];
 
-        @if (topResult) {
-          <app-search-top-result-track-card
-            [track]="topResult"
-            [isPlaying]="store.currentTrack()?.id === topResult.id"
-            (playTrack)="onPlay($event)"
-            (pauseTrack)="onPause($event)"
-          />
+      @if (topResult) {
+        <app-search-top-result-track-card
+          [track]="topResult"
+          [isPlaying]="playerStore.isPlaying() && currentTrack()?.id === topResult.id"
+          (playTrack)="onPlay(topResult)"
+        />
 
-          <div class="results">
-            @for (item of searchResult.searchedTracks; track item.id) {
-              @if (!$first) {
-                <app-search-track-card
-                  [track]="item"
-                  [isPlaying]="store.currentTrack()?.id === item.id"
-                  (playTrack)="onPlay($event)"
-                  (pauseTrack)="onPause($event)"
-                />
-              }
+        <div class="results">
+          @for (item of searchApi.tracks(); track item.id) {
+            @if (!$first) {
+              <app-search-track-card
+                [track]="item"
+                [isPlaying]="playerStore.isPlaying() && currentTrack()?.id === item.id"
+                (playTrack)="onPlay(item)"
+              />
             }
-          </div>
-        } @else if (store.query().trim()) {
-          <p class="empty-state">No tracks found for "{{ store.query() }}"</p>
-        }
-      }
-      @case ('error') {
-        <p class="error-state">Error: Something went wrong</p>
-      }
-      @default {
-        <tui-loader />
+          }
+
+          @if (searchApi.hasMore()) {
+            <div class="load-more-wrapper">
+              <button
+                tuiButton
+                appearance="outline"
+                size="m"
+                type="button"
+                [loading]="searchApi.tracksResource.status() === 'loading'"
+                (click)="loadMore()"
+              >
+                Load More ({{ searchApi.tracks().length }} / {{ searchApi.totalAvailable() }})
+              </button>
+            </div>
+          }
+        </div>
+      } @else if (debouncedQuery()) {
+        <p class="empty-state">No tracks found for "{{ debouncedQuery().trim() }}"</p>
       }
     }
   </div>

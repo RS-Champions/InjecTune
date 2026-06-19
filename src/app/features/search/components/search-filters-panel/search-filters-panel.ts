@@ -40,7 +40,7 @@ export class SearchFiltersPanel {
   protected readonly genres = ['Electronic', 'Synthwave', 'Ambient', 'Funk', 'Lo-Fi', 'Rock', 'Jazz', 'Pop'];
   protected readonly sortOptions: SortOption[] = [
     { label: 'Relevance', value: 'relevance' },
-    { label: 'Popularity', value: 'popularity' },
+    { label: 'Popularity', value: 'popularity_total' },
     { label: 'Release Date', value: 'releasedate_desc' },
     { label: 'Name', value: 'name' },
   ];
@@ -65,12 +65,15 @@ export class SearchFiltersPanel {
   protected stringify: TuiStringHandler<SortOption> = (option) => option.label;
 
   protected isGenreSelected(genre: string): boolean {
-    return this.selectedGenres().includes(genre);
+    return this.selectedGenres().includes(genre.toLowerCase());
   }
 
   protected toggleGenre(genre: string): void {
+    const normalized = genre.toLowerCase();
     const current = this.selectedGenres();
-    this.selectedGenres.set(current.includes(genre) ? current.filter((g) => g !== genre) : [...current, genre]);
+    this.selectedGenres.set(
+      current.includes(normalized) ? current.filter((g) => g !== normalized) : [...current, normalized],
+    );
     this.emitFilters();
   }
 

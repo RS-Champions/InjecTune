@@ -5,6 +5,7 @@ export interface JamendoResponse<T> {
     error_message: string;
     warnings: string;
     results_count: number;
+    results_fullcount?: number;
   };
   results: T[];
 }
