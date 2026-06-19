@@ -37,8 +37,10 @@ jobs:
           cat > src/environments/environment.prod.ts << EOF
           export const environment = {
             production: true,
-            apiUrl: '${{ secrets.API_URL }}',
-            clientId: '${{ secrets.CLIENT_ID }}'
+            jamendo: {
+              apiUrl: '${{ secrets.API_URL }}',
+              clientId: '${{ secrets.CLIENT_ID }}'
+            }
           };
           EOF
 
