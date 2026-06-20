@@ -58,9 +58,13 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        loadChildren: () => import('@features/search/search.routes').then((module) => module.SEARCH_ROUTES),
+        loadComponent: () => import('@features/search/pages/search-page/search-page').then((module) => module.SearchPage),
       },
     ],
+  },
+  {
+    path: '**',
+    loadComponent: () => import('@core/pages/not-found-page/not-found-page').then((module) => module.NotFoundPage),
   },
 ];
 
