@@ -4,4 +4,5 @@ export enum PageName {
   ARTIST = 'artist',
   DISCOVER = 'discover',
   SEARCH = 'search',
+  LIBRARY = 'library',
 }

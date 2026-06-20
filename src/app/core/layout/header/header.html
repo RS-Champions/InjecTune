@@ -1,0 +1,13 @@
+<header>
+  <app-search-bar />
+  <div class="actions-zone">
+    <button tuiIconButton type="button" iconStart="@tui.bell" appearance="flat" size="m" aria-label="Bell"></button>
+    <button tuiIconButton type="button" iconStart="@tui.settings" appearance="flat" size="m" aria-label="Settings"></button>
+
+    <div tuiAvatar="@tui.user" size="m">
+      @if (isAuthorized) {
+        <img alt="avatar" src="https://avatars.githubusercontent.com/u/11832552" />
+      }
+    </div>
+  </div>
+</header>
