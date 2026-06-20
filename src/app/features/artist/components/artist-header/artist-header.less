@@ -5,7 +5,7 @@
   position: relative;
   width: 100%;
   min-height: 620px;
-  background-image: url('/images/artist-hero-bg.webp');
+  background-image: url('/images/artist-hero-bg-big.png');
   background-size: cover;
   background-position: center 50%;
   background-repeat: no-repeat;
@@ -115,20 +115,7 @@
   }
 
   .play-btn {
-    transition: var(--transition-box-shadow);
-
-    &[tuiButton] {
-      --tui-background-accent-1: linear-gradient(135deg, #efc5ff, #b8c6ff);
-      --tui-text-primary-on-accent-1: var(--on-primary);
-    }
-
-    &:hover {
-      background: linear-gradient(45deg, #b8c6ff, #efc5ff);
-
-      box-shadow:
-        0 0 17px rgba(193, 146, 255, 0.65),
-        0 6px 9px rgba(0, 0, 0, 0.3);
-    }
+    .gradient-button();
   }
 
   .actions {
