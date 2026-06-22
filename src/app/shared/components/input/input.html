@@ -1,0 +1,8 @@
+@let inputData = data();
+<label tuiLabel>
+  {{ inputData.name }}
+  <tui-textfield tuiTextfieldSize="m">
+    <input [placeholder]="inputData.placeholder" tuiInput [formControl]="inputData.formControl" />
+  </tui-textfield>
+  <tui-error [formControl]="inputData.formControl" />
+</label>
