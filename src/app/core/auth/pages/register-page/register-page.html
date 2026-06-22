@@ -1,0 +1,7 @@
+<form [formGroup]="registerForm" (ngSubmit)="submit()">
+  <title>Register</title>
+  <app-input [data]="emailInputData"></app-input>
+  <app-input [data]="passwordInputData"></app-input>
+  <app-input [data]="confirmPasswordInputData"></app-input>
+  <button appearance="secondary" tuiButton type="submit" [disabled]="registerForm.invalid">Register</button>
+</form>
