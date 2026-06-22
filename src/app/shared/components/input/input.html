@@ -2,7 +2,7 @@
 <label tuiLabel>
   {{ inputData.name }}
   <tui-textfield tuiTextfieldSize="m">
-    <input [placeholder]="inputData.placeholder" tuiInput [formControl]="inputData.formControl" />
+    <input [placeholder]="inputData.placeholder" tuiInput [formControl]="inputData.formControl" [type]="inputData.type" />
   </tui-textfield>
   <tui-error [formControl]="inputData.formControl" />
 </label>

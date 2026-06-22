@@ -16,6 +16,7 @@ export interface InputData {
   name: string;
   placeholder: string;
   formControl: FormControl<string | null>;
+  type?: HTMLInputElement['type'];
 }
 
 @Component({
