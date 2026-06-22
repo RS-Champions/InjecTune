@@ -57,6 +57,12 @@ export const routes: Routes = [
     path: PageName.LIBRARY,
     component: MainLayoutComponent,
     canActivate: [libraryGuard],
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('@features/library/library-page/library-page').then((module) => module.LibraryPage),
+      },
+    ],
   },
   {
     path: PageName.SEARCH,
