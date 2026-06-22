@@ -1,12 +1,11 @@
 import { TuiRoot } from '@taiga-ui/core';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { PlayerBar } from '@core/player/components/player-bar/player-bar';
 import { AudioEngine } from '@core/player/services/audio-engine';
 
 @Component({
   selector: 'app-root',
-  imports: [PlayerBar, RouterOutlet, TuiRoot],
+  imports: [RouterOutlet, TuiRoot],
   templateUrl: './app.html',
   styleUrl: './app.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
