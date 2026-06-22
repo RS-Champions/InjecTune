@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TuiContext } from '@taiga-ui/cdk';
 import { TuiError, TuiInput, tuiValidationErrorsProvider } from '@taiga-ui/core';
-import { injectContext, PolymorpheusComponent } from '@taiga-ui/polymorpheus';
+import { injectContext } from '@taiga-ui/polymorpheus';
 
 @Component({
   template: 'Required: {{ context.$implicit }}',
@@ -19,12 +19,21 @@ export interface InputData {
   type?: HTMLInputElement['type'];
 }
 
+const ERROR_MESSAGES = {
+  email: 'Invalid value of email',
+  required: 'Field is required',
+  minlength: ({ requiredLength }: { requiredLength: number | undefined }) => {
+    if (!requiredLength) return '';
+    return `Minimum ${requiredLength.toString()} symbols`;
+  },
+};
+
 @Component({
   selector: 'app-input',
   imports: [ReactiveFormsModule, TuiError, TuiInput],
   templateUrl: './input.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [tuiValidationErrorsProvider({ required: new PolymorpheusComponent(Error) })],
+  providers: [tuiValidationErrorsProvider(ERROR_MESSAGES)],
 })
 export default class Input {
   data = input.required<InputData>();
