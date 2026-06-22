@@ -1,0 +1,22 @@
+<div class="cover">
+  <img [src]="album().image" [alt]="album().name" />
+</div>
+
+<div class="description">
+  <h2 class="title" tuiHint="{{ album().name }}" tuiHintDirection="bottom-end" tuiHintAppearance="custom-hint">
+    {{ album().name }}
+  </h2>
+
+  <div class="meta">
+    <span class="release-date">{{ album().releasedate }}</span>
+    <span class="separator">·</span>
+    <span class="track-count">
+      @if (album().tracksCount !== undefined) {
+        {{ album().tracksCount }}
+        {{ album().tracksCount === 1 ? 'track' : 'tracks' }}
+      } @else {
+        -
+      }
+    </span>
+  </div>
+</div>

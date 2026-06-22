@@ -1,0 +1,38 @@
+<div class="overlay">
+  <div class="container">
+    <div class="album-photo">
+      <img [src]="album().image" [alt]="album().name" loading="lazy" />
+    </div>
+
+    <div class="info">
+      <div>
+        <span class="badge"><tui-icon icon="@tui.disc-2" /></span>
+        <span class="album-label">ALBUM</span>
+      </div>
+
+      <h1
+        class="name"
+        tuiHint="{{ album().name }}"
+        tuiHintDirection="bottom-start"
+        tuiHintPointer
+        tuiHintAppearance="neutral"
+      >
+        {{ album().name }}
+      </h1>
+
+      <div class="meta">
+        <a class="artist body-md" [routerLink]="['/artist', album().artist_id]">{{ album().artist_name }}</a>
+        <span class="separator">·</span>
+        <span class="release-date">{{ album().releasedate | date: 'y' }}</span>
+        <span class="separator">·</span>
+        <span class="duration">{{ album().duration | formatDuration }}</span>
+      </div>
+
+      <div class="actions">
+        <button tuiButton appearance="primary" size="s" class="play-btn" [disabled]="isPlayingAll()" (click)="onPlayAll()">
+          ▶ Play All
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

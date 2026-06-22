@@ -39,7 +39,7 @@ module.exports = defineConfig([
       '@angular-eslint/component-selector': [
         'error',
         {
-          type: 'element',
+          type: ['element', 'attribute'],
           prefix: 'app',
           style: 'kebab-case',
         },
@@ -59,6 +59,7 @@ module.exports = defineConfig([
       ],
       'unicorn/no-null': 'off',
       'unicorn/prefer-top-level-await': 'off',
+      '@typescript-eslint/no-extraneous-class': 'off',
     },
   },
   {

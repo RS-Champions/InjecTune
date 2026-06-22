@@ -1,0 +1,46 @@
+@if (isLoading) {
+  <app-loading-skeleton [pageName]="pageName" [isLoading]="isLoading" />
+} @else if (hasError) {
+  <div class="error">
+    <p>Failed to load artist data. Please try again later.</p>
+  </div>
+} @else if (artist(); as a) {
+  <app-artist-header [artist]="a" />
+
+  <div class="content">
+    @if (a.tracks?.length) {
+      <section class="section">
+        <h2 class="section-title">Top Tracks</h2>
+
+        @for (track of a.tracks; track track.id) {
+          <app-artist-track-card
+            [track]="track"
+            [isPlaying]="currentTrack()?.id === track.id"
+            (playTrack)="onPlay($event)"
+            (pauseTrack)="onPause($event)"
+          />
+        }
+      </section>
+    }
+
+    @if (a.albums?.length) {
+      <section class="section">
+        <div class="section-header">
+          <h2 class="section-title">Discography</h2>
+        </div>
+
+        <div class="albums-grid">
+          @for (album of a.albums; track album.id) {
+            <a class="album" [routerLink]="['/album', album.id]">
+              <app-artist-album-card [album]="album" />
+            </a>
+          }
+        </div>
+      </section>
+    }
+  </div>
+} @else {
+  <div class="empty">
+    <p>Artist not found.</p>
+  </div>
+}

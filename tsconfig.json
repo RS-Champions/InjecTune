@@ -12,10 +12,11 @@
     "isolatedModules": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "target": "ES2022",
+    "target": "ES2023",
     "module": "preserve",
     "paths": {
       "@core/*": ["./src/app/core/*"],
+      "@environments/*": ["./src/environments/*"],
       "@features/*": ["./src/app/features/*"],
       "@shared/*": ["./src/app/shared/*"]
     }

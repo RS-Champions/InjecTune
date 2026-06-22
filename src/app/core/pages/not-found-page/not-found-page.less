@@ -1,0 +1,88 @@
+@import 'styles/mixins.less';
+
+:host {
+  display: grid;
+  place-content: center;
+  width: 100%;
+  flex: 1;
+  overflow: hidden;
+  background-image: var(--edge-fade-gradient), var(--dim-gradient), url('/images/nebula-bg-big.png');
+  background-size:
+    100% 100%,
+    100% 100%,
+    min(1300px, 70vw) auto;
+  background-position:
+    center,
+    center,
+    center 70%;
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  box-shadow: inset 0 150px 200px 30px var(--surface);
+
+  @media (max-width: 1440px) {
+    background-image:
+      linear-gradient(to right, var(--surface) 15%, transparent 25%, transparent 45%, var(--surface) 100%),
+      var(--dim-gradient), url('/images/nebula-bg-big.png');
+    box-shadow: inset 0 100px 100px 0 var(--surface);
+  }
+
+  @media (max-width: 1024px) {
+    background-image:
+      linear-gradient(to right, var(--surface) 10%, transparent 20%, transparent 35%, var(--surface) 100%),
+      var(--dim-gradient), url('/images/nebula-bg.webp');
+    background-size:
+      100% 100%,
+      100% 100%,
+      max(700px, 80vw) auto;
+    box-shadow: inset 0 50px 100px -30px var(--surface);
+  }
+
+  section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--sm);
+  }
+
+  p {
+    .body-md();
+    color: var(--on-surface-variant);
+    letter-spacing: 0.06em;
+    max-width: 28rem;
+    margin-bottom: var(--md);
+  }
+}
+
+.title {
+  font-size: 10rem;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--primary);
+  filter: var(--filter-neon-shadow);
+  margin-bottom: var(--default);
+
+  @media (max-width: 1440px) {
+    font-size: 8rem;
+  }
+}
+
+.subtitle {
+  .headline-lg();
+  color: var(--on-surface);
+}
+
+.discover-btn,
+.library-btn {
+  margin: 0 var(--sm);
+}
+
+.discover-btn {
+  .gradient-button();
+}
+
+.library-btn {
+  min-width: 125px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+}

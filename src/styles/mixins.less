@@ -1,0 +1,37 @@
+.body-md() {
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+}
+
+.headline-lg() {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.ellipsis() {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gradient-button() {
+  min-width: 125px;
+  transition: var(--transition-box-shadow);
+
+  &[tuiButton] {
+    --tui-background-accent-1: var(--colorful-gradient-2);
+    --tui-text-primary-on-accent-1: var(--on-primary);
+  }
+
+  &:hover {
+    background: linear-gradient(45deg, #b8c6ff, #efc5ff);
+
+    box-shadow:
+      0 0 17px rgba(193, 146, 255, 0.65),
+      0 6px 9px rgba(0, 0, 0, 0.3);
+  }
+}

@@ -1,0 +1,31 @@
+<div class="cover">
+  <img src="{{ track().image }}" alt="{{ track().name }}" />
+  @if (isPlaying()) {
+    <app-equalizer />
+  }
+  <button
+    tuiIconButton
+    size="m"
+    [appearance]="isPlaying() ? 'custom-active' : 'custom-secondary'"
+    [iconStart]="isPlaying() ? '@tui.pause' : '@tui.play'"
+    class="play-btn"
+    (click)="isPlaying() ? onPause() : onPlay()"
+    aria-label="{{ isPlaying() ? 'Pause' : 'Play' }}"
+  ></button>
+</div>
+<div class="description">
+  <h3
+    class="title title-md"
+    tuiHint="{{ track().name }}"
+    tuiHintDirection="top-start"
+    tuiHintPointer
+    tuiHintAppearance="neutral"
+  >
+    {{ track().name }}
+  </h3>
+</div>
+<div class="album body-md">{{ track().album_name }}</div>
+<div class="meta body-md">
+  <span class="play-count">{{ track().stats.rate_listened_total | formatPlayCount }}</span>
+  <span class="duration">{{ track().duration | formatDuration }}</span>
+</div>
