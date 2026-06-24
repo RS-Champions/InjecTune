@@ -1,16 +1,25 @@
 import { inject, Injectable, Signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { httpResource, HttpResourceRef } from '@angular/common/http';
+import { map, Observable } from 'rxjs';
 
 import { LibraryApiBase } from './library-api-base';
-import { FavoriteItem, Playlist, PlaylistDetails } from '../interfaces/library-api.model';
+import {
+  CreatePlaylistDto,
+  FavoriteItem,
+  Playlist,
+  PlaylistDetails,
+  UpdatePlaylistDto,
+} from '../interfaces/library-api.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LibraryApi {
   private readonly base = inject(LibraryApiBase);
+  private readonly http = inject(HttpClient);
 
-  // ── Playlists ──────────────────────────────────────────────────────────────
+  // ── Read resources (httpResource) ──────────────────────────────────────────
 
   readonly playlistsResource = httpResource<Playlist[]>(() => ({
     url: this.base.playlistsUrl,
@@ -29,4 +38,27 @@ export class LibraryApi {
   readonly favoritesResource = httpResource<FavoriteItem[]>(() => ({
     url: this.base.favoritesUrl,
   }));
+
+  // ── Mutations (HttpClient) ─────────────────────────────────────────────────
+  // After each mutation, call the relevant resource's .reload() in the component.
+
+  createPlaylist(dto: CreatePlaylistDto): Observable<Playlist> {
+    return this.http.post<Playlist>(this.base.playlistsUrl, dto);
+  }
+
+  updatePlaylist(id: string, dto: UpdatePlaylistDto): Observable<Playlist> {
+    return this.http.patch<Playlist>(`${this.base.playlistsUrl}/${id}`, dto);
+  }
+
+  deletePlaylist(id: string): Observable<void> {
+    return this.http.delete(`${this.base.playlistsUrl}/${id}`).pipe(map(() => void 0));
+  }
+
+  addFavorite(trackId: string): Observable<FavoriteItem> {
+    return this.http.post<FavoriteItem>(`${this.base.favoritesUrl}/${trackId}`, {});
+  }
+
+  removeFavorite(trackId: string): Observable<void> {
+    return this.http.delete(`${this.base.favoritesUrl}/${trackId}`).pipe(map(() => void 0));
+  }
 }

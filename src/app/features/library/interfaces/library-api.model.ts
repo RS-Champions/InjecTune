@@ -26,3 +26,15 @@ export interface FavoriteItem {
   track_id: string;
   created_at: string;
 }
+
+// ── Request DTOs ───────────────────────────────────────────────────────────
+
+export interface CreatePlaylistDto {
+  name: string;
+  description?: string;
+}
+
+export interface UpdatePlaylistDto {
+  name?: string;
+  description?: string;
+}
