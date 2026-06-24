@@ -1,4 +1,3 @@
-// Matches the Supabase schema and NestJS response shapes exactly.
 export interface PlaylistTrack {
   id: string;
   playlist_id: string;

@@ -2,8 +2,6 @@ import { inject, Injectable } from '@angular/core';
 import { LIBRARY_API_URL } from '@core/tokens/library.tokens';
 
 // TODO(auth): replace STUB_USER_ID with real Supabase Auth session identity.
-// User identity will travel via JWT header once auth is implemented
-
 @Injectable({
   providedIn: 'root',
 })
