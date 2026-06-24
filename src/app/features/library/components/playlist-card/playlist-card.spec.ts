@@ -11,6 +11,7 @@ describe('PlaylistCard', () => {
     id: '1',
     name: 'Favorites',
     meta: '12 songs',
+    description: 'Favorites songs',
     cover: '',
   };
 

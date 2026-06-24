@@ -1,12 +1,20 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { filter } from 'rxjs';
 
+import {
+  PlaylistFormDialog,
+  PlaylistFormDialogData,
+} from '@features/library/components/playlist-form-dialog/playlist-form-dialog';
 import { PlaylistCard } from '@features/library/components/playlist-card/playlist-card';
 import { PlaylistItem, RecentTrack } from '@features/library/interfaces/library.model';
 import { LibraryApi } from '@features/library/services/library.api';
 import { LoadingSkeleton } from '@shared/components/loading-skeleton/loading-skeleton';
 import { MusicCardComponent } from '@shared/components/music-card/music-card.component';
 import { PageName } from '@shared/constants/page-name';
-import { TuiButton, TuiIcon } from '@taiga-ui/core';
+
+import { TuiButton, TuiDialogService, TuiIcon } from '@taiga-ui/core';
+import { PolymorpheusComponent } from '@taiga-ui/polymorpheus';
+import { CreatePlaylistDto } from '@features/library/interfaces/library-api.model';
 
 @Component({
   selector: 'app-library-page',
@@ -17,32 +25,27 @@ import { TuiButton, TuiIcon } from '@taiga-ui/core';
 })
 export class LibraryPage {
   private readonly libraryApi = inject(LibraryApi);
+  private readonly dialogs = inject(TuiDialogService);
 
   readonly pageName = PageName.LIBRARY;
 
-  // ── Resources ──────────────────────────────────────────────────────────────
-
   readonly playlistsResource = this.libraryApi.playlistsResource;
   readonly favoritesResource = this.libraryApi.favoritesResource;
-
-  // ── Derived state ──────────────────────────────────────────────────────────
 
   readonly playlists = (): PlaylistItem[] =>
     (this.playlistsResource.value() ?? []).map((p) => ({
       id: p.id,
       cover: p.image ?? null,
       name: p.name,
-      meta: p.description ?? '',
+      description: p.description ?? '',
+      meta: p.description ?? '', // TODO: replace with track count when available
     }));
 
-  /**
-   * Liked Songs is a special auto-playlist backed by the favorites table.
-   * Its track count updates reactively as favoritesResource loads.
-   */
   readonly likedSongsCard = (): PlaylistItem => ({
     id: 'liked',
     cover: null,
     name: 'Liked Songs',
+    description: 'Auto-playlist',
     meta: `Auto-playlist • ${(this.favoritesResource.value()?.length ?? 0).toString()} songs`,
   });
 
@@ -80,9 +83,23 @@ export class LibraryPage {
   }
 
   onCreatePlaylist(): void {
-    // TODO(#7): open playlist creation dialog, then on confirm:
-    // this.libraryApi.createPlaylist(dto).subscribe(() => this.playlistsResource.reload());
-    console.log('open create playlist dialog');
+    this.openPlaylistDialog({})
+      .pipe(filter((result): result is CreatePlaylistDto => result !== null))
+      .subscribe((dto) => {
+        this.libraryApi.createPlaylist(dto).subscribe(() => {
+          this.playlistsResource.reload();
+        });
+      });
+  }
+
+  onEditPlaylist(playlist: PlaylistItem): void {
+    this.openPlaylistDialog({ playlist })
+      .pipe(filter((result): result is CreatePlaylistDto => result !== null))
+      .subscribe((dto) => {
+        this.libraryApi.updatePlaylist(playlist.id, dto).subscribe(() => {
+          this.playlistsResource.reload();
+        });
+      });
   }
 
   onPlaylistClick(playlist: PlaylistItem): void {
@@ -93,5 +110,15 @@ export class LibraryPage {
   onLikedSongsClick(): void {
     // TODO(#8): navigate to liked songs details route
     console.log('open liked songs');
+  }
+
+  // ── Helpers ────────────────────────────────────────────────────────────────
+
+  private openPlaylistDialog(data: PlaylistFormDialogData) {
+    return this.dialogs.open<CreatePlaylistDto | null>(new PolymorpheusComponent(PlaylistFormDialog), {
+      label: data.playlist ? 'Edit playlist' : 'Create playlist',
+      size: 's',
+      data,
+    });
   }
 }
