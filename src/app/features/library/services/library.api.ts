@@ -19,8 +19,6 @@ export class LibraryApi {
   private readonly base = inject(LibraryApiBase);
   private readonly http = inject(HttpClient);
 
-  // ── Read resources (httpResource) ──────────────────────────────────────────
-
   readonly playlistsResource = httpResource<Playlist[]>(() => ({
     url: this.base.playlistsUrl,
   }));
@@ -38,9 +36,6 @@ export class LibraryApi {
   readonly favoritesResource = httpResource<FavoriteItem[]>(() => ({
     url: this.base.favoritesUrl,
   }));
-
-  // ── Mutations (HttpClient) ─────────────────────────────────────────────────
-  // After each mutation, call the relevant resource's .reload() in the component.
 
   createPlaylist(dto: CreatePlaylistDto): Observable<Playlist> {
     return this.http.post<Playlist>(this.base.playlistsUrl, dto);

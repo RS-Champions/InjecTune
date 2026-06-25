@@ -1,0 +1,60 @@
+@if (isLoading()) {
+  <app-loading-skeleton [isLoading]="true" [pageName]="pageName" />
+} @else if (playlist(); as p) {
+  <!-- ── Hero ─────────────────────────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="hero__cover">
+      @switch (coverImages().length) {
+        @case (0) {
+          <div class="cover-placeholder">
+            <tui-icon icon="@tui.music" class="cover-placeholder__icon" />
+          </div>
+        }
+        @case (1) {
+          <img class="cover-single" [src]="coverImages()[0]" [alt]="p.name" />
+        }
+        @default {
+          <!-- 2×2 collage — shows up to 4 images -->
+          <div class="cover-collage">
+            @for (img of coverImages(); track img) {
+              <img [src]="img" alt="" />
+            }
+          </div>
+        }
+      }
+    </div>
+
+    <div class="hero__meta">
+      <span class="label-sm hero__type">PLAYLIST</span>
+      <h1 class="display-lg hero__title">{{ p.name }}</h1>
+      @if (p.description) {
+        <p class="body-md hero__description">{{ p.description }}</p>
+      }
+      <p class="body-md hero__stats">
+        {{ tracks().length }} {{ tracks().length === 1 ? 'song' : 'songs' }}
+        @if (totalDuration() > 0) {
+          &nbsp;·&nbsp;{{ totalDuration() | formatDuration }}
+        }
+      </p>
+
+      <div class="hero__actions">
+        <button tuiButton appearance="primary" iconStart="@tui.play" [disabled]="tracks().length === 0" class="play-btn">
+          Play
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Track table ───────────────────────────────────────────────────────── -->
+  <section class="tracks-section">
+    <h2 class="headline-lg tracks-section__title">Tracklist</h2>
+
+    @if (tracks().length === 0) {
+      <div class="empty-state">
+        <tui-icon icon="@tui.music" class="empty-state__icon" />
+        <p class="title-md empty-state__heading">No tracks yet</p>
+        <p class="body-md empty-state__hint">Search for tracks below and add them to your playlist.</p>
+      </div>
+    }
+  </section>
+}

@@ -60,7 +60,7 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        loadComponent: () => import('@features/library/library-page/library-page').then((module) => module.LibraryPage),
+        loadChildren: () => import('@features/library/library.routes').then((m) => m.LIBRARY_ROUTES),
       },
     ],
   },
