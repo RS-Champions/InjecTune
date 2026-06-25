@@ -1,0 +1,42 @@
+<tui-textfield iconStart="@tui.search">
+  <input tuiInput type="text" placeholder="Search tracks to add…" [ngModel]="query()" (ngModelChange)="query.set($event)" />
+  @if (query()) {
+    <button tuiIconButton appearance="ghost" size="xs" iconStart="@tui.x" (click)="clearQuery()" aria-label="Clear"></button>
+  }
+</tui-textfield>
+
+@if (isLoading()) {
+  <div class="loader-row">
+    <tui-loader size="s" />
+  </div>
+}
+
+@if (!isLoading() && results().length > 0) {
+  <ul class="results-list" role="listbox">
+    @for (track of results(); track track.id) {
+      <li class="result-item" role="option" aria-selected="false">
+        <img class="result-cover" [src]="track.image" [alt]="track.name" />
+        <div class="result-info">
+          <span class="result-name body-md">{{ track.name }}</span>
+          <span class="result-artist label-sm">{{ track.artist_name }}</span>
+        </div>
+        <span class="result-duration label-sm">{{ track.duration | formatDuration }}</span>
+
+        <button
+          tuiButton
+          size="xs"
+          appearance="outline"
+          iconStart="@tui.plus"
+          (click)="onAdd(track)"
+          aria-label="Add {{ track.name }}"
+        >
+          Add
+        </button>
+      </li>
+    }
+  </ul>
+}
+
+@if (!isLoading() && query().length > 1 && results().length === 0) {
+  <p class="no-results body-md">No tracks found for "{{ query() }}"</p>
+}

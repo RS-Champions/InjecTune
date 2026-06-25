@@ -8,6 +8,9 @@ export class JamendoApiBase {
   private readonly clientId = inject(JAMENDO_CLIENT_ID);
   private readonly apiUrl = inject(JAMENDO_API_URL);
 
+  // Jamendo imposes a max of 50 IDs per request.
+  readonly JAMENDO_BATCH_SIZE = 50;
+
   readonly albumsUrl = `${this.apiUrl}/albums`;
   readonly albumsTracksUrl = `${this.apiUrl}/albums/tracks`;
   readonly artistsAlbumsUrl = `${this.apiUrl}/artists/albums`;

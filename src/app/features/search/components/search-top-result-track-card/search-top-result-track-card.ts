@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-import { SearchTrack } from '@features/search/interfaces/search-track';
 import { Equalizer } from '@shared/components/equalizer/equalizer';
 import { Track } from '@shared/track/directives/track';
+import { SearchTrack } from '@shared/track/interfaces/search-track';
 import { FormatDurationPipe } from '@shared/track/pipes/format-duration-pipe';
 import { FormatPlayCountPipe } from '@shared/track/pipes/format-play-count-pipe';
 

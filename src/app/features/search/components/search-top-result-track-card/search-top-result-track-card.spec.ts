@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 
 import { SearchTopResultTrackCard } from './search-top-result-track-card';
-import { SearchTrack } from '@features/search/interfaces/search-track';
+import { SearchTrack } from '@shared/track/interfaces/search-track';
 
 describe('SearchTopResultTrackCard', () => {
   let component: SearchTopResultTrackCard;
