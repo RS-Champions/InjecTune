@@ -1,10 +1,15 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
-import { rxResource } from '@angular/core/rxjs-interop';
-import { catchError, of } from 'rxjs';
+import { ChangeDetectionStrategy, Component, computed, inject, DestroyRef, input, signal } from '@angular/core';
+import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
+import { catchError, filter, of, switchMap } from 'rxjs';
 import { AudioEngine, PlayerStore } from '@core/player';
+import {
+  PlaylistFormDialog,
+  PlaylistFormDialogData,
+} from '@features/library/components/playlist-form-dialog/playlist-form-dialog';
 import { PlaylistTrackList } from '@features/library/components/playlist-track-list/playlist-track-list';
 import { PlaylistTrackSearch } from '@features/library/components/playlist-track-search/playlist-track-search';
-import { EnrichedPlaylistTrack } from '@features/library/interfaces/library-api.model';
+import { EnrichedPlaylistTrack, UpdatePlaylistDto } from '@features/library/interfaces/library-api.model';
 import { LibraryApi } from '@features/library/services/library.api';
 import { PlaylistJamendoApi } from '@features/library/services/playlist-jamendo-api';
 import { LoadingSkeleton } from '@shared/components/loading-skeleton/loading-skeleton';
@@ -12,8 +17,9 @@ import { MAX_COVER_IMAGES, TOAST_DURATION_MS } from '@shared/constants/constants
 import { PageName } from '@shared/constants/page-name';
 import { SearchTrack } from '@shared/track/interfaces/search-track';
 import { FormatDurationPipe } from '@shared/track/pipes/format-duration-pipe';
-import { TuiButton, TuiIcon, TuiLoader } from '@taiga-ui/core';
-import { TuiToastService } from '@taiga-ui/kit';
+import { TuiButton, TuiDialogService, TuiIcon, TuiLoader } from '@taiga-ui/core';
+import { TUI_CONFIRM, TuiToastService } from '@taiga-ui/kit';
+import { PolymorpheusComponent } from '@taiga-ui/polymorpheus';
 
 @Component({
   selector: 'app-playlist-details-page',
@@ -23,8 +29,11 @@ import { TuiToastService } from '@taiga-ui/kit';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlaylistDetailsPage {
+  private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
   private readonly libraryApi = inject(LibraryApi);
   private readonly playlistJamendoApi = inject(PlaylistJamendoApi);
+  private readonly dialogs = inject(TuiDialogService);
   private readonly toasts = inject(TuiToastService);
 
   private readonly audioEngine = inject(AudioEngine);
@@ -37,18 +46,23 @@ export class PlaylistDetailsPage {
   readonly detailsResource = this.libraryApi.playlistDetailsResource(this.id);
 
   readonly tracksResource = rxResource({
-    params: () => this.detailsResource.value()?.playlist_tracks ?? [],
+    params: () => {
+      if (this.detailsResource.error()) return null;
+      return this.detailsResource.value()?.playlist_tracks ?? [];
+    },
     stream: ({ params: playlistTracks }) => {
-      if (playlistTracks.length === 0) return of([] as EnrichedPlaylistTrack[]);
+      if (!playlistTracks || playlistTracks.length === 0) {
+        return of([] as EnrichedPlaylistTrack[]);
+      }
       return this.playlistJamendoApi.enrichTracks(playlistTracks).pipe(catchError(() => of([] as EnrichedPlaylistTrack[])));
     },
   });
 
-  // ── Derived state ─────────────────────────────────────────────────────────
-
   readonly playlist = computed(() => this.detailsResource.value());
   readonly tracks = computed(() => this.tracksResource.value() ?? []);
-  readonly isLoading = computed(() => this.detailsResource.isLoading() || this.tracksResource.isLoading());
+
+  readonly hasResourceError = () => !!this.detailsResource.error();
+  readonly isLoading = computed(() => this.detailsResource.isLoading() && !this.detailsResource.error());
 
   readonly coverImages = computed(() =>
     this.tracks()
@@ -135,5 +149,62 @@ export class PlaylistDetailsPage {
         this.toasts.open('Failed to remove track.', { appearance: 'negative', autoClose: TOAST_DURATION_MS }).subscribe();
       },
     });
+  }
+
+  // ── Edit playlist metadata ────────────────────────────────────────────────
+
+  onEdit(): void {
+    const p = this.playlist();
+    if (!p) return;
+
+    const data: PlaylistFormDialogData = {
+      playlist: {
+        id: p.id,
+        cover: p.image ?? null,
+        name: p.name,
+        description: p.description ?? '',
+        meta: '',
+      },
+    };
+
+    this.dialogs
+      .open<UpdatePlaylistDto | null>(new PolymorpheusComponent(PlaylistFormDialog), {
+        label: 'Edit playlist',
+        size: 's',
+        data,
+      })
+      .pipe(filter((result): result is UpdatePlaylistDto => result !== null))
+      .subscribe((dto) => {
+        this.libraryApi.updatePlaylist(p.id, dto).subscribe(() => {
+          this.detailsResource.reload();
+        });
+      });
+  }
+
+  // ── Delete playlist ───────────────────────────────────────────────────────
+
+  onDelete(): void {
+    const id = this.id();
+    if (!id) return;
+
+    this.dialogs
+      .open<boolean>(TUI_CONFIRM, {
+        label: 'Are you sure?',
+        size: 's',
+        data: id,
+      })
+      .pipe(filter(Boolean), takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.libraryApi
+          .deletePlaylist(id)
+          .pipe(switchMap(() => this.router.navigate([`/${PageName.LIBRARY}`])))
+          .subscribe();
+      });
+  }
+
+  // ── Back navigation ───────────────────────────────────────────────────────
+
+  onBack(): void {
+    void this.router.navigate([`/${PageName.LIBRARY}`]);
   }
 }

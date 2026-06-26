@@ -25,9 +25,14 @@ export class LibraryApi {
   private readonly playlistsUrl = `${this.apiUrl}/playlists`;
   private readonly favoritesUrl = `${this.apiUrl}/favorites`;
 
-  readonly playlistsResource = httpResource<Playlist[]>(() => ({
-    url: this.playlistsUrl,
-  }));
+  playlistsResource(): HttpResourceRef<Playlist[]> {
+    return httpResource<Playlist[]>(
+      () => ({
+        url: this.playlistsUrl,
+      }),
+      { defaultValue: [] },
+    );
+  }
 
   playlistDetailsResource(playlistId: Signal<string | null>): HttpResourceRef<PlaylistDetails | undefined> {
     return httpResource<PlaylistDetails>(() => {

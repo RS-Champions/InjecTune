@@ -45,7 +45,6 @@
   }
 }
 
-// 2×2 grid — each cell is half the container
 .cover-collage {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -58,13 +57,11 @@
     height: 100%;
     object-fit: cover;
 
-    // 2 images — each spans both rows (left | right)
     &:first-child:nth-last-child(2),
     &:first-child:nth-last-child(2) ~ img {
       grid-row: 1 / -1;
     }
 
-    // When there are exactly 3 images, the first spans both rows
     &:first-child:nth-last-child(3) {
       grid-row: 1 / -1;
     }
@@ -109,8 +106,6 @@
   .gradient-button();
 }
 
-// ── Tracks section ───────────────────────────────────────────────────────────
-
 .tracks-section {
   margin-top: 40px;
 
@@ -152,4 +147,20 @@
 
 .adding-loader {
   margin-bottom: 12px;
+}
+
+// ── Not found ────────────────────────────────────────────────────────────────
+
+.not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 80px 0;
+  color: var(--on-surface-variant);
+
+  &__icon {
+    font-size: 64px;
+    color: var(--outline);
+  }
 }

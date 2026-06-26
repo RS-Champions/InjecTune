@@ -35,11 +35,11 @@ export class LibraryPage {
 
   readonly pageName = PageName.LIBRARY;
 
-  readonly playlistsResource = this.libraryApi.playlistsResource;
+  readonly playlistsResource = this.libraryApi.playlistsResource();
   readonly favoritesResource = this.libraryApi.favoritesResource;
 
   readonly playlists = computed((): PlaylistItem[] =>
-    (this.playlistsResource.value() ?? []).map((p) => ({
+    this.playlistsResource.value().map((p) => ({
       id: p.id,
       cover: p.image ?? null,
       name: p.name,
