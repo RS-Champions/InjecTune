@@ -5,10 +5,12 @@ import { map, Observable } from 'rxjs';
 
 import { LibraryApiBase } from './library-api-base';
 import {
+  AddTrackDto,
   CreatePlaylistDto,
   FavoriteItem,
   Playlist,
   PlaylistDetails,
+  PlaylistTrack,
   UpdatePlaylistDto,
 } from '../interfaces/library-api.model';
 
@@ -47,6 +49,10 @@ export class LibraryApi {
 
   deletePlaylist(id: string): Observable<void> {
     return this.http.delete(`${this.base.playlistsUrl}/${id}`).pipe(map(() => void 0));
+  }
+
+  addTrackToPlaylist(playlistId: string, dto: AddTrackDto): Observable<PlaylistTrack> {
+    return this.http.post<PlaylistTrack>(`${this.base.playlistsUrl}/${playlistId}/tracks`, dto);
   }
 
   addFavorite(trackId: string): Observable<FavoriteItem> {

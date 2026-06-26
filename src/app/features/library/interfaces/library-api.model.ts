@@ -50,3 +50,9 @@ export interface UpdatePlaylistDto {
   name?: string;
   description?: string;
 }
+
+export interface AddTrackDto {
+  source: 'jamendo' | 'own';
+  trackId: string;
+  position: number;
+}

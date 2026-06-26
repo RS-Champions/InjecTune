@@ -1,0 +1,50 @@
+<div class="cover" [class.active]="isPlaying()">
+  <img [src]="track().image" [alt]="track().name" />
+  @if (isPlaying()) {
+    <app-equalizer />
+  }
+  <button
+    tuiIconButton
+    type="button"
+    size="m"
+    [appearance]="isPlaying() ? 'custom-active' : 'custom-secondary'"
+    [iconStart]="isPlaying() ? '@tui.pause' : '@tui.play'"
+    class="play-btn"
+    (click)="isPlaying() ? onPause() : onPlay()"
+    [attr.aria-label]="isPlaying() ? 'Pause' : 'Play'"
+  ></button>
+</div>
+
+<div class="description">
+  <span class="title body-md" tuiHint="{{ track().name }}" tuiHintDirection="top-start" tuiHintAppearance="neutral">
+    {{ track().name }}
+  </span>
+  <a class="artist label-sm" [routerLink]="['/artist', track().artist_id]">
+    {{ track().artist_name }}
+  </a>
+</div>
+
+<div class="album body-md">
+  @if (track().album_id) {
+    <a class="album-link" [routerLink]="['/album', track().album_id]">
+      {{ track().album_name ?? '—' }}
+    </a>
+  } @else {
+    <span>—</span>
+  }
+</div>
+
+<div class="duration label-sm">{{ track().duration | formatDuration }}</div>
+
+<div class="actions">
+  <button
+    tuiIconButton
+    type="button"
+    appearance="ghost"
+    size="s"
+    iconStart="@tui.x"
+    class="remove-btn"
+    (click)="onRemove()"
+    [attr.aria-label]="'Remove ' + track().name"
+  ></button>
+</div>

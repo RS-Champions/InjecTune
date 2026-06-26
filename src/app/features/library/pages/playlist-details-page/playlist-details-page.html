@@ -38,8 +38,15 @@
       </p>
 
       <div class="hero__actions">
-        <button tuiButton appearance="primary" iconStart="@tui.play" [disabled]="tracks().length === 0" class="play-btn">
-          Play
+        <button
+          tuiButton
+          appearance="primary"
+          iconStart="@tui.play"
+          [disabled]="tracks().length === 0 || isPlayingThisPlaylist()"
+          class="play-btn"
+          (click)="onPlayAll()"
+        >
+          {{ isPlayingThisPlaylist() ? 'Playing' : 'Play' }}
         </button>
       </div>
     </div>
@@ -55,6 +62,24 @@
         <p class="title-md empty-state__heading">No tracks yet</p>
         <p class="body-md empty-state__hint">Search for tracks below and add them to your playlist.</p>
       </div>
+    } @else {
+      <app-playlist-track-list
+        [tracks]="tracks()"
+        [currentTrack]="playerStore.currentTrack()"
+        [isPlaying]="playerStore.isPlaying()"
+        (trackPlay)="onPlayTrack($event)"
+        (trackPause)="onPauseTrack()"
+        (trackRemove)="onRemoveTrack()"
+      />
     }
+  </section>
+
+  <!-- ── Inline track search (Issue #9) ────────────────────────────────────── -->
+  <section class="add-tracks-section">
+    <h2 class="headline-lg add-tracks-section__title">Add Songs</h2>
+    @if (isAddingTrack()) {
+      <tui-loader size="s" class="adding-loader" />
+    }
+    <app-playlist-track-search (trackSelected)="onTrackSelected($event)" />
   </section>
 }
