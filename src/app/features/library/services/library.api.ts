@@ -59,6 +59,14 @@ export class LibraryApi {
     return this.http.post<PlaylistTrack>(`${this.playlistsUrl}/${playlistId}/tracks`, dto);
   }
 
+  removeTrackFromPlaylist(playlistId: string, trackId: string, source: 'jamendo' | 'own' = 'jamendo'): Observable<void> {
+    return this.http
+      .delete(`${this.playlistsUrl}/${playlistId}/tracks/${trackId}`, {
+        params: { source },
+      })
+      .pipe(map(() => void 0));
+  }
+
   addFavorite(trackId: string): Observable<FavoriteItem> {
     return this.http.post<FavoriteItem>(`${this.favoritesUrl}/${trackId}`, {});
   }

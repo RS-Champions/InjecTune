@@ -69,7 +69,7 @@
         [isPlaying]="playerStore.isPlaying()"
         (trackPlay)="onPlayTrack($event)"
         (trackPause)="onPauseTrack()"
-        (trackRemove)="onRemoveTrack()"
+        (trackRemove)="onRemoveTrack($event)"
       />
     }
   </section>

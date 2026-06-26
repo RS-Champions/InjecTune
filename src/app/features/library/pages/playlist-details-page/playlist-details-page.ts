@@ -123,7 +123,17 @@ export class PlaylistDetailsPage {
     this.audioEngine.pause();
   }
 
-  protected onRemoveTrack(): void {
-    // TODO
+  // ── Track removal ─────────────────────────────────────────────────────────
+
+  onRemoveTrack(track: EnrichedPlaylistTrack): void {
+    const id = this.id();
+    if (!id) return;
+
+    this.libraryApi.removeTrackFromPlaylist(id, track.track_id, track.source).subscribe({
+      next: () => this.detailsResource.reload(),
+      error: () => {
+        this.toasts.open('Failed to remove track.', { appearance: 'negative', autoClose: TOAST_DURATION_MS }).subscribe();
+      },
+    });
   }
 }
