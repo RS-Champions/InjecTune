@@ -1,5 +1,8 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { filter } from 'rxjs';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
+
+import { filter, switchMap } from 'rxjs';
 
 import {
   PlaylistFormDialog,
@@ -24,6 +27,9 @@ import { CreatePlaylistDto } from '@features/library/interfaces/library-api.mode
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LibraryPage {
+  private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
+
   private readonly libraryApi = inject(LibraryApi);
   private readonly dialogs = inject(TuiDialogService);
 
@@ -84,27 +90,20 @@ export class LibraryPage {
 
   onCreatePlaylist(): void {
     this.openPlaylistDialog({})
-      .pipe(filter((result): result is CreatePlaylistDto => result !== null))
-      .subscribe((dto) => {
-        this.libraryApi.createPlaylist(dto).subscribe(() => {
-          this.playlistsResource.reload();
-        });
-      });
-  }
-
-  onEditPlaylist(playlist: PlaylistItem): void {
-    this.openPlaylistDialog({ playlist })
-      .pipe(filter((result): result is CreatePlaylistDto => result !== null))
-      .subscribe((dto) => {
-        this.libraryApi.updatePlaylist(playlist.id, dto).subscribe(() => {
-          this.playlistsResource.reload();
-        });
+      .pipe(
+        filter((result): result is CreatePlaylistDto => result !== null),
+        switchMap((dto) => this.libraryApi.createPlaylist(dto)),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe((playlist) => {
+        // Navigate directly to the new playlist's details page.
+        // The CanDeactivate guard will clean it up if the user leaves with 0 tracks.
+        void this.router.navigate([`/${PageName.LIBRARY}/playlists`, playlist.id]);
       });
   }
 
   onPlaylistClick(playlist: PlaylistItem): void {
-    // TODO(#8): navigate to playlist details route
-    console.log('open playlist', playlist.id);
+    void this.router.navigate([`/${PageName.LIBRARY}/playlists`, playlist.id]);
   }
 
   onLikedSongsClick(): void {
