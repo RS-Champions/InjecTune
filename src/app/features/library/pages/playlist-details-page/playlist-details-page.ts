@@ -62,7 +62,10 @@ export class PlaylistDetailsPage {
 
   readonly totalDuration = computed(() => this.tracks().reduce((sum, t) => sum + Number(t.duration), 0));
 
-  // ── Track addition (Issue #9(136)) ─────────────────────────────────────────────
+  // ── HasPlaylistState interface (for CanDeactivate guard) ──────────────────
+
+  playlistId = () => this.idFromRoute();
+  trackCount = () => this.tracks().length;
 
   private readonly existingTrackIds = computed(
     () => new Set(this.detailsResource.value()?.playlist_tracks.map((t) => t.track_id)),

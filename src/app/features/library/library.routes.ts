@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { playlistEmptyGuard } from './guards/playlist-empty-guard';
 
 export const LIBRARY_ROUTES: Routes = [
   {
@@ -7,6 +8,7 @@ export const LIBRARY_ROUTES: Routes = [
   },
   {
     path: 'playlists/:id',
+    canDeactivate: [playlistEmptyGuard],
     loadComponent: () =>
       import('./pages/playlist-details-page/playlist-details-page').then((module) => module.PlaylistDetailsPage),
   },

@@ -13,6 +13,9 @@ describe('PlaylistTrackList', () => {
 
     fixture = TestBed.createComponent(PlaylistTrackList);
     component = fixture.componentInstance;
+
+    fixture.componentRef.setInput('tracks', []);
+
     fixture.detectChanges();
   });
 
