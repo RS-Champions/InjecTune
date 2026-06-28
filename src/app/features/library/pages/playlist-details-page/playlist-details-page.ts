@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { rxResource, toSignal } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
+import { rxResource } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
-import { catchError, map, of } from 'rxjs';
+import { catchError, of } from 'rxjs';
 import { AudioEngine, PlayerStore } from '@core/player';
 import { PlaylistTrackList } from '@features/library/components/playlist-track-list/playlist-track-list';
 import { PlaylistTrackSearch } from '@features/library/components/playlist-track-search/playlist-track-search';
@@ -33,11 +33,9 @@ export class PlaylistDetailsPage {
 
   readonly pageName = PageName.LIBRARY_PLAYLIST;
 
-  private readonly idFromRoute = toSignal(this.route.params.pipe(map((p) => p['id'] as string | null)), {
-    initialValue: this.route.snapshot.params['id'] as string | null,
-  });
+  readonly id = input.required<string>();
 
-  readonly detailsResource = this.libraryApi.playlistDetailsResource(this.idFromRoute);
+  readonly detailsResource = this.libraryApi.playlistDetailsResource(this.id);
 
   readonly tracksResource = rxResource({
     params: () => this.detailsResource.value()?.playlist_tracks ?? [],
@@ -64,7 +62,7 @@ export class PlaylistDetailsPage {
 
   // ── HasPlaylistState interface (for CanDeactivate guard) ──────────────────
 
-  playlistId = () => this.idFromRoute();
+  playlistId = () => this.id();
   trackCount = () => this.tracks().length;
 
   private readonly existingTrackIds = computed(
@@ -80,7 +78,7 @@ export class PlaylistDetailsPage {
   });
 
   onTrackSelected(track: SearchTrack): void {
-    const id = this.idFromRoute();
+    const id = this.id();
     if (!id) return;
 
     if (this.existingTrackIds().has(track.id)) {
