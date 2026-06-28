@@ -15,7 +15,6 @@ describe('PlaylistFormDialog', () => {
           provide: POLYMORPHEUS_CONTEXT,
           useValue: {
             data: {},
-
             completeWith: vi.fn(),
           },
         },

@@ -9,6 +9,7 @@ import { EnrichedPlaylistTrack } from '@features/library/interfaces/library-api.
 import { LibraryApi } from '@features/library/services/library.api';
 import { PlaylistJamendoApi } from '@features/library/services/playlist-jamendo-api';
 import { LoadingSkeleton } from '@shared/components/loading-skeleton/loading-skeleton';
+import { MAX_COVER_IMAGES, TOAST_DURATION_MS } from '@shared/constants/constants';
 import { PageName } from '@shared/constants/page-name';
 import { SearchTrack } from '@shared/track/interfaces/search-track';
 import { FormatDurationPipe } from '@shared/track/pipes/format-duration-pipe';
@@ -55,7 +56,7 @@ export class PlaylistDetailsPage {
     this.tracks()
       .map((t) => t.image)
       .filter(Boolean)
-      .slice(0, 4),
+      .slice(0, MAX_COVER_IMAGES),
   );
 
   readonly totalDuration = computed(() => this.tracks().reduce((sum, t) => sum + Number(t.duration), 0));
@@ -85,7 +86,7 @@ export class PlaylistDetailsPage {
       this.toasts
         .open(`"${track.name}" is already in this playlist.`, {
           appearance: 'warning',
-          autoClose: 3000,
+          autoClose: TOAST_DURATION_MS,
         })
         .subscribe();
       return;
@@ -105,7 +106,7 @@ export class PlaylistDetailsPage {
         this.toasts
           .open('Failed to add track. Please try again.', {
             appearance: 'destructive',
-            autoClose: 3000,
+            autoClose: TOAST_DURATION_MS,
           })
           .subscribe();
       },
