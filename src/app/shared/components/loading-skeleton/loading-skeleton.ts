@@ -1,10 +1,11 @@
+import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { PageName } from '@shared/constants/page-name';
 import { TuiSkeleton } from '@taiga-ui/kit';
 
 @Component({
   selector: 'app-loading-skeleton',
-  imports: [TuiSkeleton],
+  imports: [NgTemplateOutlet, TuiSkeleton],
   templateUrl: './loading-skeleton.html',
   styleUrl: './loading-skeleton.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
