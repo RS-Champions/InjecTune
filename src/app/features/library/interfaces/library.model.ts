@@ -12,3 +12,12 @@ export interface PlaylistItem {
   description: string;
   meta: string;
 }
+
+export interface TrackPositionDto {
+  id: string; // playlist_tracks row UUID
+  position: number; // 0-indexed
+}
+
+export interface ReorderTracksDto {
+  tracks: TrackPositionDto[];
+}

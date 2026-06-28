@@ -1,6 +1,5 @@
 @import 'styles/mixins.less';
 
-// Column widths — must match .track-list__header in playlist-track-list.less
 @col-cover: 40px;
 @col-description: 35%;
 @col-album: 25%;
@@ -8,7 +7,6 @@
 @col-actions: 40px;
 
 :host {
-  // The card itself takes all remaining space
   flex: 1;
   position: relative;
   display: flex;
@@ -19,6 +17,7 @@
   padding: 10px 15px;
   overflow: hidden;
   transition: var(--transition-bgc), var(--transition-box-shadow);
+  cursor: default;
 
   &::before {
     content: '';
@@ -47,10 +46,32 @@
     .remove-btn {
       opacity: 1;
     }
+
+    .drag-handle {
+      opacity: 1;
+    }
   }
 
   &.active::before {
     animation: neonPulse 1s ease-in-out infinite alternate;
+  }
+}
+
+// ── Drag handle ───────────────────────────────────────────────────────────────
+
+.drag-handle {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  color: var(--on-surface-variant);
+  opacity: 0;
+  cursor: grab;
+  transition: opacity 0.15s ease;
+
+  &:active {
+    cursor: grabbing;
   }
 }
 
@@ -113,7 +134,6 @@
   color: var(--on-surface-variant);
   .ellipsis();
 
-  // hide on narrow screens
   @media (max-width: 768px) {
     display: none;
   }

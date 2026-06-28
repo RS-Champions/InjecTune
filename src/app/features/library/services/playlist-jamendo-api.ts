@@ -57,7 +57,6 @@ export class PlaylistJamendoApi {
 
     return forkJoin(requests).pipe(
       map((responses: JamendoResponse<SearchTrack>[]) => {
-        // Build a lookup map: jamendo track_id → metadata
         const metaMap = new Map<string, SearchTrack>();
         for (const response of responses) {
           for (const track of response.results) {
@@ -65,12 +64,11 @@ export class PlaylistJamendoApi {
           }
         }
 
-        // Merge in position order, skipping any IDs Jamendo didn't return
         const enrichedPlaylistTracks: EnrichedPlaylistTrack[] = [];
         for (const playlistTrack of jamendoTracks) {
           const meta = metaMap.get(playlistTrack.track_id);
           if (meta) {
-            enrichedPlaylistTracks.push({ ...playlistTrack, ...meta });
+            enrichedPlaylistTracks.push({ ...meta, ...playlistTrack });
           }
         }
         return enrichedPlaylistTracks;

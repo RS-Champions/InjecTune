@@ -1,4 +1,4 @@
-// Column widths — must stay in sync with library-track-card.less
+@col-drag: 20px;
 @col-num: 32px;
 @col-cover: 40px;
 @col-gap: 16px;
@@ -7,15 +7,11 @@
 @col-duration: 60px;
 @col-actions: calc(@col-gap + 40px);
 
-// Total left offset before description text starts: num + cover + 2 gaps + card's internal padding (12px left)
 @title-margin-left: calc(@col-cover + 2 * @col-gap);
-@title-offset: calc(@col-num + @title-margin-left);
 
 :host {
   display: block;
 }
-
-// ── Header ────────────────────────────────────────────────────────────────────
 
 .header {
   display: flex;
@@ -29,6 +25,12 @@
   user-select: none;
 }
 
+.col-drag {
+  width: @col-drag;
+  flex-shrink: 0;
+  // mirrors drag handle width in the card
+}
+
 .col-num {
   width: @col-num;
   text-align: center;
@@ -36,7 +38,6 @@
 }
 
 .col-title {
-  // aligns with description column inside the card
   margin-left: calc(@title-margin-left);
   flex: 1;
   min-width: 0;
@@ -45,7 +46,6 @@
 .col-album {
   flex-shrink: 0;
   width: @col-album;
-  // text-align: center;
 
   @media (max-width: 768px) {
     display: none;
@@ -67,15 +67,11 @@
   flex-shrink: 0;
 }
 
-// ── Divider ───────────────────────────────────────────────────────────────────
-
 .divider {
   height: 1px;
   background-color: var(--outline-variant, rgba(255, 255, 255, 0.08));
   margin: 8px 0;
 }
-
-// ── Items ─────────────────────────────────────────────────────────────────────
 
 .items {
   list-style: none;
@@ -88,6 +84,16 @@
   display: flex;
   align-items: center;
   gap: @col-gap;
+
+  app-playlist-track-card {
+    flex: 1;
+    min-width: 0;
+  }
+
+  // CDK drag cursor while the whole row is being dragged
+  &.cdk-drag-dragging {
+    opacity: 0.5;
+  }
 }
 
 .num {
@@ -96,4 +102,37 @@
   flex-shrink: 0;
   color: var(--on-surface-variant);
   font-variant-numeric: tabular-nums;
+}
+
+// ── CDK drag styles ───────────────────────────────────────────────────────────
+
+// The floating preview card while dragging
+.cdk-drag-preview {
+  display: flex;
+  align-items: center;
+  gap: @col-gap;
+  padding: 8px 12px;
+  border-radius: var(--bdrd);
+  background-color: var(--surface-container-high, #2a2535);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  opacity: 0.95;
+
+  app-playlist-track-card {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+// Placeholder slot left in the list while dragging
+.drag-placeholder {
+  height: 56px; // matches row height
+  border-radius: var(--bdrd);
+  background-color: var(--surface-container, rgba(255, 255, 255, 0.05));
+  border: 1px dashed var(--outline-variant, rgba(255, 255, 255, 0.15));
+  transition: height 0.15s ease;
+}
+
+// Animate items sliding during drag
+.cdk-drop-list-dragging .item:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }

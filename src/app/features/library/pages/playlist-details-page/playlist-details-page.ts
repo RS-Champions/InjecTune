@@ -10,6 +10,7 @@ import {
 } from '@features/library/components/playlist-form-dialog/playlist-form-dialog';
 import { PlaylistTrackList } from '@features/library/components/playlist-track-list/playlist-track-list';
 import { PlaylistTrackSearch } from '@features/library/components/playlist-track-search/playlist-track-search';
+import { ReorderTracksDto } from '@features/library/interfaces/library.model';
 import { EnrichedPlaylistTrack, UpdatePlaylistDto } from '@features/library/interfaces/library-api.model';
 import { LibraryApi } from '@features/library/services/library.api';
 import { PlaylistJamendoApi } from '@features/library/services/playlist-jamendo-api';
@@ -152,8 +153,6 @@ export class PlaylistDetailsPage {
     });
   }
 
-  // ── Edit playlist metadata ────────────────────────────────────────────────
-
   onEdit(): void {
     const editingPlaylist = this.playlist();
     if (!editingPlaylist) return;
@@ -185,8 +184,6 @@ export class PlaylistDetailsPage {
       .subscribe();
   }
 
-  // ── Delete playlist ───────────────────────────────────────────────────────
-
   onDelete(): void {
     const id = this.id();
     if (!id) return;
@@ -206,9 +203,37 @@ export class PlaylistDetailsPage {
       .subscribe();
   }
 
-  // ── Back navigation ───────────────────────────────────────────────────────
-
   onBack(): void {
     void this.router.navigate([`/${PageName.LIBRARY}`]);
+  }
+
+  onTracksReordered(reodered: EnrichedPlaylistTrack[]) {
+    const id = this.id();
+    if (!id) return;
+
+    // Build the DTO: map each track's DB row id + its new 0-indexed position
+    const dto: ReorderTracksDto = {
+      tracks: reodered.map((track, index) => ({
+        id: track.id, // playlist_tracks row UUID (not the Jamendo track id)
+        position: index,
+      })),
+    };
+
+    this.libraryApi.reorderTracks(id, dto).subscribe({
+      next: () => {
+        // Backend returns the updated PlaylistDetails — reload to sync
+        this.detailsResource.reload();
+      },
+      error: () => {
+        // Optimistic update already applied visually — reload to revert
+        this.detailsResource.reload();
+        this.toasts
+          .open('Failed to save track order. Order has been reverted.', {
+            appearance: 'negative',
+            autoClose: 5000,
+          })
+          .subscribe();
+      },
+    });
   }
 }
