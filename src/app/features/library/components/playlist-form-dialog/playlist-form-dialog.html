@@ -1,0 +1,29 @@
+<form class="form" [formGroup]="form" (ngSubmit)="submit()">
+  <label tuiLabel class="required">
+    <span>Name</span>
+
+    <tui-textfield>
+      <input tuiInput formControlName="name" placeholder="My playlist" [tuiTextfieldCleaner]="false" />
+    </tui-textfield>
+  </label>
+
+  <tui-error formControlName="name" />
+
+  <label tuiLabel>
+    <span>Description</span>
+
+    <tui-textfield>
+      <input tuiInput formControlName="description" placeholder="Optional description" />
+    </tui-textfield>
+  </label>
+
+  <tui-error formControlName="description" />
+
+  <footer class="footer">
+    <button type="button" tuiButton appearance="primary" (click)="cancel()">Cancel</button>
+
+    <button type="submit" tuiButton appearance="secondary">
+      {{ isEditMode() ? 'Save changes' : 'Create' }}
+    </button>
+  </footer>
+</form>

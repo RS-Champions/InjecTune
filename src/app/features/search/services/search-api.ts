@@ -3,8 +3,8 @@ import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { JamendoApiBase } from '@core/jamendo/jamendo-api-base';
 
 import { SearchFilters } from '@features/search/interfaces/search-filters';
-import { SearchTrack } from '@features/search/interfaces/search-track';
 import { JamendoResponse } from '@shared/interfaces/jamendo-response';
+import { SearchTrack } from '@shared/track/interfaces/search-track';
 
 @Injectable({
   providedIn: 'root',

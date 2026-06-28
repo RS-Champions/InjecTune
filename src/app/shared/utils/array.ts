@@ -9,3 +9,20 @@ export function shuffleArray<T>(array: T[]): T[] {
   }
   return result;
 }
+
+/**
+ * Splits an array into chunks of a given size.
+ * Used e.g. to batch Jamendo API requests (max 50 IDs per call).
+ *
+ * @example
+ * chunk(['a', 'b', 'c', 'd'], 2) // [['a', 'b'], ['c', 'd']]
+ */
+export function chunk<T>(array: T[], size: number): T[][] {
+  const chunks: T[][] = [];
+
+  for (let index = 0; index < array.length; index += size) {
+    chunks.push(array.slice(index, index + size));
+  }
+
+  return chunks;
+}
