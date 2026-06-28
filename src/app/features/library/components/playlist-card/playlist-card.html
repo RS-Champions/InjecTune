@@ -1,0 +1,15 @@
+@let item = playlist();
+
+<button type="button" class="cover" (click)="playlistClick.emit()">
+  @if (item.cover) {
+    <img [src]="item.cover" [alt]="item.name" />
+  } @else {
+    <span class="cover-placeholder">
+      <tui-icon icon="@tui.heart" />
+    </span>
+  }
+</button>
+<div class="info">
+  <span class="title-md name">{{ item.name }}</span>
+  <span class="label-sm meta">{{ item.meta }}</span>
+</div>

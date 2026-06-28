@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { MainLayoutComponent } from '@core/layout/main-layout/main-layout';
 import { EmptyLayoutComponent } from '@core/layout/empty-layout/empty-layout';
 import { aboutLeaveGuard } from '@features/about/guards/about-leave-guard';
+import { libraryGuard } from '@features/library/library-guard';
 import { PageName } from '@shared/constants/page-name';
 
 export const routes: Routes = [
@@ -59,6 +60,17 @@ export const routes: Routes = [
         path: '',
         loadComponent: () =>
           import('@features/discover/pages/discover-page/discover-page').then((module) => module.DiscoverPage),
+      },
+    ],
+  },
+  {
+    path: PageName.LIBRARY,
+    component: MainLayoutComponent,
+    canActivate: [libraryGuard],
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('@features/library/library-page/library-page').then((module) => module.LibraryPage),
       },
     ],
   },
