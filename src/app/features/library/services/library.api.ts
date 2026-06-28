@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { httpResource, HttpResourceRef } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 
-import { LibraryApiBase } from './library-api-base';
+import { LIBRARY_API_URL } from '@core/tokens/library.tokens';
 import {
   AddTrackDto,
   CreatePlaylistDto,
@@ -14,15 +14,19 @@ import {
   UpdatePlaylistDto,
 } from '../interfaces/library-api.model';
 
+// TODO(auth): replace STUB_USER_ID with real Supabase Auth session identity.
 @Injectable({
   providedIn: 'root',
 })
 export class LibraryApi {
-  private readonly base = inject(LibraryApiBase);
   private readonly http = inject(HttpClient);
 
+  private readonly apiUrl = inject(LIBRARY_API_URL);
+  private readonly playlistsUrl = `${this.apiUrl}/playlists`;
+  private readonly favoritesUrl = `${this.apiUrl}/favorites`;
+
   readonly playlistsResource = httpResource<Playlist[]>(() => ({
-    url: this.base.playlistsUrl,
+    url: this.playlistsUrl,
   }));
 
   playlistDetailsResource(playlistId: Signal<string | null>): HttpResourceRef<PlaylistDetails | undefined> {
@@ -31,35 +35,35 @@ export class LibraryApi {
 
       if (!id) return;
 
-      return { url: `${this.base.playlistsUrl}/${id}` };
+      return { url: `${this.playlistsUrl}/${id}` };
     });
   }
 
   readonly favoritesResource = httpResource<FavoriteItem[]>(() => ({
-    url: this.base.favoritesUrl,
+    url: this.favoritesUrl,
   }));
 
   createPlaylist(dto: CreatePlaylistDto): Observable<Playlist> {
-    return this.http.post<Playlist>(this.base.playlistsUrl, dto);
+    return this.http.post<Playlist>(this.playlistsUrl, dto);
   }
 
   updatePlaylist(id: string, dto: UpdatePlaylistDto): Observable<Playlist> {
-    return this.http.patch<Playlist>(`${this.base.playlistsUrl}/${id}`, dto);
+    return this.http.patch<Playlist>(`${this.playlistsUrl}/${id}`, dto);
   }
 
   deletePlaylist(id: string): Observable<void> {
-    return this.http.delete(`${this.base.playlistsUrl}/${id}`).pipe(map(() => void 0));
+    return this.http.delete(`${this.playlistsUrl}/${id}`).pipe(map(() => void 0));
   }
 
   addTrackToPlaylist(playlistId: string, dto: AddTrackDto): Observable<PlaylistTrack> {
-    return this.http.post<PlaylistTrack>(`${this.base.playlistsUrl}/${playlistId}/tracks`, dto);
+    return this.http.post<PlaylistTrack>(`${this.playlistsUrl}/${playlistId}/tracks`, dto);
   }
 
   addFavorite(trackId: string): Observable<FavoriteItem> {
-    return this.http.post<FavoriteItem>(`${this.base.favoritesUrl}/${trackId}`, {});
+    return this.http.post<FavoriteItem>(`${this.favoritesUrl}/${trackId}`, {});
   }
 
   removeFavorite(trackId: string): Observable<void> {
-    return this.http.delete(`${this.base.favoritesUrl}/${trackId}`).pipe(map(() => void 0));
+    return this.http.delete(`${this.favoritesUrl}/${trackId}`).pipe(map(() => void 0));
   }
 }
