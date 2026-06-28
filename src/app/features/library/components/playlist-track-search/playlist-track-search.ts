@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { debounceTime, distinctUntilChanged, map, switchMap, catchError, of } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, switchMap, catchError, of, filter, tap } from 'rxjs';
 
 import { PlaylistJamendoApi } from '@features/library/services/playlist-jamendo-api';
 import { SearchTrack } from '@shared/track/interfaces/search-track';
@@ -19,7 +19,6 @@ import { TuiButton, TuiInput, TuiLoader, TuiTextfield } from '@taiga-ui/core';
 export class PlaylistTrackSearch {
   private readonly playlistJamendoApi = inject(PlaylistJamendoApi);
 
-  /** Emits when the user clicks "Add" on a result row */
   readonly trackSelected = output<SearchTrack>();
 
   protected readonly query = signal('');
@@ -30,25 +29,21 @@ export class PlaylistTrackSearch {
       debounceTime(500),
       distinctUntilChanged(),
       map((q) => q.trim()),
-      switchMap((q) => {
-        if (q.length < 2) {
-          this.isLoading.set(false);
-          return of([] as SearchTrack[]);
-        }
-
+      filter((q) => q.length > 1),
+      tap(() => {
         this.isLoading.set(true);
-
-        return this.playlistJamendoApi.searchTracks(q).pipe(
-          map((tracks) => {
+      }),
+      switchMap((q) =>
+        this.playlistJamendoApi.searchTracks(q).pipe(
+          tap(() => {
             this.isLoading.set(false);
-            return tracks;
           }),
           catchError(() => {
             this.isLoading.set(false);
             return of([] as SearchTrack[]);
           }),
-        );
-      }),
+        ),
+      ),
     ),
     { initialValue: [] as SearchTrack[] },
   );

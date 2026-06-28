@@ -1,9 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { CanDeactivateFn } from '@angular/router';
 
-import { HasPlaylistState, playlistEmptyGuard } from './playlist-empty-guard';
+import { PlaylistDetailsPage } from '@features/library/pages/playlist-details-page/playlist-details-page';
+import { playlistEmptyGuard } from './playlist-empty-guard';
 
-const executeGuard: CanDeactivateFn<HasPlaylistState> = (...guardParameters) =>
+const executeGuard: CanDeactivateFn<PlaylistDetailsPage> = (...guardParameters) =>
   TestBed.runInInjectionContext(() => playlistEmptyGuard(...guardParameters));
 
 describe('playlistEmptyGuard', () => {

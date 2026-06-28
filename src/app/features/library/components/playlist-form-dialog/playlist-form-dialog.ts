@@ -48,7 +48,6 @@ export class PlaylistFormDialog {
     const { name, description } = this.form.getRawValue();
 
     this.context.completeWith({
-      ...this.form.getRawValue(),
       name: name.trim(),
       description: description.trim() || undefined,
     });

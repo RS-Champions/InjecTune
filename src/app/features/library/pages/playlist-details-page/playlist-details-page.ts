@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { ActivatedRoute } from '@angular/router';
 import { catchError, of } from 'rxjs';
 import { AudioEngine, PlayerStore } from '@core/player';
 import { PlaylistTrackList } from '@features/library/components/playlist-track-list/playlist-track-list';
@@ -24,7 +23,6 @@ import { TuiToastService } from '@taiga-ui/kit';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlaylistDetailsPage {
-  private readonly route = inject(ActivatedRoute);
   private readonly libraryApi = inject(LibraryApi);
   private readonly playlistJamendoApi = inject(PlaylistJamendoApi);
   private readonly toasts = inject(TuiToastService);
@@ -61,11 +59,6 @@ export class PlaylistDetailsPage {
 
   readonly totalDuration = computed(() => this.tracks().reduce((sum, t) => sum + Number(t.duration), 0));
 
-  // ── HasPlaylistState interface (for CanDeactivate guard) ──────────────────
-
-  playlistId = () => this.id();
-  trackCount = () => this.tracks().length;
-
   private readonly existingTrackIds = computed(
     () => new Set(this.detailsResource.value()?.playlist_tracks.map((t) => t.track_id)),
   );
@@ -73,9 +66,10 @@ export class PlaylistDetailsPage {
   readonly isAddingTrack = signal(false);
 
   protected readonly isPlayingThisPlaylist = computed(() => {
-    if (!this.playerStore.isPlaying()) return false;
+    const isPlaying = this.playerStore.isPlaying();
     const currentTrackId = this.playerStore.currentTrack()?.id;
-    return this.tracks().some((t) => t.id === currentTrackId);
+    const tracks = this.tracks();
+    return isPlaying && tracks.some((t) => t.id === currentTrackId);
   });
 
   onTrackSelected(track: SearchTrack): void {

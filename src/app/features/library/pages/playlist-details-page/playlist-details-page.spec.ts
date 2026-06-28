@@ -15,6 +15,9 @@ describe('PlaylistDetailsPage', () => {
 
     fixture = TestBed.createComponent(PlaylistDetailsPage);
     component = fixture.componentInstance;
+
+    fixture.componentRef.setInput('id', 'playlistId');
+
     fixture.detectChanges();
   });
 

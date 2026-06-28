@@ -3,20 +3,13 @@ import { CanDeactivateFn } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { TuiDialogService } from '@taiga-ui/core';
 import { TUI_CONFIRM, TuiConfirmData, TuiToastService } from '@taiga-ui/kit';
-import { LibraryApi } from '../services/library.api';
+import { PlaylistDetailsPage } from '@features/library/pages/playlist-details-page/playlist-details-page';
+import { LibraryApi } from '@features/library/services/library.api';
 
-export interface HasPlaylistState {
-  /** Returns the current playlist id, or null if not yet created */
-  playlistId: () => string | null;
-  /** Returns the number of tracks currently in the playlist */
-  trackCount: () => number;
-}
+export const playlistEmptyGuard: CanDeactivateFn<PlaylistDetailsPage> = (component) => {
+  const id = component.id();
+  const count = component.tracks().length;
 
-export const playlistEmptyGuard: CanDeactivateFn<HasPlaylistState> = (component) => {
-  const id = component.playlistId();
-  const count = component.trackCount();
-
-  // Nothing to clean up — no playlist was created, or it has tracks
   if (!id || count > 0) return true;
 
   const dialogs = inject(TuiDialogService);
@@ -39,7 +32,6 @@ export const playlistEmptyGuard: CanDeactivateFn<HasPlaylistState> = (component)
       map((confirmed) => {
         if (!confirmed) return false;
 
-        // Fire-and-forget: delete the empty playlist then allow navigation
         libraryApi.deletePlaylist(id).subscribe({
           next: () => {
             toasts.open('Empty playlist discarded.', { appearance: 'negative', autoClose: 3000 }).subscribe();

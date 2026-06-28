@@ -9,9 +9,9 @@
 </div>
 <div class="divider"></div>
 <ul class="items" role="list">
-  @for (item of tracks(); track item.id; let index = $index) {
+  @for (item of tracks(); track item.id) {
     <li class="item" role="listitem">
-      <span class="num label-sm" aria-hidden="true">{{ index + 1 }}</span>
+      <span class="num label-sm" aria-hidden="true">{{ $index + 1 }}</span>
       <app-playlist-track-card
         [track]="item"
         [isPlaying]="isTrackPlaying(item)"
