@@ -1,0 +1,124 @@
+@import 'styles/mixins.less';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lg);
+  padding: var(--lg) var(--lg) calc(var(--lg) * 3);
+  max-width: var(--lg-container);
+  margin: 0 auto;
+}
+
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--default);
+}
+
+.page-subtitle {
+  color: var(--on-surface-variant);
+  margin-top: var(--sm);
+}
+
+.library-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--default);
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.date-label {
+  color: var(--primary);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.recent-scroll {
+  display: flex;
+  gap: var(--default);
+  overflow-x: auto;
+  padding-bottom: var(--sm);
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.recent-item {
+  .reset-default-button();
+  flex-shrink: 0;
+  width: 230px;
+  cursor: pointer;
+  border-radius: var(--lg);
+  overflow: hidden;
+  transition: var(--transition-transform);
+}
+
+.playlists-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: var(--default);
+}
+
+.create-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--default);
+  aspect-ratio: 1;
+  border-radius: var(--bdrd);
+  border: 2px dashed var(--primary-mix-30);
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  transition: var(--transition);
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.01);
+    border-color: var(--primary);
+    box-shadow: var(--tw-shadow-hover);
+
+    .create-icon {
+      background-color: var(--primary-mix-20);
+      box-shadow: 0 0 12px var(--primary-mix-20);
+    }
+
+    .create-label {
+      filter: var(--filter-neon-shadow);
+    }
+  }
+}
+
+.create-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background-color: var(--primary-mix-10);
+  color: var(--primary);
+  font-size: 3.5rem;
+  box-shadow: 0 0 20px var(--primary-mix-20);
+  transition: var(--transition-bgc);
+
+  tui-icon {
+    font-size: var(--lg);
+    --tui-stroke-width: 3.5px;
+  }
+}
+
+.create-label {
+  color: var(--primary);
+  font-size: 1.2rem;
+  font-weight: 600;
+  transition: var(--transition-filter);
+}

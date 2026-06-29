@@ -9,10 +9,11 @@ import { HamburgerComponent } from '@shared/components/hamburger/hamburger';
 import { NavItem } from '@shared/components/sidebar/sidebar';
 import { PageName } from '@shared/constants/page-name';
 import { TuiNavigation } from '@taiga-ui/layout';
+import { PlayerBar } from '@core/player/components/player-bar/player-bar';
 
 @Component({
   selector: 'app-main-layout',
-  imports: [CommonModule, HamburgerComponent, Header, RouterOutlet, SidebarComponent, TuiNavigation],
+  imports: [CommonModule, HamburgerComponent, Header, RouterOutlet, SidebarComponent, TuiNavigation, PlayerBar],
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

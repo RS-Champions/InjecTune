@@ -12,6 +12,16 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
+    path: PageName.REGISTER,
+    component: EmptyLayoutComponent,
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('@core/auth/pages/register-page/register-page').then((module) => module.RegisterPage),
+      },
+    ],
+  },
+  {
     path: PageName.ABOUT,
     component: EmptyLayoutComponent,
     children: [

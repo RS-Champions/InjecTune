@@ -1,10 +1,11 @@
 import { httpResource } from '@angular/common/http';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { map } from 'rxjs';
 
+import { AudioEngine, PlayerStore } from '@core/player';
 import { ArtistAlbumCard } from '@features/artist/components/artist-album-card/artist-album-card';
 import { ArtistHeader } from '@features/artist/components/artist-header/artist-header';
 import { ArtistTrackCard } from '@features/artist/components/artist-track-card/artist-track-card';
@@ -26,19 +27,21 @@ export class ArtistPage {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
 
+  protected readonly audioEngine = inject(AudioEngine);
+  protected readonly playerStore = inject(PlayerStore);
+
   protected readonly pageName = PageName.ARTIST;
+
+  protected readonly currentTrack = this.playerStore.currentTrack;
 
   private readonly artistId = toSignal(this.route.params.pipe(map((p) => p['id'] as string)), {
     initialValue: this.route.snapshot.params['id'] as string,
   });
 
-  // reactive album IDs — derived from albumsResource
   private readonly albumIds = computed<string[]>(
     () => this.albumsResource.value()?.results[0]?.albums?.map((a) => a.id) ?? [],
   );
 
-  // uses rxResource to handle Observable from fetchAlbumTrackCounts
-  // automatically re-fetches when albumIds change
   private readonly albumTrackCountsResource = rxResource({
     params: () => ({ ids: this.albumIds() }),
     stream: ({ params }) => this.artistApi.fetchAlbumTrackCounts(params.ids),
@@ -74,8 +77,6 @@ export class ArtistPage {
     } satisfies Artist;
   });
 
-  protected readonly currentTrack = signal<ArtistTrack | null>(null);
-
   protected get isLoading(): boolean {
     return this.albumsResource.status() === 'loading' || this.tracksResource.status() === 'loading';
   }
@@ -84,12 +85,14 @@ export class ArtistPage {
     return this.albumsResource.status() === 'error' || this.tracksResource.status() === 'error';
   }
 
-  protected onPlay(track: ArtistTrack): void {
-    if (this.currentTrack()?.id !== track.id) this.currentTrack.set(track);
+  protected onPlayAll(): void {
+    const tracks = this.artist()?.tracks ?? [];
+    const startIndex = 0;
+    this.audioEngine.playQueue(tracks, startIndex);
   }
 
-  protected onPause(track: ArtistTrack): void {
-    if (this.currentTrack()?.id === track.id) this.currentTrack.set(null);
+  protected onPlay(track: ArtistTrack): void {
+    this.audioEngine.playTrack(track);
   }
 
   protected navigateToAlbum(albumId: string): void {

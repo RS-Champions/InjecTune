@@ -6,4 +6,5 @@ export enum PageName {
   SEARCH = 'search',
   LIBRARY = 'library',
   LIBRARY_PLAYLIST = 'library-playlist',
+  REGISTER = 'register',
 }
