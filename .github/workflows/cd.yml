@@ -42,7 +42,7 @@ jobs:
               clientId: '${{ secrets.CLIENT_ID }}'
             },
             library: {
-              apiUrl: '${{ secrets.BACKEND_URL }}'
+              apiUrl: 'https://injectune-backend.onrender.com'
             }
           };
           EOF
