@@ -64,6 +64,6 @@ export class LibraryApi {
   }
 
   removeFavorite(trackId: string): Observable<void> {
-    return this.http.delete(`${this.favoritesUrl}/${trackId}`).pipe(map(() => void 0));
+    return this.http.delete<void>(`${this.favoritesUrl}/${trackId}`);
   }
 }
