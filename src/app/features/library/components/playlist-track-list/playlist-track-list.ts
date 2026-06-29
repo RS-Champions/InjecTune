@@ -20,7 +20,7 @@ export class PlaylistTrackList {
   readonly trackPause = output<EnrichedPlaylistTrack>();
   readonly trackRemove = output<EnrichedPlaylistTrack>();
 
-  /** Derives isPlaying state per card — true only for the currently active track */
-  protected isTrackPlaying = (track: EnrichedPlaylistTrack): boolean =>
-    this.isPlaying() && this.currentTrack()?.id === track.id;
+  protected isTrackPlaying(track: EnrichedPlaylistTrack): boolean {
+    return this.isPlaying() && this.currentTrack()?.id === track.id;
+  }
 }

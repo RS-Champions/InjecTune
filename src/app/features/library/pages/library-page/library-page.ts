@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 
@@ -38,22 +38,25 @@ export class LibraryPage {
   readonly playlistsResource = this.libraryApi.playlistsResource;
   readonly favoritesResource = this.libraryApi.favoritesResource;
 
-  readonly playlists = (): PlaylistItem[] =>
+  readonly playlists = computed((): PlaylistItem[] =>
     (this.playlistsResource.value() ?? []).map((p) => ({
       id: p.id,
       cover: p.image ?? null,
       name: p.name,
       description: p.description ?? '',
       meta: p.description ?? '', // TODO: replace with track count when available
-    }));
+    })),
+  );
 
-  readonly likedSongsCard = (): PlaylistItem => ({
-    id: 'liked',
-    cover: null,
-    name: 'Liked Songs',
-    description: 'Auto-playlist',
-    meta: `Auto-playlist • ${(this.favoritesResource.value()?.length ?? 0).toString()} songs`,
-  });
+  readonly likedSongsCard = computed(
+    (): PlaylistItem => ({
+      id: 'liked',
+      cover: null,
+      name: 'Liked Songs',
+      description: 'Auto-playlist',
+      meta: `Auto-playlist • ${(this.favoritesResource.value()?.length ?? 0).toString()} songs`,
+    }),
+  );
 
   // ── Stub data ──────────────────────────────────────────────────────────────
   // TODO(#12,#13): replace with recentlyPlayedResource

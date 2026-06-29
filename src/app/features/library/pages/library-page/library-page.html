@@ -15,9 +15,9 @@
       <span class="label-sm date-label">TODAY</span>
     </header>
     <div class="recent-scroll">
-      @for (item of recentTracks; track item.id) {
-        <button type="button" class="recent-item" (click)="onTrackClick(item)">
-          <app-music-card [data]="{ cover: item.cover, title: item.title, subtitle: item.subtitle }" [isActive]="false" />
+      @for (track of recentTracks; track track.id) {
+        <button type="button" class="recent-track" (click)="onTrackClick(track)">
+          <app-music-card [data]="{ cover: track.cover, title: track.title, subtitle: track.subtitle }" [isActive]="false" />
         </button>
       }
     </div>
