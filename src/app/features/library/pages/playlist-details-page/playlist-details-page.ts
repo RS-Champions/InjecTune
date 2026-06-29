@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, inject, DestroyRef, input, signal } from '@angular/core';
 import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
-import { catchError, filter, of, switchMap } from 'rxjs';
+import { from, of } from 'rxjs';
+import { catchError, filter, switchMap, tap } from 'rxjs/operators';
 import { AudioEngine, PlayerStore } from '@core/player';
 import {
   PlaylistFormDialog,
@@ -47,8 +48,10 @@ export class PlaylistDetailsPage {
 
   readonly tracksResource = rxResource({
     params: () => {
-      if (this.detailsResource.error()) return null;
-      return this.detailsResource.value()?.playlist_tracks ?? [];
+      const resourceError = this.detailsResource.error();
+      const resourceValue = this.detailsResource.value();
+      if (resourceError) return null;
+      return resourceValue?.playlist_tracks ?? [];
     },
     stream: ({ params: playlistTracks }) => {
       if (!playlistTracks || playlistTracks.length === 0) {
@@ -137,8 +140,6 @@ export class PlaylistDetailsPage {
     this.audioEngine.pause();
   }
 
-  // ── Track removal ─────────────────────────────────────────────────────────
-
   onRemoveTrack(track: EnrichedPlaylistTrack): void {
     const id = this.id();
     if (!id) return;
@@ -154,15 +155,15 @@ export class PlaylistDetailsPage {
   // ── Edit playlist metadata ────────────────────────────────────────────────
 
   onEdit(): void {
-    const p = this.playlist();
-    if (!p) return;
+    const editingPlaylist = this.playlist();
+    if (!editingPlaylist) return;
 
     const data: PlaylistFormDialogData = {
       playlist: {
-        id: p.id,
-        cover: p.image ?? null,
-        name: p.name,
-        description: p.description ?? '',
+        id: editingPlaylist.id,
+        cover: editingPlaylist.image ?? null,
+        name: editingPlaylist.name,
+        description: editingPlaylist.description ?? '',
         meta: '',
       },
     };
@@ -173,12 +174,15 @@ export class PlaylistDetailsPage {
         size: 's',
         data,
       })
-      .pipe(filter((result): result is UpdatePlaylistDto => result !== null))
-      .subscribe((dto) => {
-        this.libraryApi.updatePlaylist(p.id, dto).subscribe(() => {
+      .pipe(
+        filter((result): result is UpdatePlaylistDto => result !== null),
+        takeUntilDestroyed(this.destroyRef),
+        switchMap((dto) => this.libraryApi.updatePlaylist(editingPlaylist.id, dto)),
+        tap(() => {
           this.detailsResource.reload();
-        });
-      });
+        }),
+      )
+      .subscribe();
   }
 
   // ── Delete playlist ───────────────────────────────────────────────────────
@@ -193,13 +197,13 @@ export class PlaylistDetailsPage {
         size: 's',
         data: id,
       })
-      .pipe(filter(Boolean), takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => {
-        this.libraryApi
-          .deletePlaylist(id)
-          .pipe(switchMap(() => this.router.navigate([`/${PageName.LIBRARY}`])))
-          .subscribe();
-      });
+      .pipe(
+        filter(Boolean),
+        takeUntilDestroyed(this.destroyRef),
+        switchMap(() => this.libraryApi.deletePlaylist(id)),
+        switchMap(() => from(this.router.navigate([`/${PageName.LIBRARY}`]))),
+      )
+      .subscribe();
   }
 
   // ── Back navigation ───────────────────────────────────────────────────────

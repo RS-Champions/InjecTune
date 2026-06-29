@@ -1,11 +1,12 @@
 import { inject } from '@angular/core';
 import { CanDeactivateFn } from '@angular/router';
 import { of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { TuiDialogService } from '@taiga-ui/core';
 import { TUI_CONFIRM, TuiConfirmData, TuiToastService } from '@taiga-ui/kit';
 import { PlaylistDetailsPage } from '@features/library/pages/playlist-details-page/playlist-details-page';
 import { LibraryApi } from '@features/library/services/library.api';
+import { TOAST_DURATION_MS } from '@shared/constants/constants';
 
 export const playlistEmptyGuard: CanDeactivateFn<PlaylistDetailsPage> = (component) => {
   const id = component.id();
@@ -35,11 +36,12 @@ export const playlistEmptyGuard: CanDeactivateFn<PlaylistDetailsPage> = (compone
         if (!confirmed) return of(false);
 
         return libraryApi.deletePlaylist(id).pipe(
-          map(() => {
-            toasts.open('Empty playlist discarded.', { appearance: 'negative', autoClose: 3000 }).subscribe();
+          tap(() => {
+            void toasts.open('Empty playlist discarded.', { appearance: 'negative', autoClose: TOAST_DURATION_MS });
             return true;
           }),
-          catchError(() => of(true)), // navigate anyway if delete fails
+          map(() => true),
+          catchError(() => of(true)),
         );
       }),
     );
