@@ -37,7 +37,9 @@ export class LibraryPage {
   ];
 
   // TODO(#5): replace with playlistsResource once data layer is implemented
-  readonly playlists: PlaylistItem[] = [{ id: 'liked', cover: null, name: 'Liked Songs', meta: 'Auto-playlist' }];
+  readonly playlists: PlaylistItem[] = [
+    { id: 'liked', cover: null, name: 'Liked Songs', description: 'Auto-playlist', meta: 'Auto-playlist' },
+  ];
 
   onTrackClick(track: RecentTrack): void {
     // TODO(#5): dispatch to PlayerStore

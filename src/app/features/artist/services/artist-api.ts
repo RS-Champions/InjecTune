@@ -4,6 +4,7 @@ import { forkJoin, map, Observable, of } from 'rxjs';
 import { JamendoApiBase } from '@core/jamendo/jamendo-api-base';
 import { ArtistAlbum } from '@features/artist/interfaces/artist.model';
 import { JamendoResponse } from '@shared/interfaces/jamendo-response';
+import { chunk } from '@shared/utils/array';
 
 @Injectable({
   providedIn: 'root',
@@ -38,8 +39,7 @@ export class ArtistApi {
   fetchAlbumTrackCounts(albumIds: string[]): Observable<Map<string, number>> {
     if (albumIds.length === 0) return of(new Map<string, number>());
 
-    const BATCH_SIZE = 50;
-    const batches = this.chunk(albumIds, BATCH_SIZE);
+    const batches = chunk(albumIds, this.jamendoApi.JAMENDO_BATCH_SIZE);
 
     const requests = batches.map((batch) =>
       this.http.get<JamendoResponse<ArtistAlbum>>(this.albumsTracksUrl, {
@@ -58,13 +58,5 @@ export class ArtistApi {
         return countMap;
       }),
     );
-  }
-
-  private chunk<T>(array: T[], size: number): T[][] {
-    const chunks: T[][] = [];
-    for (let index = 0; index < array.length; index += size) {
-      chunks.push(array.slice(index, index + size));
-    }
-    return chunks;
   }
 }

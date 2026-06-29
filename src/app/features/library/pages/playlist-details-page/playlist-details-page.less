@@ -1,0 +1,155 @@
+@import 'styles/mixins.less';
+
+:host {
+  section {
+    padding-left: 17px;
+    padding-right: 17px;
+  }
+}
+
+// ── Hero ────────────────────────────────────────────────────────────────────
+
+.hero {
+  display: flex;
+  gap: 40px;
+  align-items: flex-end;
+  padding: 40px 0 32px;
+}
+
+.hero__cover {
+  flex-shrink: 0;
+  width: 220px;
+  height: 220px;
+  border-radius: var(--md);
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.cover-single {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cover-placeholder {
+  width: 100%;
+  height: 100%;
+  background-color: var(--surface-container);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__icon {
+    font-size: 64px;
+    color: var(--outline);
+  }
+}
+
+// 2×2 grid — each cell is half the container
+.cover-collage {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  width: 100%;
+  height: 100%;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    // 2 images — each spans both rows (left | right)
+    &:first-child:nth-last-child(2),
+    &:first-child:nth-last-child(2) ~ img {
+      grid-row: 1 / -1;
+    }
+
+    // When there are exactly 3 images, the first spans both rows
+    &:first-child:nth-last-child(3) {
+      grid-row: 1 / -1;
+    }
+  }
+}
+
+.hero__meta {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.hero__type {
+  color: var(--on-surface-variant);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.hero__title {
+  .ellipsis();
+}
+
+.hero__description {
+  .ellipsis();
+  color: var(--on-surface-variant);
+}
+
+.hero__stats {
+  color: var(--on-surface-variant);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.play-btn {
+  .gradient-button();
+}
+
+// ── Tracks section ───────────────────────────────────────────────────────────
+
+.tracks-section {
+  margin-top: 40px;
+
+  &__title {
+    margin-bottom: 24px;
+  }
+}
+
+// ── Empty state ──────────────────────────────────────────────────────────────
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 64px 0;
+  color: var(--on-surface-variant);
+
+  &__icon {
+    font-size: 48px;
+    color: var(--outline);
+  }
+
+  &__heading {
+    color: var(--on-surface);
+  }
+}
+
+// ── Add tracks section ────────────────────────────────────────────────────────
+
+.add-tracks-section {
+  margin-top: 48px;
+  padding-bottom: 48px;
+
+  &__title {
+    margin-bottom: 20px;
+  }
+}
+
+.adding-loader {
+  margin-bottom: 12px;
+}

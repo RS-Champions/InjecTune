@@ -60,6 +60,7 @@ module.exports = defineConfig([
       'unicorn/no-null': 'off',
       'unicorn/prefer-top-level-await': 'off',
       '@typescript-eslint/no-extraneous-class': 'off',
+      '@typescript-eslint/no-invalid-void-type': 'off',
     },
   },
   {

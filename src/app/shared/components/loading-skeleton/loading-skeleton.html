@@ -1,31 +1,51 @@
-@if (pageName() === 'search') {
-  <div class="top-result" [tuiSkeleton]="isLoading()"></div>
+<ng-template #skeletonList let-count let-cls="cls">
+  @for (i of $any([].constructor(count)); track $index) {
+    <div [class]="cls" [tuiSkeleton]="isLoading()"></div>
+  }
+</ng-template>
+
+@if (pageName() === 'library') {
+  <div class="library-recent-row">
+    <ng-container *ngTemplateOutlet="skeletonList; context: { $implicit: 5, cls: 'library-recent-card' }" />
+  </div>
+  <div class="library-section-title" [tuiSkeleton]="isLoading()"></div>
+  <div class="library-grid">
+    <ng-container *ngTemplateOutlet="skeletonList; context: { $implicit: 4, cls: 'library-playlist-card' }" />
+  </div>
 } @else {
-  <div class="hero-skeleton">
-    <div class="hero-image" [tuiSkeleton]="isLoading()"></div>
-    <div class="hero-description" [tuiSkeleton]="isLoading()"></div>
+  @if (pageName() === 'search') {
+    <div class="top-result" [tuiSkeleton]="isLoading()"></div>
+  } @else {
+    <div class="hero-skeleton">
+      <div class="hero-image" [tuiSkeleton]="isLoading()"></div>
+      <div class="hero-description" [tuiSkeleton]="isLoading()"></div>
+    </div>
+  }
+
+  <div class="content">
+    @switch (pageName()) {
+      @case ('album')
+      @case ('library-playlist') {
+        <div class="section-title section-title_table" [tuiSkeleton]="isLoading()"></div>
+      }
+      @case ('artist') {
+        <div class="section-title" [tuiSkeleton]="isLoading()">Tracks</div>
+        <ng-container *ngTemplateOutlet="skeletonList; context: { $implicit: 3, cls: 'track-skeleton' }" />
+        <div class="section-title section-title_discography" [tuiSkeleton]="isLoading()">Discography</div>
+        <div class="artist-albums-row">
+          <ng-container *ngTemplateOutlet="skeletonList; context: { $implicit: 4, cls: 'artist-album-card' }" />
+        </div>
+      }
+      @case ('search') {
+        <div class="section-title"></div>
+      }
+      @default {
+        <div class="section-title" [tuiSkeleton]="isLoading()">Tracks</div>
+      }
+    }
+
+    @if (pageName() !== 'artist') {
+      <ng-container *ngTemplateOutlet="skeletonList; context: { $implicit: 5, cls: 'track-skeleton' }" />
+    }
   </div>
 }
-<div class="content">
-  @switch (pageName()) {
-    @case ('album') {
-      <div class="section-title section-title_table" [tuiSkeleton]="isLoading()"></div>
-    }
-    @case ('artist') {
-      <div class="section-title" [tuiSkeleton]="isLoading()">Tracks</div>
-      @for (i of [1, 2, 3]; track i) {
-        <div class="track-skeleton" [tuiSkeleton]="isLoading()"></div>
-      }
-      <div class="section-title section-title_discography" [tuiSkeleton]="isLoading()">Discography</div>
-    }
-    @case ('search') {
-      <div class="section-title"></div>
-    }
-    @default {
-      <div class="section-title" [tuiSkeleton]="isLoading()">Tracks</div>
-    }
-  }
-  @for (i of [1, 2, 3, 4, 5]; track i) {
-    <div class="track-skeleton" [tuiSkeleton]="isLoading()"></div>
-  }
-</div>

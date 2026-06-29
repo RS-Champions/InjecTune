@@ -1,0 +1,47 @@
+<header class="page-header">
+  <div class="page-header__text">
+    <h1 class="display-lg">Your Library</h1>
+    <p class="body-md page-subtitle">Organize your music and podcasts</p>
+  </div>
+  <button type="button" tuiButton appearance="outline" size="s" iconStart="@tui.sliders-horizontal">Filters</button>
+</header>
+
+@if (playlistsResource.isLoading()) {
+  <app-loading-skeleton [isLoading]="true" [pageName]="pageName" />
+} @else {
+  <section class="library-section">
+    <header class="section-header">
+      <h2 class="headline-lg">Recently Played</h2>
+      <span class="label-sm date-label">TODAY</span>
+    </header>
+    <div class="recent-scroll">
+      @for (track of recentTracks; track track.id) {
+        <button type="button" class="recent-track" (click)="onTrackClick(track)">
+          <app-music-card [data]="{ cover: track.cover, title: track.title, subtitle: track.subtitle }" [isActive]="false" />
+        </button>
+      }
+    </div>
+  </section>
+
+  <section class="library-section">
+    <h2 class="headline-lg">Playlists</h2>
+    @if (playlistsResource.error()) {
+      <p class="body-md error-message">Failed to load playlists. Please try again later.</p>
+    } @else {
+      <div class="playlists-grid">
+        <button type="button" class="create-card" (click)="onCreatePlaylist()">
+          <span class="create-icon">
+            <tui-icon icon="@tui.plus" />
+          </span>
+          <span class="create-label">Create Playlist</span>
+        </button>
+
+        <app-playlist-card [playlist]="likedSongsCard()" (playlistClick)="onLikedSongsClick()" />
+
+        @for (playlist of playlists(); track playlist.id) {
+          <app-playlist-card [playlist]="playlist" (playlistClick)="onPlaylistClick(playlist)" />
+        }
+      </div>
+    }
+  </section>
+}

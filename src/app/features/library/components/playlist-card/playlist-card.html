@@ -8,6 +8,16 @@
       <tui-icon icon="@tui.heart" />
     </span>
   }
+  <button
+    type="button"
+    tuiIconButton
+    iconStart="@tui.pencil"
+    appearance="custom-secondary"
+    size="s"
+    class="edit-btn"
+    (click)="$event.stopPropagation(); editClick.emit()"
+    aria-label="Edit playlist"
+  ></button>
 </button>
 <div class="info">
   <span class="title-md name">{{ item.name }}</span>

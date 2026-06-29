@@ -1,0 +1,24 @@
+<div class="header" aria-hidden="true">
+  <span class="col-num">#</span>
+  <span class="col-title">TITLE</span>
+  <span class="col-album">ALBUM</span>
+  <span class="col-dur">
+    <tui-icon icon="@tui.clock" />
+  </span>
+  <span class="col-actions"></span>
+</div>
+<div class="divider"></div>
+<ul class="items" role="list">
+  @for (item of tracks(); track item.id) {
+    <li class="item" role="listitem">
+      <span class="num label-sm" aria-hidden="true">{{ $index + 1 }}</span>
+      <app-playlist-track-card
+        [track]="item"
+        [isPlaying]="isTrackPlaying(item)"
+        (playTrack)="trackPlay.emit($event)"
+        (pauseTrack)="trackPause.emit($event)"
+        (removeTrack)="trackRemove.emit($event)"
+      />
+    </li>
+  }
+</ul>

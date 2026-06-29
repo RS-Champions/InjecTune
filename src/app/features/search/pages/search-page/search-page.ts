@@ -5,7 +5,6 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { distinctUntilChanged, map } from 'rxjs';
 
 import { AudioEngine, PlayerStore } from '@core/player';
-import { SearchTrack } from '@features/search/interfaces/search-track';
 import { SearchFiltersPanel } from '@features/search/components/search-filters-panel/search-filters-panel';
 import { SearchTopResultTrackCard } from '@features/search/components/search-top-result-track-card/search-top-result-track-card';
 import { SearchTrackCard } from '@features/search/components/search-track-card/search-track-card';
@@ -14,6 +13,7 @@ import { SearchApi } from '@features/search/services/search-api';
 import { mapDurationToApiParameters, mapApiParametersToDuration } from '@features/search/utils/duration-filter';
 import { LoadingSkeleton } from '@shared/components/loading-skeleton/loading-skeleton';
 import { PageName } from '@shared/constants/page-name';
+import { SearchTrack } from '@shared/track/interfaces/search-track';
 
 import { TuiButton, TuiInput } from '@taiga-ui/core';
 import { TuiButtonLoading } from '@taiga-ui/kit';

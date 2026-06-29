@@ -9,5 +9,6 @@ export interface PlaylistItem {
   id: string;
   cover: string | null;
   name: string;
+  description: string;
   meta: string;
 }

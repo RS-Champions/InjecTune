@@ -1,0 +1,79 @@
+@import 'styles/mixins.less';
+
+:host {
+  display: block;
+}
+
+tui-textfield {
+  border-radius: var(--bdrd);
+  background-color: var(--surface-container);
+}
+
+.loader-row {
+  display: flex;
+  justify-content: center;
+  padding: 12px 0;
+}
+
+.results-list {
+  list-style: none;
+  margin-top: 8px;
+  border: var(--border);
+  border-radius: var(--md);
+  overflow: hidden;
+  background-color: var(--surface-container);
+}
+
+.result-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  transition: var(--transition-bgc);
+  cursor: default;
+
+  &:not(:last-child) {
+    border-bottom: var(--border);
+  }
+
+  &:hover {
+    background-color: var(--surface-bright);
+  }
+}
+
+.result-cover {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.result-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.result-name {
+  color: var(--on-surface);
+  .ellipsis();
+}
+
+.result-artist {
+  color: var(--on-surface-variant);
+  .ellipsis();
+}
+
+.result-duration {
+  color: var(--on-surface-variant);
+  flex-shrink: 0;
+}
+
+.no-results {
+  text-align: center;
+  color: var(--on-surface-variant);
+  padding: 16px 0;
+}
