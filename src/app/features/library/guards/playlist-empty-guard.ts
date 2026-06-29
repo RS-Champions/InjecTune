@@ -1,16 +1,19 @@
 import { inject } from '@angular/core';
 import { CanDeactivateFn } from '@angular/router';
-import { map } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { TuiDialogService } from '@taiga-ui/core';
 import { TUI_CONFIRM, TuiConfirmData, TuiToastService } from '@taiga-ui/kit';
 import { PlaylistDetailsPage } from '@features/library/pages/playlist-details-page/playlist-details-page';
 import { LibraryApi } from '@features/library/services/library.api';
+import { TOAST_DURATION_MS } from '@shared/constants/constants';
 
 export const playlistEmptyGuard: CanDeactivateFn<PlaylistDetailsPage> = (component) => {
   const id = component.id();
   const count = component.tracks().length;
+  const hasError = component.hasResourceError();
 
-  if (!id || count > 0) return true;
+  if (!id || count > 0 || hasError) return true;
 
   const dialogs = inject(TuiDialogService);
   const toasts = inject(TuiToastService);
@@ -29,15 +32,17 @@ export const playlistEmptyGuard: CanDeactivateFn<PlaylistDetailsPage> = (compone
       data,
     })
     .pipe(
-      map((confirmed) => {
-        if (!confirmed) return false;
+      switchMap((confirmed) => {
+        if (!confirmed) return of(false);
 
-        libraryApi.deletePlaylist(id).subscribe({
-          next: () => {
-            toasts.open('Empty playlist discarded.', { appearance: 'negative', autoClose: 3000 }).subscribe();
-          },
-        });
-        return true;
+        return libraryApi.deletePlaylist(id).pipe(
+          tap(() => {
+            void toasts.open('Empty playlist discarded.', { appearance: 'negative', autoClose: TOAST_DURATION_MS });
+            return true;
+          }),
+          map(() => true),
+          catchError(() => of(true)),
+        );
       }),
     );
 };

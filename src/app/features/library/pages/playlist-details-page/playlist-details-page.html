@@ -1,7 +1,12 @@
 @if (isLoading()) {
   <app-loading-skeleton [isLoading]="true" [pageName]="pageName" />
+} @else if (detailsResource.error()) {
+  <div class="not-found">
+    <tui-icon icon="@tui.frown" class="not-found__icon" />
+    <p class="title-md">Playlist not found.</p>
+    <button tuiButton appearance="outline" (click)="onBack()">Back to Library</button>
+  </div>
 } @else if (playlist(); as p) {
-  <!-- ── Hero ─────────────────────────────────────────────────────────────── -->
   <section class="hero">
     <div class="hero__cover">
       @switch (coverImages().length) {
@@ -14,7 +19,6 @@
           <img class="cover-single" [src]="coverImages()[0]" [alt]="p.name" />
         }
         @default {
-          <!-- 2×2 collage — shows up to 4 images -->
           <div class="cover-collage">
             @for (img of coverImages(); track img) {
               <img [src]="img" alt="" />
@@ -48,11 +52,13 @@
         >
           {{ isPlayingThisPlaylist() ? 'Playing' : 'Play' }}
         </button>
+        <button tuiButton appearance="outline" iconStart="@tui.pencil" (click)="onEdit()">Edit</button>
+        <button tuiButton appearance="outline" iconStart="@tui.trash-2" (click)="onDelete()">Delete</button>
+        <button tuiButton appearance="ghost" iconStart="@tui.arrow-left" (click)="onBack()">Back</button>
       </div>
     </div>
   </section>
 
-  <!-- ── Track table ───────────────────────────────────────────────────────── -->
   <section class="tracks-section">
     <h2 class="headline-lg tracks-section__title">Tracklist</h2>
 
@@ -69,12 +75,11 @@
         [isPlaying]="playerStore.isPlaying()"
         (trackPlay)="onPlayTrack($event)"
         (trackPause)="onPauseTrack()"
-        (trackRemove)="onRemoveTrack()"
+        (trackRemove)="onRemoveTrack($event)"
       />
     }
   </section>
 
-  <!-- ── Inline track search (Issue #9) ────────────────────────────────────── -->
   <section class="add-tracks-section">
     <h2 class="headline-lg add-tracks-section__title">Add Songs</h2>
     @if (isAddingTrack()) {

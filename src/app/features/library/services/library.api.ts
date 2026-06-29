@@ -1,7 +1,7 @@
 import { inject, Injectable, Signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { httpResource, HttpResourceRef } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { LIBRARY_API_URL } from '@core/tokens/library.tokens';
 import {
@@ -25,9 +25,14 @@ export class LibraryApi {
   private readonly playlistsUrl = `${this.apiUrl}/playlists`;
   private readonly favoritesUrl = `${this.apiUrl}/favorites`;
 
-  readonly playlistsResource = httpResource<Playlist[]>(() => ({
-    url: this.playlistsUrl,
-  }));
+  playlistsResource(): HttpResourceRef<Playlist[]> {
+    return httpResource<Playlist[]>(
+      () => ({
+        url: this.playlistsUrl,
+      }),
+      { defaultValue: [] },
+    );
+  }
 
   playlistDetailsResource(playlistId: Signal<string | null>): HttpResourceRef<PlaylistDetails | undefined> {
     return httpResource<PlaylistDetails>(() => {
@@ -52,11 +57,17 @@ export class LibraryApi {
   }
 
   deletePlaylist(id: string): Observable<void> {
-    return this.http.delete(`${this.playlistsUrl}/${id}`).pipe(map(() => void 0));
+    return this.http.delete<void>(`${this.playlistsUrl}/${id}`);
   }
 
   addTrackToPlaylist(playlistId: string, dto: AddTrackDto): Observable<PlaylistTrack> {
     return this.http.post<PlaylistTrack>(`${this.playlistsUrl}/${playlistId}/tracks`, dto);
+  }
+
+  removeTrackFromPlaylist(playlistId: string, trackId: string, source: 'jamendo' | 'own' = 'jamendo'): Observable<void> {
+    return this.http.delete<void>(`${this.playlistsUrl}/${playlistId}/tracks/${trackId}`, {
+      params: { source },
+    });
   }
 
   addFavorite(trackId: string): Observable<FavoriteItem> {
