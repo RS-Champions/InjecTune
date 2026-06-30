@@ -22,6 +22,16 @@ export const routes: Routes = [
     ],
   },
   {
+    path: PageName.LOGIN,
+    component: EmptyLayoutComponent,
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('@core/auth/pages/login-page/login-page').then((module) => module.LoginPage),
+      },
+    ],
+  },
+  {
     path: PageName.ABOUT,
     component: EmptyLayoutComponent,
     children: [
