@@ -32,7 +32,9 @@ export class MockAuthService implements AuthServiceInterface {
 
     return of(newUser).pipe(
       delay(800),
-      tap((user) => { this.setCurrentUser(user); }),
+      tap((user) => {
+        this.setCurrentUser(user);
+      }),
     );
   }
 
@@ -41,14 +43,16 @@ export class MockAuthService implements AuthServiceInterface {
     const user = users.find((u) => u.email === credentials.email && u.password === credentials.password);
 
     if (!user) {
-      return throwError(() => new Error('Неверный email или пароль')).pipe(delay(800));
+      return throwError(() => new Error('Invalid email or password')).pipe(delay(800));
     }
 
     const userResponse: User = { id: user.id, email: user.email, token: user.token };
 
     return of(userResponse).pipe(
       delay(800),
-      tap((u) => { this.setCurrentUser(u); }),
+      tap((u) => {
+        this.setCurrentUser(u);
+      }),
     );
   }
 
