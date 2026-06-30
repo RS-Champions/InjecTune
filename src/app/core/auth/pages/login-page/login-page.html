@@ -1,0 +1,7 @@
+<form [formGroup]="loginForm" (ngSubmit)="submit()" class="form">
+  <h1 class="title">Sign up</h1>
+  <app-input [data]="emailInputData"></app-input>
+  <app-input [data]="passwordInputData"></app-input>
+  <button appearance="secondary" tuiButton type="submit" [disabled]="loginForm.invalid">Submit</button>
+  <a appearance="secondary" tuiButton [routerLink]="['/register']">Sign up</a>
+</form>
