@@ -4,6 +4,8 @@ import { EmptyLayoutComponent } from '@core/layout/empty-layout/empty-layout';
 import { aboutLeaveGuard } from '@features/about/guards/about-leave-guard';
 import { libraryGuard } from '@features/library/guards/library-guard';
 import { PageName } from '@shared/constants/page-name';
+import { guestGuard } from '@core/auth/guards/guest/guest-guard';
+import { authGuard } from '@core/auth/guards/auth/auth-guard';
 
 export const routes: Routes = [
   {
@@ -17,6 +19,7 @@ export const routes: Routes = [
     children: [
       {
         path: '',
+        canActivate: [guestGuard],
         loadComponent: () => import('@core/auth/pages/register-page/register-page').then((module) => module.RegisterPage),
       },
     ],
@@ -27,6 +30,7 @@ export const routes: Routes = [
     children: [
       {
         path: '',
+        canActivate: [guestGuard],
         loadComponent: () => import('@core/auth/pages/login-page/login-page').then((module) => module.LoginPage),
       },
     ],
@@ -48,6 +52,7 @@ export const routes: Routes = [
     children: [
       {
         path: '',
+        canActivate: [authGuard],
         loadChildren: () => import('@features/album/album.routes').then((module) => module.ALBUM_ROUTES),
       },
     ],
@@ -58,6 +63,7 @@ export const routes: Routes = [
     children: [
       {
         path: '',
+        canActivate: [authGuard],
         loadChildren: () => import('@features/artist/artist.routes').then((module) => module.ARTIST_ROUTES),
       },
     ],
@@ -68,6 +74,7 @@ export const routes: Routes = [
     children: [
       {
         path: '',
+        canActivate: [authGuard],
         loadComponent: () =>
           import('@features/discover/pages/discover-page/discover-page').then((module) => module.DiscoverPage),
       },
@@ -80,6 +87,7 @@ export const routes: Routes = [
     children: [
       {
         path: '',
+        canActivate: [authGuard],
         loadChildren: () => import('@features/library/library.routes').then((m) => m.LIBRARY_ROUTES),
       },
     ],
@@ -90,6 +98,7 @@ export const routes: Routes = [
     children: [
       {
         path: '',
+        canActivate: [authGuard],
         loadComponent: () => import('@features/search/pages/search-page/search-page').then((module) => module.SearchPage),
       },
     ],
