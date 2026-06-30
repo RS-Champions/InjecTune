@@ -1,8 +1,9 @@
 <form [formGroup]="registerForm" (ngSubmit)="submit()" class="form">
-  <h1 class="title">Register</h1>
+  <h1 class="title">Sign up</h1>
   <app-input [data]="emailInputData"></app-input>
   <app-input [data]="passwordInputData"></app-input>
   <app-input [data]="confirmPasswordInputData"></app-input>
   <tui-error [formGroup]="registerForm"></tui-error>
-  <button appearance="secondary" tuiButton type="submit" [disabled]="registerForm.invalid">Register</button>
+  <button appearance="secondary" tuiButton type="submit" [disabled]="registerForm.invalid">Submit</button>
+  <a appearance="secondary" tuiButton [routerLink]="['/login']">Sign in</a>
 </form>
