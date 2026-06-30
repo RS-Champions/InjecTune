@@ -12,26 +12,26 @@ import { TuiButton } from '@taiga-ui/core';
   styleUrl: './login-page.less',
 })
 export class LoginPage {
-  loginForm = new FormGroup({
+  protected loginForm = new FormGroup({
     email: new FormControl('', [(control) => Validators.required(control), (control) => Validators.email(control)]),
     password: new FormControl('', [(control) => Validators.required(control)]),
   });
 
-  emailInputData: InputData = {
+  protected emailInputData: InputData = {
     name: 'Email',
     placeholder: 'example@gmail.com',
     formControl: this.loginForm.controls.email,
     type: 'text',
   };
 
-  passwordInputData: InputData = {
+  protected passwordInputData: InputData = {
     name: 'Password',
     placeholder: 'Password',
     formControl: this.loginForm.controls.password,
     type: 'password',
   };
 
-  submit(): void {
+  protected submit(): void {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;

@@ -13,14 +13,14 @@ import { RouterLink } from '@angular/router';
   providers: [tuiValidationErrorsProvider({ passwordsMismatch: `The passwords don't match` })],
 })
 export class RegisterPage {
-  passwordsMatchValidator = (group: AbstractControl): ValidationErrors | null => {
+  private passwordsMatchValidator = (group: AbstractControl): ValidationErrors | null => {
     const password = group.get('password')?.value as string | undefined;
     const confirm = group.get('confirmPassword')?.value as string | undefined;
 
     return password === confirm ? null : { passwordsMismatch: true };
   };
 
-  registerForm = new FormGroup(
+  protected registerForm = new FormGroup(
     {
       email: new FormControl('', [(control) => Validators.required(control), (control) => Validators.email(control)]),
       password: new FormControl('', [
@@ -32,28 +32,28 @@ export class RegisterPage {
     { validators: this.passwordsMatchValidator },
   );
 
-  emailInputData: InputData = {
+  protected emailInputData: InputData = {
     name: 'Email',
     placeholder: 'example@gmail.com',
     formControl: this.registerForm.controls.email,
     type: 'text',
   };
 
-  passwordInputData: InputData = {
+  protected passwordInputData: InputData = {
     name: 'Password',
     placeholder: 'Password',
     formControl: this.registerForm.controls.password,
     type: 'password',
   };
 
-  confirmPasswordInputData: InputData = {
+  protected confirmPasswordInputData: InputData = {
     name: 'Confirm password',
     placeholder: 'Confirm password',
     formControl: this.registerForm.controls.confirmPassword,
     type: 'password',
   };
 
-  submit(): void {
+  protected submit(): void {
     if (this.registerForm.invalid) {
       this.registerForm.markAllAsTouched();
       return;
