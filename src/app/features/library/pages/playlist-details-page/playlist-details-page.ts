@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, DestroyRef, input
 import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { from, of } from 'rxjs';
-import { catchError, filter, switchMap, tap } from 'rxjs/operators';
+import { catchError, concatMap, exhaustMap, filter, tap } from 'rxjs/operators';
 import { AudioEngine, PlayerStore } from '@core/player';
 import {
   PlaylistFormDialog,
@@ -176,7 +176,7 @@ export class PlaylistDetailsPage {
       .pipe(
         filter((result): result is UpdatePlaylistDto => result !== null),
         takeUntilDestroyed(this.destroyRef),
-        switchMap((dto) => this.libraryApi.updatePlaylist(editingPlaylist.id, dto)),
+        exhaustMap((dto) => this.libraryApi.updatePlaylist(editingPlaylist.id, dto)),
         tap(() => {
           this.detailsResource.reload();
         }),
@@ -197,8 +197,8 @@ export class PlaylistDetailsPage {
       .pipe(
         filter(Boolean),
         takeUntilDestroyed(this.destroyRef),
-        switchMap(() => this.libraryApi.deletePlaylist(id)),
-        switchMap(() => from(this.router.navigate([`/${PageName.LIBRARY}`]))),
+        concatMap(() => this.libraryApi.deletePlaylist(id)),
+        concatMap(() => from(this.router.navigate([`/${PageName.LIBRARY}`]))),
       )
       .subscribe();
   }
