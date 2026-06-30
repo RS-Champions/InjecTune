@@ -6,6 +6,7 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthServiceInterface } from '@core/auth/services/auth-service-interface/auth-service-interface';
 import { AuthCredentials } from '@core/auth/interfaces/auth-credentials';
 import { Equalizer } from '@shared/components/equalizer/equalizer';
+import { inputsData } from '../inputs-static-data';
 
 @Component({
   selector: 'app-register-page',
@@ -41,24 +42,18 @@ export class RegisterPage {
   );
 
   protected emailInputData: InputData = {
-    name: 'Email',
-    placeholder: 'example@gmail.com',
+    ...inputsData.email,
     formControl: this.registerForm.controls.email,
-    type: 'text',
   };
 
   protected passwordInputData: InputData = {
-    name: 'Password',
-    placeholder: 'Password',
+    ...inputsData.password,
     formControl: this.registerForm.controls.password,
-    type: 'password',
   };
 
   protected confirmPasswordInputData: InputData = {
-    name: 'Confirm password',
-    placeholder: 'Confirm password',
+    ...inputsData.confirmPassword,
     formControl: this.registerForm.controls.confirmPassword,
-    type: 'password',
   };
 
   protected submit(): void {
