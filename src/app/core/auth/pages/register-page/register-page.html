@@ -1,5 +1,5 @@
-<form [formGroup]="registerForm" (ngSubmit)="submit()">
-  <title>Register</title>
+<form [formGroup]="registerForm" (ngSubmit)="submit()" class="form">
+  <h1 class="title">Register</h1>
   <app-input [data]="emailInputData"></app-input>
   <app-input [data]="passwordInputData"></app-input>
   <app-input [data]="confirmPasswordInputData"></app-input>
