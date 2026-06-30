@@ -1,10 +1,15 @@
-<form [formGroup]="loginForm" (ngSubmit)="submit()" class="form">
-  <h1 class="title">Sign in to InjecTune</h1>
-  <app-input [data]="emailInputData"></app-input>
-  <app-input [data]="passwordInputData"></app-input>
-  @if (error()) {
-    <tui-error [error]="error()"></tui-error>
-  }
-  <button appearance="secondary" tuiButton type="submit" [disabled]="loginForm.invalid">Submit</button>
-  <a appearance="secondary" tuiButton [routerLink]="['/register']">Sign up</a>
-</form>
+@if (!isLoading()) {
+  <form [formGroup]="loginForm" (ngSubmit)="submit()" class="form">
+    <h1 class="title">Sign in to InjecTune</h1>
+    <app-input [data]="emailInputData"></app-input>
+    <app-input [data]="passwordInputData"></app-input>
+    @if (error()) {
+      <tui-error [error]="error()"></tui-error>
+    }
+    <button appearance="secondary" tuiButton type="submit" [disabled]="loginForm.invalid">Submit</button>
+    <a appearance="secondary" tuiButton [routerLink]="['/register']">Sign up</a>
+  </form>
+} @else {
+  <!-- TODO: replace for loading spinner -->
+  <app-equalizer class="loader"></app-equalizer>
+}
