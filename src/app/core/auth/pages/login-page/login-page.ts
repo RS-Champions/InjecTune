@@ -6,6 +6,7 @@ import { AuthServiceInterface } from '@core/auth/services/auth-service-interface
 import { Equalizer } from '@shared/components/equalizer/equalizer';
 import Input, { InputData } from '@shared/components/input/input';
 import { TuiButton, TuiErrorComponent } from '@taiga-ui/core';
+import { inputsData } from '../inputs-static-data';
 
 @Component({
   selector: 'app-login-page',
@@ -26,17 +27,13 @@ export class LoginPage {
   });
 
   protected emailInputData: InputData = {
-    name: 'Email',
-    placeholder: 'example@gmail.com',
+    ...inputsData.email,
     formControl: this.loginForm.controls.email,
-    type: 'text',
   };
 
   protected passwordInputData: InputData = {
-    name: 'Password',
-    placeholder: 'Password',
+    ...inputsData.password,
     formControl: this.loginForm.controls.password,
-    type: 'password',
   };
 
   protected submit(): void {
