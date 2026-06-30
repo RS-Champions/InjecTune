@@ -3,9 +3,12 @@ import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChang
 import { provideRouter, withComponentInputBinding, withRouterConfig, withHashLocation } from '@angular/router';
 import { routes } from './app.routes';
 import { provideHttpClient } from '@angular/common/http';
+import { AuthService } from '@core/auth/services/auth.service';
+import { MockAuthService } from '@core/auth/services/mock-auth-service/mock-auth-service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    { provide: AuthService, useClass: MockAuthService },
     provideBrowserGlobalErrorListeners(),
     provideRouter(
       routes,
