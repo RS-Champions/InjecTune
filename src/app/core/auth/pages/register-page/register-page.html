@@ -3,5 +3,6 @@
   <app-input [data]="emailInputData"></app-input>
   <app-input [data]="passwordInputData"></app-input>
   <app-input [data]="confirmPasswordInputData"></app-input>
+  <tui-error [formGroup]="registerForm"></tui-error>
   <button appearance="secondary" tuiButton type="submit" [disabled]="registerForm.invalid">Register</button>
 </form>
