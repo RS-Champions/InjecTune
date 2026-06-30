@@ -1,20 +1,12 @@
 import { Component } from '@angular/core';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  ValidationErrors,
-  Validators,
-  ɵInternalFormsSharedModule,
-} from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import Input, { InputData } from '@shared/components/input/input';
 import { TuiButton, TuiError, tuiValidationErrorsProvider } from '@taiga-ui/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-register-page',
-  imports: [Input, ɵInternalFormsSharedModule, ReactiveFormsModule, TuiButton, TuiError, RouterLink],
+  imports: [Input, ReactiveFormsModule, TuiButton, TuiError, RouterLink],
   templateUrl: './register-page.html',
   styleUrl: './register-page.less',
   providers: [tuiValidationErrorsProvider({ passwordsMismatch: `The passwords don't match` })],
