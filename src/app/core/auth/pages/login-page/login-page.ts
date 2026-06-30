@@ -3,12 +3,13 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router, RouterLink } from '@angular/router';
 import { AuthCredentials } from '@core/auth/interfaces/auth-credentials';
 import { AuthServiceInterface } from '@core/auth/services/auth-service-interface/auth-service-interface';
+import { Equalizer } from '@shared/components/equalizer/equalizer';
 import Input, { InputData } from '@shared/components/input/input';
 import { TuiButton, TuiErrorComponent } from '@taiga-ui/core';
 
 @Component({
   selector: 'app-login-page',
-  imports: [RouterLink, Input, ReactiveFormsModule, TuiButton, TuiErrorComponent],
+  imports: [RouterLink, Input, ReactiveFormsModule, TuiButton, TuiErrorComponent, Equalizer],
   templateUrl: './login-page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './login-page.less',

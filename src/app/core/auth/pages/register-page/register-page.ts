@@ -5,10 +5,11 @@ import { TuiButton, TuiError, tuiValidationErrorsProvider } from '@taiga-ui/core
 import { Router, RouterLink } from '@angular/router';
 import { AuthServiceInterface } from '@core/auth/services/auth-service-interface/auth-service-interface';
 import { AuthCredentials } from '@core/auth/interfaces/auth-credentials';
+import { Equalizer } from '@shared/components/equalizer/equalizer';
 
 @Component({
   selector: 'app-register-page',
-  imports: [Input, ReactiveFormsModule, TuiButton, TuiError, RouterLink],
+  imports: [Input, ReactiveFormsModule, TuiButton, TuiError, RouterLink, Equalizer],
   templateUrl: './register-page.html',
   styleUrl: './register-page.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
