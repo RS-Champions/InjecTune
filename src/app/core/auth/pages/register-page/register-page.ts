@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import Input, { InputData } from '@shared/components/input/input';
 import { TuiButton, TuiError, tuiValidationErrorsProvider } from '@taiga-ui/core';
@@ -9,6 +9,7 @@ import { RouterLink } from '@angular/router';
   imports: [Input, ReactiveFormsModule, TuiButton, TuiError, RouterLink],
   templateUrl: './register-page.html',
   styleUrl: './register-page.less',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [tuiValidationErrorsProvider({ passwordsMismatch: `The passwords don't match` })],
 })
 export class RegisterPage {

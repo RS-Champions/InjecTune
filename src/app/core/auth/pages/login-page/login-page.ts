@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import Input, { InputData } from '@shared/components/input/input';
@@ -8,6 +8,7 @@ import { TuiButton } from '@taiga-ui/core';
   selector: 'app-login-page',
   imports: [RouterLink, Input, ReactiveFormsModule, TuiButton],
   templateUrl: './login-page.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './login-page.less',
 })
 export class LoginPage {
