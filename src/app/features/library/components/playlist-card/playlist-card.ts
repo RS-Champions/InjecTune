@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { PlaylistItem } from '@features/library/interfaces/library.model';
-import { TuiButton, TuiIcon } from '@taiga-ui/core/components';
+import { TuiButton } from '@taiga-ui/core/components';
+import { LibraryPlaylistCover } from '../library-playlist-cover/library-playlist-cover';
 
 @Component({
   selector: 'app-playlist-card',
-  imports: [TuiButton, TuiIcon],
+  imports: [TuiButton, LibraryPlaylistCover],
   templateUrl: './playlist-card.html',
   styleUrl: './playlist-card.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

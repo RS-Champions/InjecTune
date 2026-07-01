@@ -1,0 +1,17 @@
+@switch (coverImages().length) {
+  @case (0) {
+    <div class="cover-placeholder">
+      <tui-icon icon="@tui.music" class="cover-placeholder__icon" />
+    </div>
+  }
+  @case (1) {
+    <img class="cover-single" [src]="coverImages()[0]" [alt]="playlistName()" />
+  }
+  @default {
+    <div class="cover-collage">
+      @for (img of coverImages(); track img) {
+        <img [src]="img" alt="" />
+      }
+    </div>
+  }
+}
