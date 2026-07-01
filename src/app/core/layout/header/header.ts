@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { MockAuthService } from '@core/auth/services/mock-auth-service/mock-auth-service';
 import { SearchBar } from '@shared/components/search-bar/search-bar';
 import { TuiNavigation } from '@taiga-ui/layout';
 
@@ -12,4 +13,11 @@ import { TuiNavigation } from '@taiga-ui/layout';
     class: 'desktop-header',
   },
 })
-export class Header {}
+export class Header {
+  private readonly authService = inject(MockAuthService);
+  protected readonly isAuthorized = Boolean(this.authService.currentUser);
+
+  logout(): void {
+    this.authService.logout();
+  }
+}
