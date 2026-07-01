@@ -8,13 +8,14 @@ import {
   PlaylistFormDialog,
   PlaylistFormDialogData,
 } from '@features/library/components/playlist-form-dialog/playlist-form-dialog';
+import { LibraryPlaylistsSkeleton } from '@features/library/components/library-playlists-skeleton/library-playlists-skeleton';
+import { LibraryRecentSkeleton } from '@features/library/components/library-recent-skeleton/library-recent-skeleton';
 import { PlaylistCard } from '@features/library/components/playlist-card/playlist-card';
 import { PlaylistItem } from '@features/library/interfaces/library.model';
 import { EnrichedRecentlyPlayedTrack, RecentlyPlayedFilterDto } from '@features/library/interfaces/library-api.model';
 import { LibraryApi } from '@features/library/services/library.api';
 import { PlaylistJamendoApi } from '@features/library/services/playlist-jamendo-api';
 import { AudioEngine, PlayerStore } from '@core/player';
-import { LoadingSkeleton } from '@shared/components/loading-skeleton/loading-skeleton';
 import { MusicCardComponent } from '@shared/components/music-card/music-card.component';
 import { PageName } from '@shared/constants/page-name';
 
@@ -24,7 +25,7 @@ import { CreatePlaylistDto } from '@features/library/interfaces/library-api.mode
 
 @Component({
   selector: 'app-library-page',
-  imports: [LoadingSkeleton, MusicCardComponent, PlaylistCard, TuiButton, TuiIcon],
+  imports: [LibraryPlaylistsSkeleton, LibraryRecentSkeleton, MusicCardComponent, PlaylistCard, TuiButton, TuiIcon],
   templateUrl: './library-page.html',
   styleUrl: './library-page.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -40,14 +41,9 @@ export class LibraryPage {
   private readonly audioEngine = inject(AudioEngine);
   protected readonly playerStore = inject(PlayerStore);
 
-  readonly pageName = PageName.LIBRARY;
-
   readonly playlistsResource = this.libraryApi.playlistsResource();
   readonly favoritesResource = this.libraryApi.favoritesResource;
 
-  // ── Recently Played ────────────────────────────────────────────────────────
-  // Filter signal kept here (not just inline {}) so Issue #15 can wire a date
-  // picker into this same signal without changing the resource call shape.
   readonly recentlyPlayedFilter = signal<RecentlyPlayedFilterDto>({});
 
   readonly recentlyPlayedResource = this.libraryApi.recentlyPlayedResource(this.recentlyPlayedFilter);
@@ -76,8 +72,6 @@ export class LibraryPage {
     () => this.recentlyPlayedResource.isLoading() || this.enrichedRecentlyPlayedResource.isLoading(),
   );
 
-  // ── Playlists ────────────────────────────────────────────────────────────
-
   readonly playlists = computed((): PlaylistItem[] =>
     this.playlistsResource.value().map((p) => ({
       id: p.id,
@@ -98,8 +92,6 @@ export class LibraryPage {
     }),
   );
 
-  // ── Handlers ───────────────────────────────────────────────────────────────
-
   onTrackClick(track: EnrichedRecentlyPlayedTrack): void {
     this.audioEngine.playTrack(track);
   }
@@ -112,8 +104,6 @@ export class LibraryPage {
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe((playlist) => {
-        // Navigate directly to the new playlist's details page.
-        // The CanDeactivate guard will clean it up if the user leaves with 0 tracks.
         void this.router.navigate([`/${PageName.LIBRARY}/playlists`, playlist.id]);
       });
   }
@@ -126,8 +116,6 @@ export class LibraryPage {
     // TODO(#8): navigate to liked songs details route
     console.log('open liked songs');
   }
-
-  // ── Helpers ────────────────────────────────────────────────────────────────
 
   private openPlaylistDialog(data: PlaylistFormDialogData) {
     return this.dialogs.open<CreatePlaylistDto | null>(new PolymorpheusComponent(PlaylistFormDialog), {

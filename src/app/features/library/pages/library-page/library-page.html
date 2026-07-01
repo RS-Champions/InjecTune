@@ -12,7 +12,7 @@
   </header>
 
   @if (isRecentlyPlayedLoading()) {
-    <app-loading-skeleton [isLoading]="true" [pageName]="pageName" />
+    <app-library-recent-skeleton />
   } @else if (recentlyPlayedResource.error()) {
     <p class="body-md error-message">Failed to load recently played tracks. Please try again later.</p>
   } @else if (recentTracks().length === 0) {
@@ -35,9 +35,8 @@
   <h2 class="headline-lg">Playlists</h2>
 
   @if (playlistsResource.isLoading()) {
-    <app-loading-skeleton [isLoading]="true" [pageName]="pageName" />
-  }
-  @if (playlistsResource.error()) {
+    <app-library-playlists-skeleton />
+  } @else if (playlistsResource.error()) {
     <p class="body-md error-message">Failed to load playlists. Please try again later.</p>
   } @else {
     <div class="playlists-grid">
