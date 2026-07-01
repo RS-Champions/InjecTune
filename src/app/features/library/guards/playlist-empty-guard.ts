@@ -38,7 +38,6 @@ export const playlistEmptyGuard: CanDeactivateFn<PlaylistDetailsPage> = (compone
         return libraryApi.deletePlaylist(id).pipe(
           tap(() => {
             void toasts.open('Empty playlist discarded.', { appearance: 'negative', autoClose: TOAST_DURATION_MS });
-            return true;
           }),
           map(() => true),
           catchError(() => of(true)),

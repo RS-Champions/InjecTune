@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, DestroyRef, input
 import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { from, of } from 'rxjs';
-import { catchError, filter, switchMap, tap } from 'rxjs/operators';
+import { catchError, concatMap, exhaustMap, filter, tap } from 'rxjs/operators';
 import { AudioEngine, PlayerStore } from '@core/player';
 import {
   PlaylistFormDialog,
@@ -10,6 +10,7 @@ import {
 } from '@features/library/components/playlist-form-dialog/playlist-form-dialog';
 import { PlaylistTrackList } from '@features/library/components/playlist-track-list/playlist-track-list';
 import { PlaylistTrackSearch } from '@features/library/components/playlist-track-search/playlist-track-search';
+import { ReorderTracksDto } from '@features/library/interfaces/library.model';
 import { EnrichedPlaylistTrack, UpdatePlaylistDto } from '@features/library/interfaces/library-api.model';
 import { LibraryApi } from '@features/library/services/library.api';
 import { PlaylistJamendoApi } from '@features/library/services/playlist-jamendo-api';
@@ -152,8 +153,6 @@ export class PlaylistDetailsPage {
     });
   }
 
-  // ── Edit playlist metadata ────────────────────────────────────────────────
-
   onEdit(): void {
     const editingPlaylist = this.playlist();
     if (!editingPlaylist) return;
@@ -177,15 +176,13 @@ export class PlaylistDetailsPage {
       .pipe(
         filter((result): result is UpdatePlaylistDto => result !== null),
         takeUntilDestroyed(this.destroyRef),
-        switchMap((dto) => this.libraryApi.updatePlaylist(editingPlaylist.id, dto)),
+        exhaustMap((dto) => this.libraryApi.updatePlaylist(editingPlaylist.id, dto)),
         tap(() => {
           this.detailsResource.reload();
         }),
       )
       .subscribe();
   }
-
-  // ── Delete playlist ───────────────────────────────────────────────────────
 
   onDelete(): void {
     const id = this.id();
@@ -200,15 +197,43 @@ export class PlaylistDetailsPage {
       .pipe(
         filter(Boolean),
         takeUntilDestroyed(this.destroyRef),
-        switchMap(() => this.libraryApi.deletePlaylist(id)),
-        switchMap(() => from(this.router.navigate([`/${PageName.LIBRARY}`]))),
+        concatMap(() => this.libraryApi.deletePlaylist(id)),
+        concatMap(() => from(this.router.navigate([`/${PageName.LIBRARY}`]))),
       )
       .subscribe();
   }
 
-  // ── Back navigation ───────────────────────────────────────────────────────
-
   onBack(): void {
     void this.router.navigate([`/${PageName.LIBRARY}`]);
+  }
+
+  onTracksReordered(reodered: EnrichedPlaylistTrack[]) {
+    const id = this.id();
+    if (!id) return;
+
+    // Build the DTO: map each track's DB row id + its new 0-indexed position
+    const dto: ReorderTracksDto = {
+      tracks: reodered.map((track, index) => ({
+        id: track.id, // playlist_tracks row UUID (not the Jamendo track id)
+        position: index,
+      })),
+    };
+
+    this.libraryApi.reorderTracks(id, dto).subscribe({
+      next: () => {
+        // Backend returns the updated PlaylistDetails — reload to sync
+        this.detailsResource.reload();
+      },
+      error: () => {
+        // Optimistic update already applied visually — reload to revert
+        this.detailsResource.reload();
+        this.toasts
+          .open('Failed to save track order. Order has been reverted.', {
+            appearance: 'negative',
+            autoClose: 5000,
+          })
+          .subscribe();
+      },
+    });
   }
 }

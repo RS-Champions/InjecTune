@@ -13,6 +13,7 @@ import {
   PlaylistTrack,
   UpdatePlaylistDto,
 } from '../interfaces/library-api.model';
+import { ReorderTracksDto } from '../interfaces/library.model';
 
 // TODO(auth): replace STUB_USER_ID with real Supabase Auth session identity.
 @Injectable({
@@ -68,6 +69,10 @@ export class LibraryApi {
     return this.http.delete<void>(`${this.playlistsUrl}/${playlistId}/tracks/${trackId}`, {
       params: { source },
     });
+  }
+
+  reorderTracks(playlistId: string, dto: ReorderTracksDto): Observable<PlaylistDetails> {
+    return this.http.patch<PlaylistDetails>(`${this.playlistsUrl}/${playlistId}/reorder`, dto);
   }
 
   addFavorite(trackId: string): Observable<FavoriteItem> {

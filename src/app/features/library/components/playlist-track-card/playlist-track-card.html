@@ -1,3 +1,9 @@
+@if (isDraggable()) {
+  <span class="drag-handle" cdkDragHandle aria-label="Drag to reorder">
+    <tui-icon icon="@tui.grip-vertical" />
+  </span>
+}
+
 <div class="cover" [class.active]="isPlaying()">
   <img [src]="track().image" [alt]="track().name" />
   @if (isPlaying()) {
