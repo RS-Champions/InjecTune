@@ -1,16 +1,19 @@
-import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
-
-import { filter, switchMap } from 'rxjs';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { catchError, filter, of, switchMap } from 'rxjs';
 
 import {
   PlaylistFormDialog,
   PlaylistFormDialogData,
 } from '@features/library/components/playlist-form-dialog/playlist-form-dialog';
 import { PlaylistCard } from '@features/library/components/playlist-card/playlist-card';
-import { PlaylistItem, RecentTrack } from '@features/library/interfaces/library.model';
+import { PlaylistItem } from '@features/library/interfaces/library.model';
+import { EnrichedRecentlyPlayedTrack, RecentlyPlayedFilterDto } from '@features/library/interfaces/library-api.model';
 import { LibraryApi } from '@features/library/services/library.api';
+import { PlaylistJamendoApi } from '@features/library/services/playlist-jamendo-api';
+import { AudioEngine, PlayerStore } from '@core/player';
 import { LoadingSkeleton } from '@shared/components/loading-skeleton/loading-skeleton';
 import { MusicCardComponent } from '@shared/components/music-card/music-card.component';
 import { PageName } from '@shared/constants/page-name';
@@ -31,12 +34,49 @@ export class LibraryPage {
   private readonly destroyRef = inject(DestroyRef);
 
   private readonly libraryApi = inject(LibraryApi);
+  private readonly playlistJamendoApi = inject(PlaylistJamendoApi);
   private readonly dialogs = inject(TuiDialogService);
+
+  private readonly audioEngine = inject(AudioEngine);
+  protected readonly playerStore = inject(PlayerStore);
 
   readonly pageName = PageName.LIBRARY;
 
   readonly playlistsResource = this.libraryApi.playlistsResource();
   readonly favoritesResource = this.libraryApi.favoritesResource;
+
+  // ── Recently Played ────────────────────────────────────────────────────────
+  // Filter signal kept here (not just inline {}) so Issue #15 can wire a date
+  // picker into this same signal without changing the resource call shape.
+  readonly recentlyPlayedFilter = signal<RecentlyPlayedFilterDto>({});
+
+  readonly recentlyPlayedResource = this.libraryApi.recentlyPlayedResource(this.recentlyPlayedFilter);
+
+  readonly enrichedRecentlyPlayedResource = rxResource({
+    params: () => {
+      const isLoading = this.recentlyPlayedResource.isLoading();
+      const error = this.recentlyPlayedResource.error();
+      const value = this.recentlyPlayedResource.value();
+      if (isLoading || error) return null;
+      return value;
+    },
+    stream: ({ params: items }) => {
+      if (!items || items.length === 0) {
+        return of([] as EnrichedRecentlyPlayedTrack[]);
+      }
+      return this.playlistJamendoApi
+        .enrichRecentlyPlayed(items)
+        .pipe(catchError(() => of([] as EnrichedRecentlyPlayedTrack[])));
+    },
+  });
+
+  readonly recentTracks = computed(() => this.enrichedRecentlyPlayedResource.value() ?? []);
+
+  readonly isRecentlyPlayedLoading = computed(
+    () => this.recentlyPlayedResource.isLoading() || this.enrichedRecentlyPlayedResource.isLoading(),
+  );
+
+  // ── Playlists ────────────────────────────────────────────────────────────
 
   readonly playlists = computed((): PlaylistItem[] =>
     this.playlistsResource.value().map((p) => ({
@@ -58,37 +98,10 @@ export class LibraryPage {
     }),
   );
 
-  // ── Stub data ──────────────────────────────────────────────────────────────
-  // TODO(#12,#13): replace with recentlyPlayedResource
-
-  readonly recentTracks: RecentTrack[] = [
-    {
-      id: '1',
-      cover: 'https://placehold.co/160x160/231e27/ddb7ff?text=♪',
-      title: 'Cyber Echo',
-      subtitle: 'Synthwave Pulse',
-    },
-    {
-      id: '2',
-      cover: 'https://placehold.co/160x160/231e27/ddb7ff?text=♪',
-      title: 'Midnight Lounge',
-      subtitle: 'Lo-Fi Collective',
-    },
-    { id: '3', cover: 'https://placehold.co/160x160/231e27/ddb7ff?text=♪', title: 'Neon Drift', subtitle: 'Retrowave' },
-    {
-      id: '4',
-      cover: 'https://placehold.co/160x160/231e27/ddb7ff?text=♪',
-      title: 'Acoustic Soul',
-      subtitle: 'Folk Sessions',
-    },
-    { id: '5', cover: 'https://placehold.co/160x160/231e27/ddb7ff?text=♪', title: 'Deep Tide', subtitle: 'Ambient Wave' },
-  ];
-
   // ── Handlers ───────────────────────────────────────────────────────────────
 
-  onTrackClick(track: RecentTrack): void {
-    // TODO(#5): dispatch to PlayerStore
-    console.log('play track', track.id);
+  onTrackClick(track: EnrichedRecentlyPlayedTrack): void {
+    this.audioEngine.playTrack(track);
   }
 
   onCreatePlaylist(): void {

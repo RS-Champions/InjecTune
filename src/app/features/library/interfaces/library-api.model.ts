@@ -18,6 +18,21 @@ export interface PlaylistTrack {
  */
 export interface EnrichedPlaylistTrack extends PlaylistTrack, SearchTrack {}
 
+export interface RecentlyPlayedTrack {
+  id: string;
+  user_id: string;
+  track_id: string;
+  source: 'jamendo' | 'own';
+  played_at: string;
+}
+
+/**
+ * A recently-played row enriched with Jamendo metadata.
+ * Mirrors EnrichedPlaylistTrack: DB identity fields (id, played_at, source)
+ * take precedence over SearchTrack metadata on key collisions.
+ */
+export interface EnrichedRecentlyPlayedTrack extends RecentlyPlayedTrack, SearchTrack {}
+
 export interface Playlist {
   id: string;
   user_id: string;
@@ -55,4 +70,14 @@ export interface AddTrackDto {
   source: 'jamendo' | 'own';
   trackId: string;
   position: number;
+}
+
+export interface AddRecentlyPlayedDto {
+  source: 'jamendo' | 'own';
+  trackId: string;
+}
+
+export interface RecentlyPlayedFilterDto {
+  from?: string;
+  to?: string;
 }

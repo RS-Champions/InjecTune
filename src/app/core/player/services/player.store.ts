@@ -1,9 +1,13 @@
 import { Injectable, computed, effect, inject, signal } from '@angular/core';
 import { RepeatMode } from '@core/player';
 import { LOCAL_STORAGE } from '@core/tokens/browser.tokens';
+import { LibraryApi } from '@features/library/services/library.api';
 import { PlayerStorageKeys } from '@shared/constants/player-storage-keys';
 import { BaseTrack } from '@shared/track/interfaces/base-track';
 import { isRepeatMode } from '@shared/utils';
+
+/** Don't log a second recently-played row for the same track within this window. */
+const RECENTLY_PLAYED_DEDUPE_WINDOW_MS = 60_000;
 
 /**
  * Global Player Store Service
@@ -13,6 +17,8 @@ import { isRepeatMode } from '@shared/utils';
 })
 export class PlayerStore {
   private readonly storage = inject(LOCAL_STORAGE);
+  private readonly libraryApi = inject(LibraryApi);
+
   // ============================================================================
   // State Signals
   // ============================================================================
@@ -55,9 +61,26 @@ export class PlayerStore {
   /** Internal: used by AudioService for shuffle/unshuffle  toggling. Do not access directly from components. */
   readonly originalQueue = signal<BaseTrack[]>([]);
 
+  /**
+   * Non-null only when a track is genuinely playing — null when the store
+   * is restored from localStorage without the user pressing play.
+   * Used by setupRecentlyPlayedRecording to avoid false history entries on
+   * page reload.
+   */
+  private readonly playSessionKey = computed(() => {
+    const track = this.currentTrack();
+    const playing = this.isPlaying();
+    return track && playing ? track.id : null;
+  });
+
+  /** Recently-played dedupe bookkeeping — not persisted, resets on reload (acceptable). */
+  private lastLoggedTrackId: string | null = null;
+  private lastLoggedAt = 0;
+
   constructor() {
     this.initializeState();
     this.setupStoragePersistence();
+    this.setupRecentlyPlayedRecording();
   }
 
   // ============================================================================
@@ -125,6 +148,50 @@ export class PlayerStore {
       } catch (error) {
         console.error('[PlayerStore] Error persisting to localStorage:', error);
       }
+    });
+  }
+
+  /**
+   * Records a recently-played entry whenever the current track changes
+   * (Issue #12/#13 — listening history). Runs once per genuine track
+   * change: pausing/resuming the same track does not re-trigger this,
+   * since currentTrack() is derived from queue/queueIndex, not isPlaying.
+   *
+   * Dedupe: replaying the same track id within RECENTLY_PLAYED_DEDUPE_WINDOW_MS
+   * is skipped, to avoid spamming history on accidental double-plays or loops.
+   *
+   * Fire-and-forget by design: history logging must never block or break
+   * playback, so failures are swallowed (dedupe state is reset on error so
+   * a later replay attempt can retry).
+   */
+  private setupRecentlyPlayedRecording(): void {
+    effect(() => {
+      // null when store is restored from localStorage without user pressing play,
+      // or when playback is paused — only non-null on a genuine active play.
+      const trackId = this.playSessionKey();
+      if (!trackId) return;
+
+      // Re-read the full track object for its id (already confirmed non-null above).
+      const track = this.currentTrack();
+      const now = Date.now();
+      const isDuplicate = trackId === this.lastLoggedTrackId && now - this.lastLoggedAt < RECENTLY_PLAYED_DEDUPE_WINDOW_MS;
+
+      if (isDuplicate) return;
+
+      this.lastLoggedTrackId = trackId;
+      this.lastLoggedAt = now;
+
+      // track.id on EnrichedPlaylistTrack is the DB row UUID — not the Jamendo ID.
+      // track.track_id (if present) is always the Jamendo numeric ID.
+      // For plain SearchTrack/BaseTrack, track.id is already the Jamendo numeric ID.
+      const jamendoTrackId = (track as { track_id?: string }).track_id ?? (track ? track.id : '');
+
+      this.libraryApi.addRecentlyPlayed({ source: 'jamendo', trackId: jamendoTrackId }).subscribe({
+        error: (error: unknown) => {
+          console.error('[PlayerStore] Failed to record recently-played track:', error);
+          this.lastLoggedTrackId = null;
+        },
+      });
     });
   }
 
