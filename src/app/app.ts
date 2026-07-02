@@ -1,6 +1,6 @@
 import { TuiRoot } from '@taiga-ui/core';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { NavigationCancel, NavigationEnd, NavigationError, Router, RouterOutlet } from '@angular/router';
 import { AudioEngine } from '@core/player/services/audio-engine';
 
 @Component({
@@ -13,4 +13,13 @@ import { AudioEngine } from '@core/player/services/audio-engine';
 export class App {
   protected readonly title = signal('InjecTune');
   private readonly audioEngine = inject(AudioEngine);
+
+  constructor() {
+    const router = inject(Router);
+    router.events.subscribe((e) => {
+      if (e instanceof NavigationEnd || e instanceof NavigationCancel || e instanceof NavigationError) {
+        console.log('NAV EVENT:', e);
+      }
+    });
+  }
 }

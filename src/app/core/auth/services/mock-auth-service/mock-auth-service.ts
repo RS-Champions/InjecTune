@@ -1,13 +1,18 @@
-import { computed, Injectable, signal } from '@angular/core';
-import { User } from '@core/auth/interfaces/user';
+import { computed, inject, Injectable, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { delay, Observable, of, tap, throwError } from 'rxjs';
+import { DELAY_MS } from '@shared/constants/constants';
+import { PageName } from '@shared/constants/page-name';
 import { AuthCredentials } from '@core/auth/interfaces/auth-credentials';
+import { User } from '@core/auth/interfaces/user';
 import { AuthServiceInterface } from '../auth-service-interface/auth-service-interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MockAuthService implements AuthServiceInterface {
+  private readonly router = inject(Router);
+
   public readonly currentUser = computed(() => this._currentUser());
 
   private readonly USERS_DB_KEY = 'auth:users_db';
@@ -18,7 +23,7 @@ export class MockAuthService implements AuthServiceInterface {
     const users = this.getUsersFromDb();
 
     if (users.some((user) => user.email === credentials.email)) {
-      return throwError(() => new Error('User with this email exist')).pipe(delay(800));
+      return throwError(() => new Error('User with this email exist')).pipe(delay(DELAY_MS));
     }
 
     const newUser: User = {
@@ -31,7 +36,7 @@ export class MockAuthService implements AuthServiceInterface {
     localStorage.setItem(this.USERS_DB_KEY, JSON.stringify(users));
 
     return of(newUser).pipe(
-      delay(800),
+      delay(DELAY_MS),
       tap((user) => {
         this.setCurrentUser(user);
       }),
@@ -43,13 +48,13 @@ export class MockAuthService implements AuthServiceInterface {
     const user = users.find((u) => u.email === credentials.email && u.password === credentials.password);
 
     if (!user) {
-      return throwError(() => new Error('Invalid email or password')).pipe(delay(800));
+      return throwError(() => new Error('Invalid email or password')).pipe(delay(DELAY_MS));
     }
 
     const userResponse: User = { id: user.id, email: user.email, token: user.token };
 
     return of(userResponse).pipe(
-      delay(800),
+      delay(DELAY_MS),
       tap((u) => {
         this.setCurrentUser(u);
       }),
@@ -59,7 +64,10 @@ export class MockAuthService implements AuthServiceInterface {
   public logout(): Observable<void> {
     localStorage.removeItem(this.CURRENT_USER_KEY);
     this._currentUser.set(null);
-    return of().pipe(delay(300));
+    return of().pipe(
+      delay(DELAY_MS),
+      tap(() => void this.router.navigate([`/${PageName.LOGIN}`])),
+    );
   }
 
   private getUsersFromDb(): User[] {
