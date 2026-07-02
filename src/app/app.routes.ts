@@ -30,7 +30,6 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        canActivate: [guestGuard],
         loadComponent: () => import('@core/auth/pages/login-page/login-page').then((module) => module.LoginPage),
       },
     ],
