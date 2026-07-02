@@ -98,7 +98,13 @@ export class LibraryPage {
   );
 
   onTrackClick(track: EnrichedRecentlyPlayedTrack): void {
-    this.audioEngine.playTrack(track);
+    const isThisTrackPlaying = this.playerStore.currentTrack()?.id === track.id && this.playerStore.isPlaying();
+
+    if (isThisTrackPlaying) {
+      this.audioEngine.pause();
+    } else {
+      this.audioEngine.playTrack(track);
+    }
   }
 
   onCreatePlaylist(): void {
