@@ -17,7 +17,7 @@ import { TuiNavigation } from '@taiga-ui/layout';
 })
 export class Header {
   private readonly authService = inject(MockAuthService);
-  protected readonly isAuthorized = Boolean(this.authService.currentUser);
+  protected readonly isAuthorized = Boolean(this.authService.currentUser());
 
   logout(): void {
     this.authService.logout();
