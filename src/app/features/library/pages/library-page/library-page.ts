@@ -17,7 +17,7 @@ import { EnrichedRecentlyPlayedTrack, RecentlyPlayedFilterDto } from '@features/
 import { LibraryApi } from '@features/library/services/library.api';
 import { PlaylistJamendoApi } from '@features/library/services/playlist-jamendo-api';
 import { AudioEngine, PlayerStore } from '@core/player';
-import { MusicCardComponent } from '@shared/components/music-card/music-card.component';
+import { MusicCard } from '@shared/components/music-card/music-card';
 import { PageName } from '@shared/constants/page-name';
 
 import { TuiDialogService, TuiIcon } from '@taiga-ui/core';
@@ -26,14 +26,7 @@ import { CreatePlaylistDto } from '@features/library/interfaces/library-api.mode
 
 @Component({
   selector: 'app-library-page',
-  imports: [
-    LibraryPlaylistsSkeleton,
-    LibraryRecentSkeleton,
-    MusicCardComponent,
-    PlaylistCard,
-    RecentlyPlayedFilter,
-    TuiIcon,
-  ],
+  imports: [LibraryPlaylistsSkeleton, LibraryRecentSkeleton, MusicCard, PlaylistCard, RecentlyPlayedFilter, TuiIcon],
   templateUrl: './library-page.html',
   styleUrl: './library-page.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -46,7 +39,7 @@ export class LibraryPage {
   private readonly playlistJamendoApi = inject(PlaylistJamendoApi);
   private readonly dialogs = inject(TuiDialogService);
 
-  private readonly audioEngine = inject(AudioEngine);
+  protected readonly audioEngine = inject(AudioEngine);
   protected readonly playerStore = inject(PlayerStore);
 
   readonly playlistsResource = this.libraryApi.playlistsResource();
@@ -96,16 +89,6 @@ export class LibraryPage {
       meta: p.description ?? '', // TODO: replace with track count when available
     })),
   );
-
-  onTrackClick(track: EnrichedRecentlyPlayedTrack): void {
-    const isThisTrackPlaying = this.playerStore.currentTrack()?.id === track.id && this.playerStore.isPlaying();
-
-    if (isThisTrackPlaying) {
-      this.audioEngine.pause();
-    } else {
-      this.audioEngine.playTrack(track);
-    }
-  }
 
   onCreatePlaylist(): void {
     this.openPlaylistDialog({})

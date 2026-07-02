@@ -19,12 +19,14 @@
   } @else {
     <div class="recent-scroll">
       @for (track of recentTracks(); track track.id) {
-        <button type="button" class="recent-track" (click)="onTrackClick(track)">
+        <div class="recent-track">
           <app-music-card
-            [data]="{ cover: track.image, title: track.name, subtitle: track.artist_name }"
-            [isActive]="playerStore.currentTrack()?.id === track.id && playerStore.isPlaying()"
+            [track]="track"
+            [isPlaying]="playerStore.currentTrack()?.id === track.id && playerStore.isPlaying()"
+            (playTrack)="audioEngine.playTrack($event)"
+            (pauseTrack)="audioEngine.pause()"
           />
-        </button>
+        </div>
       }
     </div>
   }

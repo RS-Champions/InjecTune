@@ -131,6 +131,15 @@ a {
   }
 }
 
+[tuiAppearance][data-appearance='flat-inverse'] {
+  color: transparent;
+
+  &:hover {
+    background-color: transparent;
+    color: var(--on-surface);
+  }
+}
+
 [tuiTheme='dark'] {
   --tui-background-base: var(--surface);
   --tui-text-primary: var(--on-surface);
