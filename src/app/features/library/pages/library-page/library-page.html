@@ -9,8 +9,8 @@
 <section class="library-section">
   <header class="section-header">
     <h2 class="headline-lg">Recently Played</h2>
+    <app-recently-played-filter (filterApplied)="onFilterApplied($event)" (filterCleared)="onFilterCleared()" />
   </header>
-
   @if (isRecentlyPlayedLoading()) {
     <app-library-recent-skeleton />
   } @else if (recentlyPlayedResource.error()) {

@@ -1,0 +1,14 @@
+<div class="filter-row">
+  <tui-textfield class="filter-input">
+    <input tuiInputDateRange [formControl]="dateRangeControl" placeholder="Select date range" />
+    <tui-calendar-range *tuiDropdown [items]="items" />
+  </tui-textfield>
+
+  <button type="button" tuiButton appearance="custom-primary" size="s" [disabled]="!hasValue" (click)="onApply()">
+    Apply
+  </button>
+
+  @if (hasValue) {
+    <button type="button" tuiButton appearance="outline" size="s" [disabled]="!hasValue" (click)="onClear()">Clear</button>
+  }
+</div>
