@@ -3,7 +3,6 @@
     <h1 class="display-lg">Your Library</h1>
     <p class="body-md page-subtitle">Organize your music and podcasts</p>
   </div>
-  <button type="button" tuiButton appearance="outline" size="s" iconStart="@tui.sliders-horizontal">Filters</button>
 </header>
 
 <section class="library-section">
@@ -46,8 +45,6 @@
         </span>
         <span class="create-label">Create Playlist</span>
       </button>
-
-      <app-playlist-card [playlist]="likedSongsCard()" (playlistClick)="onLikedSongsClick()" />
 
       @for (playlist of playlists(); track playlist.id) {
         <app-playlist-card [playlist]="playlist" (playlistClick)="onPlaylistClick(playlist)" />

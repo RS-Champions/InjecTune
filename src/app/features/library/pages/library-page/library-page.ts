@@ -20,7 +20,7 @@ import { AudioEngine, PlayerStore } from '@core/player';
 import { MusicCardComponent } from '@shared/components/music-card/music-card.component';
 import { PageName } from '@shared/constants/page-name';
 
-import { TuiButton, TuiDialogService, TuiIcon } from '@taiga-ui/core';
+import { TuiDialogService, TuiIcon } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@taiga-ui/polymorpheus';
 import { CreatePlaylistDto } from '@features/library/interfaces/library-api.model';
 
@@ -32,7 +32,6 @@ import { CreatePlaylistDto } from '@features/library/interfaces/library-api.mode
     MusicCardComponent,
     PlaylistCard,
     RecentlyPlayedFilter,
-    TuiButton,
     TuiIcon,
   ],
   templateUrl: './library-page.html',
@@ -51,20 +50,13 @@ export class LibraryPage {
   protected readonly playerStore = inject(PlayerStore);
 
   readonly playlistsResource = this.libraryApi.playlistsResource();
-  readonly favoritesResource = this.libraryApi.favoritesResource;
 
-  // ── Recently Played (#13) ──────────────────────────────────────────────────
-  // Filter signal kept here (not just inline {}) so Issue #15 can wire a date
-  // picker into this same signal without changing the resource call shape.
   readonly recentlyPlayedFilter = signal<RecentlyPlayedFilterDto>({});
 
   readonly recentlyPlayedResource = this.libraryApi.recentlyPlayedResource(this.recentlyPlayedFilter);
 
   readonly enrichedRecentlyPlayedResource = rxResource({
     params: () => {
-      // Return null while the upstream resource is still loading so rxResource
-      // does not prematurely emit [] from the defaultValue before the HTTP
-      // response arrives. null keeps the stream in a pending state.
       const isLoading = this.recentlyPlayedResource.isLoading();
       const error = this.recentlyPlayedResource.error();
       const value = this.recentlyPlayedResource.value();
@@ -105,16 +97,6 @@ export class LibraryPage {
     })),
   );
 
-  readonly likedSongsCard = computed(
-    (): PlaylistItem => ({
-      id: 'liked',
-      cover: null,
-      name: 'Liked Songs',
-      description: 'Auto-playlist',
-      meta: `Auto-playlist • ${(this.favoritesResource.value()?.length ?? 0).toString()} songs`,
-    }),
-  );
-
   onTrackClick(track: EnrichedRecentlyPlayedTrack): void {
     this.audioEngine.playTrack(track);
   }
@@ -133,11 +115,6 @@ export class LibraryPage {
 
   onPlaylistClick(playlist: PlaylistItem): void {
     void this.router.navigate([`/${PageName.LIBRARY}/playlists`, playlist.id]);
-  }
-
-  onLikedSongsClick(): void {
-    // TODO(#8): navigate to liked songs details route
-    console.log('open liked songs');
   }
 
   private openPlaylistDialog(data: PlaylistFormDialogData) {

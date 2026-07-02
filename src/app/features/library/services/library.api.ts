@@ -49,10 +49,6 @@ export class LibraryApi {
     });
   }
 
-  readonly favoritesResource = httpResource<FavoriteItem[]>(() => ({
-    url: this.favoritesUrl,
-  }));
-
   /**
    * filter is a Signal so the resource reactively reloads whenever the
    * caller's filter state changes (e.g. a date range picked for Issue #15)
