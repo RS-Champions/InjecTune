@@ -2,7 +2,6 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { delay, Observable, of, tap, throwError } from 'rxjs';
 import { DELAY_MS } from '@shared/constants/constants';
-import { PageName } from '@shared/constants/page-name';
 import { AuthCredentials } from '@core/auth/interfaces/auth-credentials';
 import { User } from '@core/auth/interfaces/user';
 import { AuthServiceAbstract } from '../auth-service-interface/auth-service-interface';
@@ -64,10 +63,7 @@ export class MockAuthService implements AuthServiceAbstract {
   public logout(): Observable<void> {
     localStorage.removeItem(this.CURRENT_USER_KEY);
     this._currentUser.set(null);
-    return of().pipe(
-      delay(DELAY_MS),
-      tap(() => void this.router.navigate([`/${PageName.LOGIN}`])),
-    );
+    return of().pipe(delay(DELAY_MS));
   }
 
   private getUsersFromDb(): User[] {

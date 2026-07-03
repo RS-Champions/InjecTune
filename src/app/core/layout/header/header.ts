@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { MockAuthService } from '@core/auth/services/mock-auth-service/mock-auth-service';
 import { SearchBar } from '@shared/components/search-bar/search-bar';
 import { TuiNavigation } from '@taiga-ui/layout';
@@ -15,9 +16,18 @@ import { TuiNavigation } from '@taiga-ui/layout';
 })
 export class Header {
   private readonly authService = inject(MockAuthService);
+  private router = inject(Router);
   protected readonly isAuthorized = Boolean(this.authService.currentUser());
 
   logout(): void {
-    this.authService.logout();
+    this.authService.logout().subscribe({
+      next: () => {
+        void this.router.navigate(['/login']);
+      },
+      error: (error: Error) => {
+        //TODO handle backend errors if auth will be implemented
+        throw error;
+      },
+    });
   }
 }
