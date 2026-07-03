@@ -166,13 +166,10 @@ export class PlayerStore {
    */
   private setupRecentlyPlayedRecording(): void {
     effect(() => {
-      // null when store is restored from localStorage without user pressing play,
-      // or when playback is paused — only non-null on a genuine active play.
       const trackId = this.playSessionKey();
-      if (!trackId) return;
-
-      // Re-read the full track object for its id (already confirmed non-null above).
       const track = this.currentTrack();
+      if (!trackId || !track) return;
+
       const now = Date.now();
       const isDuplicate = trackId === this.lastLoggedTrackId && now - this.lastLoggedAt < RECENTLY_PLAYED_DEDUPE_WINDOW_MS;
 
@@ -181,10 +178,7 @@ export class PlayerStore {
       this.lastLoggedTrackId = trackId;
       this.lastLoggedAt = now;
 
-      // track.id on EnrichedPlaylistTrack is the DB row UUID — not the Jamendo ID.
-      // track.track_id (if present) is always the Jamendo numeric ID.
-      // For plain SearchTrack/BaseTrack, track.id is already the Jamendo numeric ID.
-      const jamendoTrackId = (track as { track_id?: string }).track_id ?? (track ? track.id : '');
+      const jamendoTrackId = (track as { track_id?: string }).track_id ?? track.id;
 
       this.libraryApi.addRecentlyPlayed({ source: 'jamendo', trackId: jamendoTrackId }).subscribe({
         error: (error: unknown) => {
