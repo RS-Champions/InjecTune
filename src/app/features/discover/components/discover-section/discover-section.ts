@@ -1,42 +1,25 @@
-import { Component, computed, inject, input, output, Resource } from '@angular/core';
-import { TrackResponse } from '@features/discover/interfaces/track';
+import { Component, computed, input, inject, Resource } from '@angular/core';
+import { MusicCard } from '@shared/components/music-card/music-card';
+import { JamendoResponse } from '@shared/interfaces/jamendo-response';
+import { BaseTrack } from '@shared/track/interfaces/base-track';
+import { AudioEngine, PlayerStore } from '@core/player';
 import { TuiLoader } from '@taiga-ui/core';
-import { MusicCardComponent } from '@shared/components/music-card/music-card.component';
-import { DurationPipe } from '@shared/pipes/duration-pipe';
 
 interface DiscoverSectionData {
   title: string;
-  playingTrackId: string;
-  resource: Resource<TrackResponse | undefined>;
+  resource: Resource<JamendoResponse<BaseTrack> | undefined>;
 }
 
 @Component({
   selector: 'app-discover-section',
-  imports: [TuiLoader, MusicCardComponent],
-  providers: [DurationPipe],
+  imports: [TuiLoader, MusicCard],
   templateUrl: './discover-section.html',
   styleUrl: './discover-section.less',
 })
 export class DiscoverSection {
   public readonly data = input.required<DiscoverSectionData>();
-  public readonly trackToggled = output<string>();
-
+  protected readonly audioEngine = inject(AudioEngine);
+  protected readonly playerStore = inject(PlayerStore);
   protected readonly resource = computed(() => this.data().resource);
-  protected readonly playingTrackId = computed(() => this.data().playingTrackId);
   protected readonly title = computed(() => this.data().title);
-
-  private durationPipe = inject(DurationPipe);
-
-  protected onClickMusicCard(index: number) {
-    const value = this.resource().value()?.results;
-    if (value) {
-      this.trackToggled.emit(value[index].id);
-    }
-  }
-
-  protected generateSubtitle(artist_name?: string, duration?: number) {
-    const formattedDuration = duration ? this.durationPipe.transform(duration) : undefined;
-
-    return [artist_name, formattedDuration].filter((field) => field !== undefined).join(' • ');
-  }
 }
