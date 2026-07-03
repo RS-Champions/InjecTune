@@ -22,7 +22,6 @@ export interface InputData {
 const ERROR_MESSAGES = {
   email: 'Invalid value of email',
   required: 'Field is required',
-  passwordsMismatch: `The passwords don't match`,
   minlength: ({ requiredLength }: { requiredLength: number | undefined }) => {
     if (!requiredLength) return '';
     return `Minimum ${requiredLength.toString()} symbols`;

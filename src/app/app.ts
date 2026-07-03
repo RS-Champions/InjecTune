@@ -1,7 +1,6 @@
 import { TuiRoot } from '@taiga-ui/core';
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { AudioEngine } from '@core/player/services/audio-engine';
 
 @Component({
   selector: 'app-root',
@@ -12,5 +11,4 @@ import { AudioEngine } from '@core/player/services/audio-engine';
 })
 export class App {
   protected readonly title = signal('InjecTune');
-  private readonly audioEngine = inject(AudioEngine);
 }
