@@ -58,9 +58,13 @@ export class MockAuthService implements AuthServiceAbstract {
   }
 
   public logout(): Observable<void> {
-    localStorage.removeItem(this.CURRENT_USER_KEY);
-    this._currentUser.set(null);
-    return of().pipe(delay(DELAY_MS));
+    return of().pipe(
+      delay(DELAY_MS),
+      tap(() => {
+        localStorage.removeItem(this.CURRENT_USER_KEY);
+        this._currentUser.set(null);
+      }),
+    );
   }
 
   private getUsersFromDb(): User[] {
