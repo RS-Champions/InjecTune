@@ -1,9 +1,10 @@
-import { computed, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { delay, Observable, of, tap, throwError } from 'rxjs';
 import { DELAY_MS } from '@shared/constants/constants';
 import { AuthCredentials } from '@core/auth/interfaces/auth-credentials';
 import { User } from '@core/auth/interfaces/user';
 import { AuthServiceAbstract } from '../auth-service-interface/auth-service-interface';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +15,7 @@ export class MockAuthService implements AuthServiceAbstract {
   private readonly USERS_DB_KEY = 'auth:users_db';
   private readonly CURRENT_USER_KEY = 'auth:current_user';
   private _currentUser = signal<User | null>(this.getStoredUser());
+  private router = inject(Router);
 
   public register(credentials: AuthCredentials): Observable<User> {
     const users = this.getUsersFromDb();
@@ -58,13 +60,10 @@ export class MockAuthService implements AuthServiceAbstract {
   }
 
   public logout(): Observable<void> {
-    return of().pipe(
-      delay(DELAY_MS),
-      tap(() => {
-        localStorage.removeItem(this.CURRENT_USER_KEY);
-        this._currentUser.set(null);
-      }),
-    );
+    this._currentUser.set(null);
+    localStorage.removeItem(this.CURRENT_USER_KEY);
+    void this.router.navigate(['/login']);
+    return of();
   }
 
   private getUsersFromDb(): User[] {

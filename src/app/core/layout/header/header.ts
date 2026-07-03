@@ -20,14 +20,6 @@ export class Header {
   protected readonly isAuthorized = Boolean(this.authService.currentUser());
 
   logout(): void {
-    this.authService.logout().subscribe({
-      next: () => {
-        void this.router.navigate(['/login']);
-      },
-      error: (error: Error) => {
-        //TODO handle backend errors if auth will be implemented
-        throw error;
-      },
-    });
+    this.authService.logout();
   }
 }
