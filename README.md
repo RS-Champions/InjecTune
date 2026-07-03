@@ -80,9 +80,9 @@ npm run test
 
 ## 🌐 Deployment
 
-**Live app:** https://injectune.netlify.app/
+**Live app:** https://rs-champions.github.io/InjecTune/
 
-CI/CD is configured via Netlify — every merge to `main` triggers an automatic deploy and a pull request also trigger the deploy for testing.
+CI/CD is configured — every merge to `main` triggers an automatic deploy and a pull request also trigger the deploy for testing.
 
 ---
 
