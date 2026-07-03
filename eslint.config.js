@@ -61,6 +61,7 @@ module.exports = defineConfig([
       'unicorn/prefer-top-level-await': 'off',
       '@typescript-eslint/no-extraneous-class': 'off',
       '@typescript-eslint/no-invalid-void-type': 'off',
+      '@typescript-eslint/unbound-method': 'off',
     },
   },
   {

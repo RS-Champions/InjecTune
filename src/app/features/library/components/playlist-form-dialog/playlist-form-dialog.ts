@@ -15,7 +15,6 @@ interface PlaylistFormDialogContext {
   completeWith: (result: CreatePlaylistDto | null) => void;
 }
 
-/* eslint-disable @typescript-eslint/unbound-method */
 @Component({
   selector: 'app-playlist-form-dialog',
   imports: [ReactiveFormsModule, TuiButton, TuiError, TuiLabel, TuiTextfield],
