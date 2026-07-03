@@ -1,0 +1,21 @@
+@let musicData = track();
+
+<div class="image-wrapper">
+  <img [src]="musicData.image" [alt]="musicData.name" class="card-image" />
+  <div class="overlay"></div>
+  @if (isPlaying()) {
+    <app-equalizer />
+  }
+  <button
+    tuiIconButton
+    [appearance]="isPlaying() ? 'custom-active' : 'flat-inverse'"
+    [iconStart]="isPlaying() ? '@tui.pause' : '@tui.play'"
+    class="play-pause-btn"
+    (click)="isPlaying() ? onPause() : onPlay(); $event.stopPropagation()"
+    aria-label="{{ isPlaying() ? 'Pause' : 'Play' }}"
+  ></button>
+</div>
+<div class="content">
+  <h3 class="title">{{ musicData.name }}</h3>
+  <p class="subtitle">{{ track().subtitle || (track().played_at | date) || '' }}</p>
+</div>

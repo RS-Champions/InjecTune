@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { from, of } from 'rxjs';
 import { catchError, concatMap, exhaustMap, filter, tap } from 'rxjs/operators';
 import { AudioEngine, PlayerStore } from '@core/player';
+import { LibraryPlaylistCover } from '@features/library/components/library-playlist-cover/library-playlist-cover';
 import {
   PlaylistFormDialog,
   PlaylistFormDialogData,
@@ -25,7 +26,16 @@ import { PolymorpheusComponent } from '@taiga-ui/polymorpheus';
 
 @Component({
   selector: 'app-playlist-details-page',
-  imports: [FormatDurationPipe, LoadingSkeleton, PlaylistTrackList, PlaylistTrackSearch, TuiButton, TuiIcon, TuiLoader],
+  imports: [
+    FormatDurationPipe,
+    LoadingSkeleton,
+    PlaylistTrackList,
+    PlaylistTrackSearch,
+    TuiButton,
+    TuiIcon,
+    TuiLoader,
+    LibraryPlaylistCover,
+  ],
   templateUrl: './playlist-details-page.html',
   styleUrl: './playlist-details-page.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,7 +51,7 @@ export class PlaylistDetailsPage {
   private readonly audioEngine = inject(AudioEngine);
   protected readonly playerStore = inject(PlayerStore);
 
-  readonly pageName = PageName.LIBRARY_PLAYLIST;
+  readonly pageName = PageName.PLAYLISTS;
 
   readonly id = input.required<string>();
 

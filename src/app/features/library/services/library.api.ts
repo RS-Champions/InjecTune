@@ -5,12 +5,15 @@ import { Observable } from 'rxjs';
 
 import { LIBRARY_API_URL } from '@core/tokens/library.tokens';
 import {
+  AddRecentlyPlayedDto,
   AddTrackDto,
   CreatePlaylistDto,
   FavoriteItem,
   Playlist,
   PlaylistDetails,
   PlaylistTrack,
+  RecentlyPlayedFilterDto,
+  RecentlyPlayedTrack,
   UpdatePlaylistDto,
 } from '../interfaces/library-api.model';
 import { ReorderTracksDto } from '../interfaces/library.model';
@@ -25,6 +28,7 @@ export class LibraryApi {
   private readonly apiUrl = inject(LIBRARY_API_URL);
   private readonly playlistsUrl = `${this.apiUrl}/playlists`;
   private readonly favoritesUrl = `${this.apiUrl}/favorites`;
+  private readonly recentlyPlayedUrl = `${this.apiUrl}/recently-played`;
 
   playlistsResource(): HttpResourceRef<Playlist[]> {
     return httpResource<Playlist[]>(
@@ -45,9 +49,21 @@ export class LibraryApi {
     });
   }
 
-  readonly favoritesResource = httpResource<FavoriteItem[]>(() => ({
-    url: this.favoritesUrl,
-  }));
+  /**
+   * filter is a Signal so the resource reactively reloads whenever the
+   * caller's filter state changes (e.g. a date range picked for Issue #15)
+   * — no manual .reload() call needed when the filter itself changes.
+   * Pass signal(() => ({})) for an unfiltered, always-current view.
+   */
+  recentlyPlayedResource(filter: Signal<RecentlyPlayedFilterDto>): HttpResourceRef<RecentlyPlayedTrack[]> {
+    return httpResource<RecentlyPlayedTrack[]>(
+      () => ({
+        url: this.recentlyPlayedUrl,
+        params: { ...filter() },
+      }),
+      { defaultValue: [] },
+    );
+  }
 
   createPlaylist(dto: CreatePlaylistDto): Observable<Playlist> {
     return this.http.post<Playlist>(this.playlistsUrl, dto);
@@ -81,5 +97,9 @@ export class LibraryApi {
 
   removeFavorite(trackId: string): Observable<void> {
     return this.http.delete<void>(`${this.favoritesUrl}/${trackId}`);
+  }
+
+  addRecentlyPlayed(dto: AddRecentlyPlayedDto): Observable<RecentlyPlayedTrack> {
+    return this.http.post<RecentlyPlayedTrack>(this.recentlyPlayedUrl, dto);
   }
 }

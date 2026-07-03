@@ -5,7 +5,18 @@ import { JamendoApiBase } from '@core/jamendo/jamendo-api-base';
 import { JamendoResponse } from '@shared/interfaces/jamendo-response';
 import { SearchTrack } from '@shared/track/interfaces/search-track';
 import { chunk } from '@shared/utils/array';
-import { EnrichedPlaylistTrack, PlaylistTrack } from '../interfaces/library-api.model';
+import {
+  EnrichedPlaylistTrack,
+  EnrichedRecentlyPlayedTrack,
+  PlaylistTrack,
+  RecentlyPlayedTrack,
+} from '../interfaces/library-api.model';
+
+/** Minimal shape any enrichable row must satisfy: a Jamendo track id + its source. */
+interface SourcedRow {
+  track_id: string;
+  source: 'jamendo' | 'own';
+}
 
 @Injectable({ providedIn: 'root' })
 export class PlaylistJamendoApi {
@@ -37,11 +48,33 @@ export class PlaylistJamendoApi {
    * The result preserves the original `position` order from the backend.
    */
   enrichTracks(playlistTracks: PlaylistTrack[]): Observable<EnrichedPlaylistTrack[]> {
-    const jamendoTracks = playlistTracks.filter((t) => t.source === 'jamendo');
+    return this.enrichBySource(playlistTracks);
+  }
 
-    if (jamendoTracks.length === 0) return of([]);
+  /**
+   * Takes the raw recently_played rows from the backend and enriches them
+   * with track metadata fetched from Jamendo in batches.
+   *
+   * Items with source 'own' are skipped — handled separately in Issue #17.
+   * The result preserves the original `played_at` ordering from the backend.
+   */
+  enrichRecentlyPlayed(items: RecentlyPlayedTrack[]): Observable<EnrichedRecentlyPlayedTrack[]> {
+    return this.enrichBySource(items);
+  }
 
-    const ids = jamendoTracks.map((t) => t.track_id);
+  /**
+   * Shared batch-enrichment core. Filters to 'jamendo' source rows, fetches
+   * metadata in chunks of JAMENDO_BATCH_SIZE, then merges each row with its
+   * matching SearchTrack metadata. Spread order is critical: DB row fields
+   * (id, position/played_at, source, track_id) must win over Jamendo's
+   * metadata fields on any key collision (e.g. Jamendo's own numeric `id`).
+   */
+  private enrichBySource<T extends SourcedRow>(rows: T[]): Observable<(T & SearchTrack)[]> {
+    const jamendoRows = rows.filter((r) => r.source === 'jamendo');
+
+    if (jamendoRows.length === 0) return of([]);
+
+    const ids = jamendoRows.map((r) => r.track_id);
     const batches = chunk(ids, this.jamendoApi.JAMENDO_BATCH_SIZE);
 
     const requests = batches.map((batch) =>
@@ -64,14 +97,14 @@ export class PlaylistJamendoApi {
           }
         }
 
-        const enrichedPlaylistTracks: EnrichedPlaylistTrack[] = [];
-        for (const playlistTrack of jamendoTracks) {
-          const meta = metaMap.get(playlistTrack.track_id);
+        const enrichedRows: (T & SearchTrack)[] = [];
+        for (const row of jamendoRows) {
+          const meta = metaMap.get(row.track_id);
           if (meta) {
-            enrichedPlaylistTracks.push({ ...meta, ...playlistTrack });
+            enrichedRows.push({ ...meta, ...row });
           }
         }
-        return enrichedPlaylistTracks;
+        return enrichedRows;
       }),
     );
   }

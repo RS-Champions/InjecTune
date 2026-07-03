@@ -1,13 +1,7 @@
 @let item = playlist();
 
 <button type="button" class="cover" (click)="playlistClick.emit()">
-  @if (item.cover) {
-    <img [src]="item.cover" [alt]="item.name" />
-  } @else {
-    <span class="cover-placeholder">
-      <tui-icon icon="@tui.heart" />
-    </span>
-  }
+  <app-library-playlist-cover [playlistId]="playlist().id" [playlistName]="playlist().name" />
   <button
     type="button"
     tuiIconButton

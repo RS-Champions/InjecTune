@@ -15,6 +15,7 @@
   --primary-mix-30: color-mix(in srgb, var(--primary) 30%, transparent);
   --on-primary: #490080;
   --primary-container: #b76dff;
+  --inverse-primary: #842bd2;
   --secondary: #adc6ff;
   --error: #ffb4ab;
   --sm: 0.5rem;
@@ -107,11 +108,34 @@ a {
   }
 }
 
+[tuiAppearance][data-appearance='custom-primary'] {
+  background-color: var(--primary);
+  color: var(--on-primary);
+
+  &:hover {
+    background-color: var(--inverse-primary);
+    color: var(--on-surface);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
 [tuiAppearance][data-appearance='custom-secondary'] {
   color: transparent;
 
   &:hover {
     background-color: var(--primary);
+    color: var(--on-surface);
+  }
+}
+
+[tuiAppearance][data-appearance='flat-inverse'] {
+  color: transparent;
+
+  &:hover {
+    background-color: transparent;
     color: var(--on-surface);
   }
 }

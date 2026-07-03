@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, effect, input, output, signal } fro
 import { FormsModule } from '@angular/forms';
 import { DurationFilter, SearchFilters, SortBy } from '@features/search/interfaces/search-filters';
 import { mapApiParametersToDuration, mapDurationToApiParameters } from '@features/search/utils/duration-filter';
+import { TagName } from '@shared/constants/tag-name';
 import { TuiStringHandler } from '@taiga-ui/cdk';
 import { TuiButton, TuiHint, TuiIcon, TuiLabel, TuiRadio } from '@taiga-ui/core';
 import { TuiChevron, TuiChip, TuiSelect, TuiDataListWrapper } from '@taiga-ui/kit';
@@ -37,7 +38,7 @@ export class SearchFiltersPanel {
   readonly initialFilters = input<SearchFilters>({});
   readonly filtersChange = output<SearchFilters>();
 
-  protected readonly genres = ['Electronic', 'Synthwave', 'Ambient', 'Funk', 'Lo-Fi', 'Rock', 'Jazz', 'Pop'];
+  protected readonly genres: string[] = Object.values(TagName);
   protected readonly sortOptions: SortOption[] = [
     { label: 'Relevance', value: 'relevance' },
     { label: 'Popularity', value: 'popularity_total' },

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { TagName } from '@shared/constants/tag-name';
 
 @Component({
   selector: 'app-genre-tags',
@@ -10,18 +11,7 @@ import { RouterLink } from '@angular/router';
 })
 export class GenreTags {
   // TODO: replace genres for real when search page will be implemented
-  protected readonly genres = [
-    'Rock',
-    'Electronic',
-    'Jazz',
-    'Pop',
-    'Hip-Hop',
-    'Classical',
-    'Blues',
-    'Country',
-    'R&B',
-    'Soul',
-  ];
+  protected readonly genres: string[] = Object.values(TagName);
 
   protected getQueryParams(genre: string) {
     return { fuzzytags: genre.toLowerCase() };
