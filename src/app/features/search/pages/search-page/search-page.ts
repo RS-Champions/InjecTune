@@ -13,7 +13,6 @@ import { SearchApi } from '@features/search/services/search-api';
 import { mapDurationToApiParameters, mapApiParametersToDuration } from '@features/search/utils/duration-filter';
 import { LoadingSkeleton } from '@shared/components/loading-skeleton/loading-skeleton';
 import { PageName } from '@shared/constants/page-name';
-import { SearchTrack } from '@shared/track/interfaces/search-track';
 
 import { TuiButton, TuiInput } from '@taiga-ui/core';
 import { TuiButtonLoading } from '@taiga-ui/kit';
@@ -40,7 +39,7 @@ export class SearchPage {
 
   protected readonly searchApi = inject(SearchApi);
 
-  protected readonly audio = inject(AudioEngine);
+  protected readonly audioEngine = inject(AudioEngine);
   protected readonly playerStore = inject(PlayerStore);
 
   protected readonly pageName = PageName.SEARCH;
@@ -73,10 +72,6 @@ export class SearchPage {
 
   loadMore(): void {
     this.searchApi.offset.update((o) => o + this.searchApi.limit());
-  }
-
-  protected onPlay(track: SearchTrack): void {
-    this.audio.playTrack(track);
   }
 
   protected onFiltersChange(filters: SearchFilters): void {

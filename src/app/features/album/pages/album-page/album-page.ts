@@ -25,7 +25,7 @@ export class AlbumPage {
   private readonly albumApi = inject(AlbumApi);
   private readonly route = inject(ActivatedRoute);
 
-  protected readonly audio = inject(AudioEngine);
+  protected readonly audioEngine = inject(AudioEngine);
   protected readonly playerStore = inject(PlayerStore);
 
   protected readonly pageName = PageName.ALBUM;
@@ -78,10 +78,6 @@ export class AlbumPage {
   protected onPlayAll(): void {
     const tracks = this.album()?.tracks ?? [];
     const startIndex = 0;
-    this.audio.playQueue(tracks, startIndex);
-  }
-
-  protected onPlay(track: AlbumTrack): void {
-    this.audio.playTrack(track);
+    this.audioEngine.playQueue(tracks, startIndex);
   }
 }

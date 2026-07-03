@@ -17,8 +17,8 @@
           <app-album-track-card
             [track]="item"
             [isPlaying]="playerStore.isPlaying() && currentTrack()?.id === item.id"
-            (playTrack)="onPlay($event)"
-            (pauseTrack)="audio.pause()"
+            (playTrack)="audioEngine.playTrack($event)"
+            (pauseTrack)="audioEngine.pause()"
           />
         }
       </div>

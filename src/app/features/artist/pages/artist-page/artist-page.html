@@ -16,7 +16,7 @@
           <app-artist-track-card
             [track]="track"
             [isPlaying]="playerStore.isPlaying() && currentTrack()?.id === track.id"
-            (playTrack)="onPlay($event)"
+            (playTrack)="audioEngine.playTrack($event)"
             (pauseTrack)="audioEngine.pause()"
           />
         }
