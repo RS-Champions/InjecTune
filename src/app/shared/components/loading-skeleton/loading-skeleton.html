@@ -16,7 +16,7 @@
 <div class="content">
   @switch (pageName()) {
     @case ('album')
-    @case ('library-playlist') {
+    @case ('playlists') {
       <div class="section-title section-title_table" [tuiSkeleton]="isLoading()"></div>
     }
     @case ('artist') {

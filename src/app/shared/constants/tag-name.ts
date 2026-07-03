@@ -1,0 +1,16 @@
+export enum TagName {
+  AMBIENT = 'Ambient',
+  BLUES = 'Blues',
+  CLASSICAL = 'Classical',
+  COUNTRY = 'Country',
+  ELECTRONIC = 'Electronic',
+  FUNK = 'Funk',
+  JAZZ = 'Jazz',
+  HIP_HOP = 'Hip-Hop',
+  LO_FI = 'Lo-Fi',
+  POP = 'Pop',
+  RNB = 'RnB',
+  ROCK = 'Rock',
+  SOUL = 'Soul',
+  SYNTHWAVE = 'Synthwave',
+}

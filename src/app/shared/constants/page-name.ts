@@ -5,6 +5,6 @@ export enum PageName {
   DISCOVER = 'discover',
   SEARCH = 'search',
   LIBRARY = 'library',
-  LIBRARY_PLAYLIST = 'library-playlist',
+  PLAYLISTS = 'playlists',
   REGISTER = 'register',
 }

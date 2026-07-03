@@ -51,7 +51,7 @@ export class PlaylistDetailsPage {
   private readonly audioEngine = inject(AudioEngine);
   protected readonly playerStore = inject(PlayerStore);
 
-  readonly pageName = PageName.LIBRARY_PLAYLIST;
+  readonly pageName = PageName.PLAYLISTS;
 
   readonly id = input.required<string>();
 
