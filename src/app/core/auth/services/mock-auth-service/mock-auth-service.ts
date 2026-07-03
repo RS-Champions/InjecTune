@@ -1,5 +1,4 @@
-import { computed, inject, Injectable, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { computed, Injectable, signal } from '@angular/core';
 import { delay, Observable, of, tap, throwError } from 'rxjs';
 import { DELAY_MS } from '@shared/constants/constants';
 import { AuthCredentials } from '@core/auth/interfaces/auth-credentials';
@@ -10,8 +9,6 @@ import { AuthServiceAbstract } from '../auth-service-interface/auth-service-inte
   providedIn: 'root',
 })
 export class MockAuthService implements AuthServiceAbstract {
-  private readonly router = inject(Router);
-
   public readonly currentUser = computed(() => this._currentUser());
 
   private readonly USERS_DB_KEY = 'auth:users_db';
