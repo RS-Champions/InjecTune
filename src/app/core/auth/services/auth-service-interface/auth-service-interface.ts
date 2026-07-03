@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export abstract class AuthServiceInterface {
+export abstract class AuthServiceAbstract {
   abstract readonly currentUser: Signal<User | null>;
   abstract register(credentials: AuthCredentials): Observable<User>;
   abstract login(credentials: AuthCredentials): Observable<User>;

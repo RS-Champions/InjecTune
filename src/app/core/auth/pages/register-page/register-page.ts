@@ -3,7 +3,7 @@ import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validatio
 import Input, { InputData } from '@shared/components/input/input';
 import { TuiButton, TuiError, tuiValidationErrorsProvider } from '@taiga-ui/core';
 import { Router, RouterLink } from '@angular/router';
-import { AuthServiceInterface } from '@core/auth/services/auth-service-interface/auth-service-interface';
+import { AuthServiceAbstract } from '@core/auth/services/auth-service-interface/auth-service-interface';
 import { AuthCredentials } from '@core/auth/interfaces/auth-credentials';
 import { Equalizer } from '@shared/components/equalizer/equalizer';
 import { inputsData } from '../inputs-static-data';
@@ -23,7 +23,7 @@ export class RegisterPage {
 
     return password === confirm ? null : { passwordsMismatch: true };
   };
-  private authService = inject(AuthServiceInterface);
+  private authService = inject(AuthServiceAbstract);
   private router = inject(Router);
 
   protected isLoading = signal(false);

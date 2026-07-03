@@ -5,12 +5,12 @@ import { DELAY_MS } from '@shared/constants/constants';
 import { PageName } from '@shared/constants/page-name';
 import { AuthCredentials } from '@core/auth/interfaces/auth-credentials';
 import { User } from '@core/auth/interfaces/user';
-import { AuthServiceInterface } from '../auth-service-interface/auth-service-interface';
+import { AuthServiceAbstract } from '../auth-service-interface/auth-service-interface';
 
 @Injectable({
   providedIn: 'root',
 })
-export class MockAuthService implements AuthServiceInterface {
+export class MockAuthService implements AuthServiceAbstract {
   private readonly router = inject(Router);
 
   public readonly currentUser = computed(() => this._currentUser());

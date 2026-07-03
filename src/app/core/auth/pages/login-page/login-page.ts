@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthCredentials } from '@core/auth/interfaces/auth-credentials';
-import { AuthServiceInterface } from '@core/auth/services/auth-service-interface/auth-service-interface';
+import { AuthServiceAbstract } from '@core/auth/services/auth-service-interface/auth-service-interface';
 import { Equalizer } from '@shared/components/equalizer/equalizer';
 import Input, { InputData } from '@shared/components/input/input';
 import { TuiButton, TuiErrorComponent } from '@taiga-ui/core';
@@ -16,7 +16,7 @@ import { inputsData } from '../inputs-static-data';
   styleUrl: './login-page.less',
 })
 export class LoginPage {
-  private authService = inject(AuthServiceInterface);
+  private authService = inject(AuthServiceAbstract);
   private router = inject(Router);
 
   protected isLoading = signal(false);
