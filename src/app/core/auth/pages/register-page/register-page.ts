@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import Input, { InputData } from '@shared/components/input/input';
 import { TuiButton, TuiError, tuiValidationErrorsProvider } from '@taiga-ui/core';
 import { Router, RouterLink } from '@angular/router';
@@ -17,9 +17,12 @@ import { inputsData } from '../inputs-static-data';
   providers: [tuiValidationErrorsProvider({ passwordsMismatch: `The passwords don't match` })],
 })
 export class RegisterPage {
-  private passwordsMatchValidator = (group: AbstractControl): ValidationErrors | null => {
-    const password = group.get('password')?.value as string | undefined;
-    const confirm = group.get('confirmPassword')?.value as string | undefined;
+  private passwordsMatchValidator = (): ValidationErrors | null => {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    if (!this.registerForm) return null;
+    const data = this.registerForm.getRawValue();
+    const password = data.password;
+    const confirm = data.confirmPassword;
 
     return password === confirm ? null : { passwordsMismatch: true };
   };
