@@ -22,8 +22,8 @@ export class LoginPage {
   protected isLoading = signal(false);
   protected error = signal<string | null>(null);
   protected loginForm = new FormGroup({
-    email: new FormControl('', [(control) => Validators.required(control), (control) => Validators.email(control)]),
-    password: new FormControl('', [(control) => Validators.required(control)]),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [Validators.required]),
   });
 
   protected emailInputData: InputData = {

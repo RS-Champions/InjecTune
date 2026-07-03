@@ -31,12 +31,9 @@ export class RegisterPage {
 
   protected registerForm = new FormGroup(
     {
-      email: new FormControl('', [(control) => Validators.required(control), (control) => Validators.email(control)]),
-      password: new FormControl('', [
-        (control) => Validators.required(control),
-        (control) => Validators.minLength(4)(control),
-      ]),
-      confirmPassword: new FormControl('', [(control) => Validators.required(control)]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required, Validators.minLength(4)]),
+      confirmPassword: new FormControl('', [Validators.required]),
     },
     { validators: this.passwordsMatchValidator },
   );
