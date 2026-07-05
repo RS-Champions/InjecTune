@@ -104,7 +104,6 @@ export class PlayerStore {
       const userId = this.authService.currentUser()?.id ?? null;
 
       if (this.lastUserId === undefined) {
-        // First run, app boot: don't wipe on initial load, just record identity.
         this.lastUserId = userId;
         return;
       }
@@ -130,8 +129,6 @@ export class PlayerStore {
       this.storage.removeItem(PlayerStorageKeys.QUEUE);
       this.storage.removeItem(PlayerStorageKeys.QUEUE_INDEX);
       this.storage.removeItem(PlayerStorageKeys.CURRENT_TIME);
-      // volume/shuffle/repeat are user preferences, not per-session queue
-      // state — deliberately left alone so they persist across logins.
     } catch (error) {
       console.error('[PlayerStore] Error clearing localStorage on user change:', error);
     }
@@ -188,7 +185,6 @@ export class PlayerStore {
   private setupStoragePersistence(): void {
     effect(() => {
       try {
-        // always persist the ORIGINAL order, not the shuffled one
         const queueToPersist = this.originalQueue().length > 0 ? this.originalQueue() : this.queue();
         this.storage.setItem(PlayerStorageKeys.QUEUE, JSON.stringify(queueToPersist));
         this.storage.setItem(PlayerStorageKeys.QUEUE_INDEX, String(this.queueIndex()));

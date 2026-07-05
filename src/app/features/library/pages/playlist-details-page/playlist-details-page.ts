@@ -221,21 +221,18 @@ export class PlaylistDetailsPage {
     const id = this.id();
     if (!id) return;
 
-    // Build the DTO: map each track's DB row id + its new 0-indexed position
     const dto: ReorderTracksDto = {
       tracks: reodered.map((track, index) => ({
-        id: track.id, // playlist_tracks row UUID (not the Jamendo track id)
+        id: track.id,
         position: index,
       })),
     };
 
     this.libraryApi.reorderTracks(id, dto).subscribe({
       next: () => {
-        // Backend returns the updated PlaylistDetails — reload to sync
         this.detailsResource.reload();
       },
       error: () => {
-        // Optimistic update already applied visually — reload to revert
         this.detailsResource.reload();
         this.toasts
           .open('Failed to save track order. Order has been reverted.', {

@@ -39,7 +39,6 @@ export class BackendAuthService implements AuthServiceAbstract {
     );
   }
 
-  // there's no server-side session to invalidate with stateless JWTs, so client-side clear + redirect is correct as-is
   public logout(): Observable<void> {
     this._currentUser.set(null);
     localStorage.removeItem(this.CURRENT_USER_KEY);
