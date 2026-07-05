@@ -1,7 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { ArtistPage } from './artist-page';
 import { provideRouter } from '@angular/router';
+
+import { AuthServiceAbstract } from '@core/auth/services/auth-service-interface/auth-service-interface';
+import { FakeAuthService } from '@core/auth/testing/fake-auth-service';
+import { ArtistPage } from './artist-page';
 
 describe('ArtistPage', () => {
   let component: ArtistPage;
@@ -10,7 +12,7 @@ describe('ArtistPage', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ArtistPage],
-      providers: [provideRouter([])],
+      providers: [provideRouter([]), { provide: AuthServiceAbstract, useClass: FakeAuthService }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ArtistPage);

@@ -1,10 +1,10 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from '@core/auth/services/auth.service';
+import { AuthServiceAbstract } from '@core/auth/services/auth-service-interface/auth-service-interface';
 
 export const libraryGuard: CanActivateFn = () => {
   const router = inject(Router);
-  const authService = inject(AuthService);
+  const authService = inject(AuthServiceAbstract);
 
-  return authService.authenticatedUserId() ? true : router.parseUrl('/discover');
+  return authService.currentUser() ? true : router.parseUrl('/discover');
 };

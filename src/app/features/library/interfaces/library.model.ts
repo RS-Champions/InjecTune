@@ -14,8 +14,8 @@ export interface PlaylistItem {
 }
 
 export interface TrackPositionDto {
-  id: string; // playlist_tracks row UUID
-  position: number; // 0-indexed
+  id: string;
+  position: number;
 }
 
 export interface ReorderTracksDto {

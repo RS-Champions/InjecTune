@@ -51,7 +51,6 @@ export class PlaylistTrackList {
   }
 
   onDragStarted(): void {
-    // Snapshot current order into local signal before drag begins
     this.localTracks.set([...this.tracks()]);
     this.isDragging.set(true);
   }
@@ -62,13 +61,11 @@ export class PlaylistTrackList {
       return;
     }
 
-    // Optimistically reorder local copy
     const reordered = [...this.localTracks()];
     moveItemInArray(reordered, event.previousIndex, event.currentIndex);
     this.localTracks.set(reordered);
     this.isDragging.set(false);
 
-    // Emit the reordered list — parent persists and updates detailsResource
     this.tracksReordered.emit(reordered);
   }
 }

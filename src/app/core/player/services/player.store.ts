@@ -1,4 +1,5 @@
 import { Injectable, computed, effect, inject, signal } from '@angular/core';
+import { AuthServiceAbstract } from '@core/auth/services/auth-service-interface/auth-service-interface';
 import { RepeatMode } from '@core/player';
 import { LOCAL_STORAGE } from '@core/tokens/browser.tokens';
 import { LibraryApi } from '@features/library/services/library.api';
@@ -18,6 +19,7 @@ const RECENTLY_PLAYED_DEDUPE_WINDOW_MS = 60_000;
 export class PlayerStore {
   private readonly storage = inject(LOCAL_STORAGE);
   private readonly libraryApi = inject(LibraryApi);
+  private readonly authService = inject(AuthServiceAbstract);
 
   // ============================================================================
   // State Signals
@@ -77,7 +79,11 @@ export class PlayerStore {
   private lastLoggedTrackId: string | null = null;
   private lastLoggedAt = 0;
 
+  /** Tracks whose identity currently owns the persisted state, to detect login/logout/switch. */
+  private lastUserId: string | null | undefined = undefined;
+
   constructor() {
+    this.setupUserChangeReset();
     this.initializeState();
     this.setupStoragePersistence();
     this.setupRecentlyPlayedRecording();
@@ -86,6 +92,47 @@ export class PlayerStore {
   // ============================================================================
   // Initialization & Setup
   // ============================================================================
+
+  /**
+   * Wipes queue/playback state whenever the authenticated identity changes
+   * (login, logout, or switching accounts on a shared browser). Runs before
+   * initializeState() so a fresh login never restores a previous user's
+   * leftover localStorage.
+   */
+  private setupUserChangeReset(): void {
+    effect(() => {
+      const userId = this.authService.currentUser()?.id ?? null;
+
+      if (this.lastUserId === undefined) {
+        this.lastUserId = userId;
+        return;
+      }
+
+      if (userId === this.lastUserId) return;
+
+      this.lastUserId = userId;
+      this.resetForUserChange();
+    });
+  }
+
+  private resetForUserChange(): void {
+    this.queue.set([]);
+    this.originalQueue.set([]);
+    this.queueIndex.set(0);
+    this.isPlaying.set(false);
+    this.currentTime.set(0);
+    this.duration.set(0);
+    this.lastLoggedTrackId = null;
+    this.lastLoggedAt = 0;
+
+    try {
+      this.storage.removeItem(PlayerStorageKeys.QUEUE);
+      this.storage.removeItem(PlayerStorageKeys.QUEUE_INDEX);
+      this.storage.removeItem(PlayerStorageKeys.CURRENT_TIME);
+    } catch (error) {
+      console.error('[PlayerStore] Error clearing localStorage on user change:', error);
+    }
+  }
 
   /**
    * Initialize player state from localStorage
@@ -138,7 +185,6 @@ export class PlayerStore {
   private setupStoragePersistence(): void {
     effect(() => {
       try {
-        // always persist the ORIGINAL order, not the shuffled one
         const queueToPersist = this.originalQueue().length > 0 ? this.originalQueue() : this.queue();
         this.storage.setItem(PlayerStorageKeys.QUEUE, JSON.stringify(queueToPersist));
         this.storage.setItem(PlayerStorageKeys.QUEUE_INDEX, String(this.queueIndex()));
