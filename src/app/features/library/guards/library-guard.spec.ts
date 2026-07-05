@@ -1,23 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { CanActivateFn, Router, UrlTree } from '@angular/router';
-import { signal } from '@angular/core';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { AuthServiceAbstract } from '@core/auth/services/auth-service-interface/auth-service-interface';
-import { User } from '@core/auth/interfaces/user';
+import { FakeAuthService } from '@core/auth/testing/fake-auth-service';
 import { libraryGuard } from './library-guard';
 
 const executeGuard: CanActivateFn = (...guardParameters) =>
   TestBed.runInInjectionContext(() => libraryGuard(...guardParameters));
-
-class FakeAuthService implements Pick<AuthServiceAbstract, 'currentUser'> {
-  private readonly _currentUser = signal<User | null>(null);
-  readonly currentUser = this._currentUser.asReadonly();
-
-  setUser(user: User | null): void {
-    this._currentUser.set(user);
-  }
-}
 
 describe('libraryGuard', () => {
   let authService: FakeAuthService;
