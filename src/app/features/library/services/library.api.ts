@@ -105,13 +105,23 @@ export class LibraryApi {
     return this.http.post<RecentlyPlayedTrack>(this.recentlyPlayedUrl, dto);
   }
 
-  tracksResource(): HttpResourceRef<OwnTrack[]> {
+  ownTracksResource(): HttpResourceRef<OwnTrack[]> {
     return httpResource<OwnTrack[]>(
       () => ({
         url: this.tracksUrl,
       }),
       { defaultValue: [] },
     );
+  }
+
+  /**
+   * Same data as tracksResource(), as a plain Observable instead of a
+   * signal-based resource. Used by PlaylistJamendoApi's enrichment
+   * pipeline, which composes multiple requests with forkJoin — a
+   * signal resource doesn't fit that composition pattern.
+   */
+  ownTracks(): Observable<OwnTrack[]> {
+    return this.http.get<OwnTrack[]>(this.tracksUrl);
   }
 
   /**
