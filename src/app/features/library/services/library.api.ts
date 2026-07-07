@@ -9,12 +9,14 @@ import {
   AddTrackDto,
   CreatePlaylistDto,
   FavoriteItem,
+  OwnTrack,
   Playlist,
   PlaylistDetails,
   PlaylistTrack,
   RecentlyPlayedFilterDto,
   RecentlyPlayedTrack,
   UpdatePlaylistDto,
+  UploadTrackDto,
 } from '../interfaces/library-api.model';
 import { ReorderTracksDto } from '../interfaces/library.model';
 
@@ -29,6 +31,7 @@ export class LibraryApi {
   private readonly playlistsUrl = `${this.apiUrl}/playlists`;
   private readonly favoritesUrl = `${this.apiUrl}/favorites`;
   private readonly recentlyPlayedUrl = `${this.apiUrl}/recently-played`;
+  private readonly tracksUrl = `${this.apiUrl}/tracks`;
 
   playlistsResource(): HttpResourceRef<Playlist[]> {
     return httpResource<Playlist[]>(
@@ -50,9 +53,8 @@ export class LibraryApi {
   }
 
   /**
-   * filter is a Signal so the resource reactively reloads whenever the
-   * caller's filter state changes (e.g. a date range picked for Issue #15)
-   * — no manual .reload() call needed when the filter itself changes.
+   * filter is a Signal so the resource reactively reloads whenever the caller's filter state changes
+   * (e.g. a date range picked) — no manual .reload() call needed when the filter itself changes.
    * Pass signal(() => ({})) for an unfiltered, always-current view.
    */
   recentlyPlayedResource(filter: Signal<RecentlyPlayedFilterDto>): HttpResourceRef<RecentlyPlayedTrack[]> {
@@ -101,5 +103,35 @@ export class LibraryApi {
 
   addRecentlyPlayed(dto: AddRecentlyPlayedDto): Observable<RecentlyPlayedTrack> {
     return this.http.post<RecentlyPlayedTrack>(this.recentlyPlayedUrl, dto);
+  }
+
+  tracksResource(): HttpResourceRef<OwnTrack[]> {
+    return httpResource<OwnTrack[]>(
+      () => ({
+        url: this.tracksUrl,
+      }),
+      { defaultValue: [] },
+    );
+  }
+
+  /**
+   * Uploads an own audio file. Builds the multipart/form-data body itself —
+   * callers pass the File and the metadata separately, not a FormData they
+   * assembled by hand. Angular sets the multipart boundary header
+   * automatically as long as we don't set Content-Type ourselves.
+   */
+  uploadTrack(file: File, dto: UploadTrackDto): Observable<OwnTrack> {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('title', dto.title);
+    formData.append('duration', String(dto.duration));
+    if (dto.artist) formData.append('artist', dto.artist);
+    if (dto.genre) formData.append('genre', dto.genre);
+
+    return this.http.post<OwnTrack>(`${this.tracksUrl}/upload`, formData);
+  }
+
+  deleteTrack(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.tracksUrl}/${id}`);
   }
 }

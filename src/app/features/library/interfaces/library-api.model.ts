@@ -81,3 +81,29 @@ export interface RecentlyPlayedFilterDto {
   from?: string;
   to?: string;
 }
+
+/**
+ * Raw shape returned by GET/POST /tracks. Mirrors the `tracks` table plus
+ * the signed playback URL the backend attaches on every response
+ * (see TracksService.withSignedUrl). Not BaseTrack-shaped on its own —
+ * see toBaseTrack() in own-track.mapper.ts for the adapter.
+ */
+export interface OwnTrack {
+  id: string;
+  user_id: string;
+  title: string;
+  artist: string | null;
+  genre: string | null;
+  file_path: string;
+  duration: number;
+  created_at: string;
+  audioUrl: string;
+}
+
+export interface UploadTrackDto {
+  title: string;
+  artist?: string;
+  genre?: string;
+  /** Seconds, read client-side from the audio element before upload. */
+  duration: number;
+}
