@@ -1,0 +1,58 @@
+<form class="form" [formGroup]="form" (ngSubmit)="submit()">
+  <label tuiLabel class="required">
+    <span>Title</span>
+
+    <tui-textfield>
+      <input tuiInput formControlName="title" placeholder="My song" [tuiTextfieldCleaner]="false" />
+    </tui-textfield>
+  </label>
+
+  <tui-error formControlName="title" />
+
+  <label tuiLabel>
+    <span>Artist</span>
+
+    <tui-textfield>
+      <input tuiInput formControlName="artist" placeholder="Optional" />
+    </tui-textfield>
+  </label>
+
+  <label tuiLabel>
+    <span>Genre</span>
+
+    <tui-textfield>
+      <input tuiInput formControlName="genre" placeholder="Optional" />
+    </tui-textfield>
+  </label>
+
+  <label tuiLabel class="required file-label">
+    <span>Audio file</span>
+
+    <label class="file-drop" [class.file-drop--filled]="selectedFile()">
+      <input
+        type="file"
+        accept="audio/mpeg,audio/wav,audio/ogg,audio/mp4,audio/x-m4a,audio/webm"
+        (change)="onFileChosen($event)"
+      />
+      @if (selectedFile(); as file) {
+        <span class="file-drop__name">{{ file.name }}</span>
+      } @else {
+        <span class="file-drop__hint">Click to choose an audio file</span>
+        <span class="file-drop__meta">MP3, WAV, OGG, M4A up to 20MB</span>
+      }
+    </label>
+
+    @if (fileError(); as error) {
+      <span class="file-error">{{ error }}</span>
+    }
+  </label>
+
+  <footer class="footer">
+    <button type="button" tuiButton appearance="custom-primary" [disabled]="isPreparing()" (click)="cancel()">Cancel</button>
+
+    <button type="submit" tuiButton appearance="secondary" [disabled]="isPreparing()">
+      {{ isPreparing() ? 'Preparing…' : 'Upload' }}
+    </button>
+  </footer>
+</form>
+>
