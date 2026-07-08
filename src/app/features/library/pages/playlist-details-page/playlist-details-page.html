@@ -70,6 +70,6 @@
     @if (isAddingTrack()) {
       <tui-loader size="s" class="adding-loader" />
     }
-    <app-playlist-track-search (trackSelected)="onTrackSelected($event)" />
+    <app-playlist-add-songs (trackSelected)="onTrackSelected($event)" />
   </section>
 }
