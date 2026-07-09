@@ -11,17 +11,11 @@ label[tuiLabel] {
   gap: var(--sm);
 }
 
-.required {
-  position: relative;
+.required > span:first-child::after {
+  content: '*';
+  margin-left: 4px;
 
-  &::after {
-    content: '*';
-    position: absolute;
-    top: 0;
-    left: var(--xl);
-
-    color: var(--tui-status-negative);
-  }
+  color: var(--tui-status-negative);
 }
 
 tui-textfield {
