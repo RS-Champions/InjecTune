@@ -1,19 +1,14 @@
 @import '../playlist-form-dialog/playlist-form-dialog.less';
 
-.file-label {
-  gap: var(--sm);
-}
-
-.file-drop {
-  position: relative;
+.drop-zone {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: 8px;
   border: 1px dashed var(--outline-variant);
   border-radius: var(--md);
-  padding: 20px;
+  padding: 24px 16px;
   text-align: center;
   cursor: pointer;
   transition: var(--transition-border-color);
@@ -21,33 +16,11 @@
   &:hover {
     border-color: var(--primary);
   }
-
-  &--filled {
-    border-style: solid;
-  }
-
-  input[type='file'] {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    cursor: pointer;
-  }
 }
 
-.file-drop__hint {
+.types {
   color: var(--on-surface-variant);
-  font-size: 0.875rem;
-}
-
-.file-drop__meta {
-  color: var(--outline);
-  font-size: 0.75rem;
-}
-
-.file-drop__name {
-  color: var(--on-surface);
-  font-size: 0.875rem;
-  word-break: break-word;
+  font-size: 0.6875rem;
 }
 
 .file-error {

@@ -1,10 +1,12 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AsyncPipe } from '@angular/common';
 
 import { UploadTrackDto } from '@features/library/interfaces/library-api.model';
 import { TRACK_UPLOAD_LIMITS } from '@features/library/interfaces/track-upload-limits';
 import { getAudioDuration } from '@shared/utils/get-audio-duration';
-import { TuiButton, TuiError, TuiLabel, TuiTextfield } from '@taiga-ui/core';
+import { TuiButton, TuiError, TuiLabel, TuiLink, TuiTextfield } from '@taiga-ui/core';
+import { TuiAvatar, TuiFileLike, TuiFiles } from '@taiga-ui/kit';
 import { POLYMORPHEUS_CONTEXT } from '@taiga-ui/polymorpheus';
 
 export interface OwnTrackUploadResult {
@@ -18,7 +20,7 @@ interface OwnTrackUploadDialogContext {
 
 @Component({
   selector: 'app-own-track-upload-dialog',
-  imports: [ReactiveFormsModule, TuiButton, TuiError, TuiLabel, TuiTextfield],
+  imports: [AsyncPipe, ReactiveFormsModule, TuiAvatar, TuiButton, TuiError, TuiFiles, TuiLabel, TuiLink, TuiTextfield],
   templateUrl: './own-track-upload-dialog.html',
   styleUrl: './own-track-upload-dialog.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,8 +29,11 @@ export class OwnTrackUploadDialog {
   private readonly context = inject<OwnTrackUploadDialogContext>(POLYMORPHEUS_CONTEXT);
   private readonly fb = inject(NonNullableFormBuilder);
 
-  protected readonly selectedFile = signal<File | null>(null);
-  protected readonly fileError = signal<string | null>(null);
+  /** Comma-separated accept list — bound to the input's [accept] and reused for the tuiFileRejected pipe. */
+  protected readonly accept = 'audio/mpeg,audio/wav,audio/ogg,audio/mp4,audio/x-m4a,audio/webm';
+
+  protected readonly fileControl = new FormControl<TuiFileLike | null>(null, Validators.required);
+  protected readonly fileSizeError = signal<string | null>(null);
   protected readonly isPreparing = signal(false);
 
   protected readonly form = this.fb.group({
@@ -37,48 +42,24 @@ export class OwnTrackUploadDialog {
     genre: this.fb.control(''),
   });
 
-  /**
-   * Native <input type="file"> for now — not Taiga's TuiInputFiles, since
-   * its exact template API wasn't confirmed against v5.6 docs at the time
-   * of writing. Swap this for TuiInputFiles once you've checked its real
-   * attribute names; this native version is functionally equivalent, just
-   * without the drag-and-drop polish.
-   */
-  protected onFileChosen(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const file = input.files?.[0] ?? null;
-    this.fileError.set(null);
+  constructor() {
+    this.fileControl.valueChanges.subscribe((file) => {
+      this.validateFileSize(file);
+    });
+  }
 
-    if (!file) {
-      this.selectedFile.set(null);
-      return;
-    }
-
-    if (!TRACK_UPLOAD_LIMITS.allowedMimeTypes.includes(file.type)) {
-      this.fileError.set('Unsupported file type. Use MP3, WAV, OGG, or M4A.');
-      input.value = '';
-      this.selectedFile.set(null);
-      return;
-    }
-
-    if (file.size > TRACK_UPLOAD_LIMITS.maxFileSizeBytes) {
-      this.fileError.set('File is larger than 20MB.');
-      input.value = '';
-      this.selectedFile.set(null);
-      return;
-    }
-
-    this.selectedFile.set(file);
+  protected removeFile(): void {
+    this.fileControl.setValue(null);
+    this.fileSizeError.set(null);
   }
 
   protected async submit(): Promise<void> {
-    const file = this.selectedFile();
+    this.form.markAllAsTouched();
+    this.fileControl.markAsTouched();
 
-    if (this.form.invalid || !file) {
-      this.form.markAllAsTouched();
-      if (!file) {
-        this.fileError.set('Choose an audio file to upload.');
-      }
+    const file = this.fileControl.value;
+
+    if (this.form.invalid || this.fileControl.invalid || !file || this.fileSizeError()) {
       return;
     }
 
@@ -86,10 +67,13 @@ export class OwnTrackUploadDialog {
 
     let duration: number;
     try {
-      duration = await getAudioDuration(file);
+      // The control's value is produced by tuiInputFiles from a native
+      // file picker/drop, so at runtime it's always a real File — TuiFileLike
+      // is just the looser type the component API exposes.
+      duration = await getAudioDuration(file as File);
     } catch {
       this.isPreparing.set(false);
-      this.fileError.set('Could not read this file — it may be corrupted.');
+      this.fileSizeError.set('Could not read this file — it may be corrupted.');
       return;
     }
 
@@ -98,7 +82,7 @@ export class OwnTrackUploadDialog {
     const { title, artist, genre } = this.form.getRawValue();
 
     this.context.completeWith({
-      file,
+      file: file as File,
       dto: {
         title: title.trim(),
         artist: artist.trim() || undefined,
@@ -110,5 +94,17 @@ export class OwnTrackUploadDialog {
 
   protected cancel(): void {
     this.context.completeWith(null);
+  }
+
+  private validateFileSize(file: TuiFileLike | null): void {
+    this.fileSizeError.set(null);
+
+    if (!file || !('size' in file) || typeof file.size !== 'number') {
+      return;
+    }
+
+    if (file.size > TRACK_UPLOAD_LIMITS.maxFileSizeBytes) {
+      this.fileSizeError.set('File is larger than 20MB.');
+    }
   }
 }
