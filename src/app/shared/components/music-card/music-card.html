@@ -1,7 +1,11 @@
 @let musicData = track();
 
 <div class="image-wrapper">
-  <img [src]="musicData.image" [alt]="musicData.name" class="card-image" />
+  @if (musicData.image) {
+    <img [src]="musicData.image" [alt]="musicData.name" class="card-image" />
+  } @else {
+    <tui-icon icon="@tui.music" class="card-image-fallback" />
+  }
   <div class="overlay"></div>
   @if (isPlaying()) {
     <app-equalizer />

@@ -1,3 +1,5 @@
+@import 'styles/mixins.less';
+
 :host {
   display: block;
   position: relative;
@@ -45,6 +47,18 @@
     height: 100%;
     object-fit: cover;
   }
+
+  .card-image-fallback {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--surface-container-high);
+    color: var(--outline);
+  }
 }
 
 .play-pause-btn {
@@ -68,25 +82,23 @@
 }
 
 .title {
+  .ellipsis();
   margin: 0;
   font-size: 1rem;
   font-weight: 600;
   line-height: 1.4;
   color: var(--on-surface);
-  overflow: hidden;
-  text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
 
 .subtitle {
+  .ellipsis();
   margin: 0;
   font-size: 0.875rem;
   line-height: 1.4;
   color: var(--on-surface-variant);
-  overflow: hidden;
-  text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
