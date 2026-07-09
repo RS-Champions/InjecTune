@@ -1,8 +1,79 @@
 @import 'styles/mixins.less';
 
 :host {
-  .auth-form-wrapper();
+  width: 100%;
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
 }
+
+.left-side {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 50%;
+  min-height: 100vh;
+  padding: 44px;
+
+  background-image:
+    radial-gradient(circle at center, rgba(132, 43, 210, 0.2) 0%, transparent 70%),
+    url('../../../../../../public/images/login-bg-big.png');
+  background-size:
+    100% 100%,
+    cover;
+  background-position: center center;
+  background-repeat: no-repeat no-repeat;
+
+  @media (max-width: 765px) {
+    display: none;
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  position: relative;
+  width: 35px;
+  height: 70px;
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: -3%;
+
+  @media (max-width: 765px) {
+    font-size: 2rem;
+  }
+}
+
+h2.hero-title {
+  margin-left: 17px;
+  color: transparent;
+  background-image: var(--colorful-gradient-2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+h1.hero-title {
+  color: var(--on-surface);
+  line-height: 100%;
+}
+
+.neon-highlight {
+  .neon-text();
+}
+
+.footer p {
+  margin-top: 26px;
+  margin-bottom: 26px;
+  max-width: 75%;
+  color: var(--outline);
+}
+
 .form {
   .auth-form();
 }
