@@ -25,7 +25,9 @@
             [isPlaying]="playerStore.currentTrack()?.id === track.id && playerStore.isPlaying()"
             (playTrack)="audioEngine.playTrack($event)"
             (pauseTrack)="audioEngine.pause()"
-          />
+          >
+            <ng-container>{{ track.played_at | date }}</ng-container>
+          </app-music-card>
         </div>
       }
     </div>

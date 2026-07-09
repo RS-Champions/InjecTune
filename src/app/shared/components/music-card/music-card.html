@@ -17,5 +17,7 @@
 </div>
 <div class="content">
   <h3 class="title">{{ musicData.name }}</h3>
-  <p class="subtitle">{{ track().subtitle || (track().played_at | date) || '' }}</p>
+  <p class="subtitle">
+    <ng-content></ng-content>
+  </p>
 </div>
