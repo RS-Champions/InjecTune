@@ -1,7 +1,11 @@
 @if (playerStore.currentTrack(); as track) {
   <div class="player-bar">
     <div class="player-bar__track">
-      <img class="player-bar__cover" [src]="track.image" [alt]="track.name" />
+      @if (track.image) {
+        <img class="player-bar__cover" [src]="track.image" [alt]="track.name" />
+      } @else {
+        <tui-icon icon="@tui.music" />
+      }
       <div class="player-bar__info">
         <span class="player-bar__title">{{ track.name }}</span>
         <span class="player-bar__artist">{{ track.artist_name }}</span>

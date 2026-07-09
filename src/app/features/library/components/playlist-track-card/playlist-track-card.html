@@ -5,7 +5,11 @@
 }
 
 <div class="cover" [class.active]="isPlaying()">
-  <img [src]="track().image" [alt]="track().name" />
+  @if (track().image) {
+    <img [src]="track().image" [alt]="track().name" />
+  } @else {
+    <tui-icon icon="@tui.music" />
+  }
   @if (isPlaying()) {
     <app-equalizer />
   }
