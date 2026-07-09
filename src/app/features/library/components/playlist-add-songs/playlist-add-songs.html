@@ -37,6 +37,17 @@
             <span class="result-duration label-sm">{{ track.duration | formatDuration }}</span>
 
             <button
+              tuiIconButton
+              type="button"
+              appearance="ghost"
+              size="s"
+              iconStart="@tui.trash-2"
+              [disabled]="deletingTrackId() === track.id"
+              (click)="onDeleteClick(track)"
+              [attr.aria-label]="'Delete ' + track.name"
+            ></button>
+
+            <button
               tuiButton
               size="xs"
               appearance="outline"

@@ -162,6 +162,16 @@ export class PlaylistDetailsPage {
     });
   }
 
+  /**
+   * Deleting an own track cascades on the backend — it's removed from
+   * every playlist it was in, not just the one being viewed. Reload here
+   * so this playlist's tracklist reflects that immediately if it was
+   * affected, rather than showing a stale row until the next navigation.
+   */
+  onOwnTrackDeleted(): void {
+    this.detailsResource.reload();
+  }
+
   onEdit(): void {
     const editingPlaylist = this.playlist();
     if (!editingPlaylist) return;

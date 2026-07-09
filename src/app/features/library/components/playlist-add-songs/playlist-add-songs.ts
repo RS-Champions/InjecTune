@@ -10,7 +10,7 @@ import { FormatDurationPipe } from '@shared/track/pipes/format-duration-pipe';
 import { OwnTrackUploadDialog, OwnTrackUploadResult } from '../own-track-upload-dialog/own-track-upload-dialog';
 import { PlaylistTrackSearch } from '../playlist-track-search/playlist-track-search';
 import { TuiButton, TuiDialogService, TuiIcon } from '@taiga-ui/core';
-import { TuiSegmented } from '@taiga-ui/kit';
+import { TUI_CONFIRM, TuiSegmented } from '@taiga-ui/kit';
 import { PolymorpheusComponent } from '@taiga-ui/polymorpheus';
 
 export interface TrackSelection {
@@ -32,8 +32,16 @@ export class PlaylistAddSongs {
 
   readonly trackSelected = output<TrackSelection>();
 
+  /**
+   * Emitted after an own track is deleted from "My uploads". Deleting here cascades on the backend — it removes
+   * the track from every playlist it was in, not just this one — so the parent should reload
+   * its own playlist details in case the deleted track was part of it.
+   */
+  readonly trackDeleted = output();
+
   protected readonly activeIndex = signal(0);
   protected readonly isUploading = signal(false);
+  protected readonly deletingTrackId = signal<string | null>(null);
 
   protected readonly ownTracksResource = this.libraryApi.ownTracksResource();
 
@@ -69,6 +77,33 @@ export class PlaylistAddSongs {
         },
         error: () => {
           this.isUploading.set(false);
+        },
+      });
+  }
+
+  protected onDeleteClick(track: SearchTrack): void {
+    this.dialogs
+      .open<boolean>(TUI_CONFIRM, {
+        label: `Delete "${track.name}"? It will be removed from every playlist it's in — this can't be undone.`,
+        size: 's',
+        data: track.id,
+      })
+      .pipe(
+        filter(Boolean),
+        takeUntilDestroyed(this.destroyRef),
+        switchMap(() => {
+          this.deletingTrackId.set(track.id);
+          return this.libraryApi.deleteTrack(track.id);
+        }),
+      )
+      .subscribe({
+        next: () => {
+          this.deletingTrackId.set(null);
+          this.ownTracksResource.reload();
+          this.trackDeleted.emit();
+        },
+        error: () => {
+          this.deletingTrackId.set(null);
         },
       });
   }
