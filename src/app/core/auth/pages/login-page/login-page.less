@@ -15,9 +15,7 @@
   min-height: 100vh;
   padding: 44px;
 
-  background-image:
-    radial-gradient(circle at center, rgba(132, 43, 210, 0.2) 0%, transparent 70%),
-    url('../../../../../../public/images/login-bg-big.png');
+  background-image: var(--edge-fade-gradient), url('../../../../../../public/images/login-bg-big.png');
   background-size:
     100% 100%,
     cover;
@@ -74,17 +72,41 @@ h1.hero-title {
   color: var(--outline);
 }
 
+.right-side {
+  display: flex;
+  align-items: center;
+  width: 50%;
+  min-height: 100vh;
+
+  background-image: var(--radial-gradient);
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.glass-panel {
+  background-color: rgba(21, 21, 29, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
 .form {
   .auth-form();
 }
+
 .title {
   text-align: center;
 }
+
 .loader {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 100px;
-  height: 100px;
+  height: 125px;
 }
