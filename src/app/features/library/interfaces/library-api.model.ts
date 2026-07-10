@@ -104,6 +104,5 @@ export interface UploadTrackDto {
   title: string;
   artist?: string;
   genre?: string;
-  /** Seconds, read client-side from the audio element before upload. */
   duration: number;
 }

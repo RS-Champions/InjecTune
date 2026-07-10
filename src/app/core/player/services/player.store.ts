@@ -224,11 +224,6 @@ export class PlayerStore {
       this.lastLoggedTrackId = trackId;
       this.lastLoggedAt = now;
 
-      // BaseTrack (the queue's static type) has no `source` field, but every
-      // track that actually reaches the queue in practice came from either
-      // EnrichedPlaylistTrack or EnrichedRecentlyPlayedTrack, both of which
-      // do carry it at runtime. Defaulting to 'jamendo' is a defensive
-      // fallback only — it should never actually be hit.
       const recordedTrackId = (track as { track_id?: string }).track_id ?? track.id;
       const recordedSource = (track as { source?: 'jamendo' | 'own' }).source ?? 'jamendo';
 

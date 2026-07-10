@@ -3,7 +3,7 @@ import { FormControl, NonNullableFormBuilder, ReactiveFormsModule, Validators } 
 import { AsyncPipe } from '@angular/common';
 
 import { UploadTrackDto } from '@features/library/interfaces/library-api.model';
-import { TRACK_UPLOAD_LIMITS } from '@features/library/interfaces/track-upload-limits';
+import { MAX_FILE_SIZE_MB, TRACK_UPLOAD_LIMITS } from '@features/library/interfaces/track-upload-limits';
 import { getAudioDuration } from '@shared/utils/get-audio-duration';
 import { TuiButton, TuiError, TuiLabel, TuiLink, TuiTextfield } from '@taiga-ui/core';
 import { TuiAvatar, TuiFileLike, TuiFiles } from '@taiga-ui/kit';
@@ -104,7 +104,7 @@ export class OwnTrackUploadDialog {
     }
 
     if (file.size > TRACK_UPLOAD_LIMITS.maxFileSizeBytes) {
-      this.fileSizeError.set('File is larger than 20MB.');
+      this.fileSizeError.set(`File is larger than ${MAX_FILE_SIZE_MB}MB.`);
     }
   }
 }
