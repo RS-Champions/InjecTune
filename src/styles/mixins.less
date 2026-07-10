@@ -12,6 +12,15 @@
   letter-spacing: -0.02em;
 }
 
+.player-space() {
+  padding-bottom: calc(var(--lg) * 3);
+}
+
+.neon-text {
+  color: var(--primary);
+  filter: var(--filter-neon-shadow);
+}
+
 .ellipsis() {
   white-space: nowrap;
   overflow: hidden;
@@ -48,6 +57,10 @@
   flex-direction: column;
   gap: 5px;
   width: 320px;
+  margin: 0 auto;
+  box-sizing: content-box;
+  padding: var(--lg);
+  border-radius: var(--bdrd);
 }
 
 .auth-form-wrapper() {

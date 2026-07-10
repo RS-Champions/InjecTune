@@ -1,8 +1,9 @@
 import { Component, computed, input, inject, Resource } from '@angular/core';
+import { AudioEngine, PlayerStore } from '@core/player';
 import { MusicCard } from '@shared/components/music-card/music-card';
 import { JamendoResponse } from '@shared/interfaces/jamendo-response';
 import { BaseTrack } from '@shared/track/interfaces/base-track';
-import { AudioEngine, PlayerStore } from '@core/player';
+import { FormatDurationPipe } from '@shared/track/pipes/format-duration-pipe';
 import { TuiLoader } from '@taiga-ui/core';
 
 interface DiscoverSectionData {
@@ -12,7 +13,7 @@ interface DiscoverSectionData {
 
 @Component({
   selector: 'app-discover-section',
-  imports: [TuiLoader, MusicCard],
+  imports: [FormatDurationPipe, MusicCard, TuiLoader],
   templateUrl: './discover-section.html',
   styleUrl: './discover-section.less',
 })

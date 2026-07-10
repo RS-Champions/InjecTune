@@ -224,9 +224,10 @@ export class PlayerStore {
       this.lastLoggedTrackId = trackId;
       this.lastLoggedAt = now;
 
-      const jamendoTrackId = (track as { track_id?: string }).track_id ?? track.id;
+      const recordedTrackId = (track as { track_id?: string }).track_id ?? track.id;
+      const recordedSource = (track as { source?: 'jamendo' | 'own' }).source ?? 'jamendo';
 
-      this.libraryApi.addRecentlyPlayed({ source: 'jamendo', trackId: jamendoTrackId }).subscribe({
+      this.libraryApi.addRecentlyPlayed({ source: recordedSource, trackId: recordedTrackId }).subscribe({
         error: (error: unknown) => {
           console.error('[PlayerStore] Failed to record recently-played track:', error);
           this.lastLoggedTrackId = null;

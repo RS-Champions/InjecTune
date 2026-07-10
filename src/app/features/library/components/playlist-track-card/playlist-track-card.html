@@ -5,7 +5,11 @@
 }
 
 <div class="cover" [class.active]="isPlaying()">
-  <img [src]="track().image" [alt]="track().name" />
+  @if (track().image) {
+    <img [src]="track().image" [alt]="track().name" />
+  } @else {
+    <tui-icon icon="@tui.music" />
+  }
   @if (isPlaying()) {
     <app-equalizer />
   }
@@ -25,9 +29,13 @@
   <span class="title body-md" tuiHint="{{ track().name }}" tuiHintDirection="top-start" tuiHintAppearance="neutral">
     {{ track().name }}
   </span>
-  <a class="artist label-sm" [routerLink]="['/artist', track().artist_id]">
-    {{ track().artist_name }}
-  </a>
+  @if (track().source === 'jamendo') {
+    <a class="artist label-sm" [routerLink]="['/artist', track().artist_id]">
+      {{ track().artist_name }}
+    </a>
+  } @else {
+    <span class="artist label-sm">{{ track().artist_name }}</span>
+  }
 </div>
 
 <div class="album body-md">

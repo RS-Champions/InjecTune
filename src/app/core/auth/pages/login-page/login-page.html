@@ -1,15 +1,30 @@
-@if (!isLoading()) {
-  <form [formGroup]="loginForm" (ngSubmit)="submit()" class="form">
-    <h1 class="title">Sign in to InjecTune</h1>
-    <app-input [data]="emailInputData"></app-input>
-    <app-input [data]="passwordInputData"></app-input>
-    @if (error()) {
-      <tui-error [error]="error()"></tui-error>
-    }
-    <button appearance="secondary" tuiButton type="submit" [disabled]="loginForm.invalid">Submit</button>
-    <a appearance="secondary" tuiButton [routerLink]="['/register']">Sign up</a>
-  </form>
-} @else {
-  <!-- TODO: replace for loading spinner -->
-  <app-equalizer class="loader"></app-equalizer>
-}
+<div class="left-side">
+  <header class="header">
+    <div class="logo"><app-equalizer></app-equalizer></div>
+    <h2 class="hero-title">InjecTune</h2>
+  </header>
+  <footer class="footer">
+    <h1 class="hero-title">Your music,<br /><span class="neon-highlight">your flow.</span></h1>
+    <p>
+      Step into the premium listening experience. Immerse yourself in high-fidelity audio curated just for you, wrapped in a
+      cinematic digital environment.
+    </p>
+  </footer>
+</div>
+<div class="right-side">
+  @if (!isLoading()) {
+    <form [formGroup]="loginForm" (ngSubmit)="submit()" class="form glass-panel">
+      <h2 class="title">Sign in to InjecTune</h2>
+      <app-input [data]="emailInputData"></app-input>
+      <app-input [data]="passwordInputData"></app-input>
+      @if (error()) {
+        <tui-error [error]="error()"></tui-error>
+      }
+      <button appearance="secondary" tuiButton type="submit" [disabled]="loginForm.invalid">Submit</button>
+      <a appearance="secondary" tuiButton [routerLink]="['/register']">Sign up</a>
+    </form>
+  } @else {
+    <!-- TODO: replace for loading spinner -->
+    <app-equalizer class="loader"></app-equalizer>
+  }
+</div>

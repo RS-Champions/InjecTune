@@ -1,0 +1,72 @@
+<form class="form" [formGroup]="form" (ngSubmit)="submit()">
+  <label tuiLabel class="required">
+    <span>Title</span>
+
+    <tui-textfield>
+      <input tuiInput formControlName="title" placeholder="My song" [tuiTextfieldCleaner]="false" />
+    </tui-textfield>
+  </label>
+
+  <tui-error formControlName="title" />
+
+  <label tuiLabel>
+    <span>Artist</span>
+
+    <tui-textfield>
+      <input tuiInput formControlName="artist" placeholder="Optional" />
+    </tui-textfield>
+  </label>
+
+  <label tuiLabel>
+    <span>Genre</span>
+
+    <tui-textfield>
+      <input tuiInput formControlName="genre" placeholder="Optional" />
+    </tui-textfield>
+  </label>
+
+  <!-- eslint-disable-next-line @angular-eslint/template/label-has-associated-control -->
+  <label tuiLabel class="required">
+    <span>Audio file</span>
+
+    @if (!fileControl.value) {
+      <label tuiInputFiles class="drop-zone">
+        <input [accept]="accept" tuiInputFiles [formControl]="fileControl" />
+        <ng-template let-dragged>
+          @if (dragged) {
+            <div appearance="secondary" size="l" tuiAvatar="@tui.droplet"></div>
+            <div>Drop it like it's hot!</div>
+          } @else {
+            <div appearance="secondary" size="l" tuiAvatar="@tui.cloud-upload"></div>
+            <div>Drag and drop audio here or <a tuiLink>click to upload</a></div>
+            <div class="types">MP3, WAV, OGG, M4A up to 20MB</div>
+          }
+        </ng-template>
+      </label>
+    }
+
+    <tui-files>
+      @if (fileControl.value | tuiFileRejected: { accept } | async; as rejected) {
+        <tui-file state="error" [file]="rejected" (remove)="removeFile()" />
+      } @else if (fileControl.value; as file) {
+        @if (fileSizeError()) {
+          <tui-file state="error" [file]="file" (remove)="removeFile()" />
+        } @else {
+          <tui-file [file]="file" (remove)="removeFile()" />
+        }
+      }
+    </tui-files>
+
+    @if (fileSizeError(); as error) {
+      <span class="file-error">{{ error }}</span>
+    }
+  </label>
+
+  <footer class="footer">
+    <button type="button" tuiButton appearance="custom-primary" [disabled]="isPreparing()" (click)="cancel()">Cancel</button>
+
+    <button type="submit" tuiButton appearance="secondary" [disabled]="isPreparing()">
+      {{ isPreparing() ? 'Preparing…' : 'Upload' }}
+    </button>
+  </footer>
+</form>

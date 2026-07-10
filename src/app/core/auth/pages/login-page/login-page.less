@@ -1,19 +1,112 @@
 @import 'styles/mixins.less';
 
 :host {
-  .auth-form-wrapper();
+  width: 100%;
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
 }
+
+.left-side {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 50%;
+  min-height: 100vh;
+  padding: 44px;
+
+  background-image: var(--edge-fade-gradient), url('../../../../../../public/images/login-bg-big.png');
+  background-size:
+    100% 100%,
+    cover;
+  background-position: center center;
+  background-repeat: no-repeat no-repeat;
+
+  @media (max-width: 765px) {
+    display: none;
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  position: relative;
+  width: 35px;
+  height: 70px;
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: -3%;
+
+  @media (max-width: 765px) {
+    font-size: 2rem;
+  }
+}
+
+h2.hero-title {
+  margin-left: 17px;
+  color: transparent;
+  background-image: var(--colorful-gradient-2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+h1.hero-title {
+  color: var(--on-surface);
+  line-height: 100%;
+}
+
+.neon-highlight {
+  .neon-text();
+}
+
+.footer p {
+  margin-top: 26px;
+  margin-bottom: 26px;
+  max-width: 75%;
+  color: var(--outline);
+}
+
+.right-side {
+  display: flex;
+  align-items: center;
+  width: 50%;
+  min-height: 100vh;
+
+  background-image: var(--radial-gradient);
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.glass-panel {
+  background-color: rgba(21, 21, 29, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
 .form {
   .auth-form();
 }
+
 .title {
   text-align: center;
 }
+
 .loader {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 100px;
-  height: 100px;
+  height: 125px;
 }

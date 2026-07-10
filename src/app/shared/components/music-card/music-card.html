@@ -1,7 +1,11 @@
 @let musicData = track();
 
 <div class="image-wrapper">
-  <img [src]="musicData.image" [alt]="musicData.name" class="card-image" />
+  @if (musicData.image) {
+    <img [src]="musicData.image" [alt]="musicData.name" class="card-image" />
+  } @else {
+    <tui-icon icon="@tui.music" class="card-image-fallback" />
+  }
   <div class="overlay"></div>
   @if (isPlaying()) {
     <app-equalizer />
@@ -17,5 +21,7 @@
 </div>
 <div class="content">
   <h3 class="title">{{ musicData.name }}</h3>
-  <p class="subtitle">{{ track().subtitle || (track().played_at | date) || '' }}</p>
+  <p class="subtitle">
+    <ng-content></ng-content>
+  </p>
 </div>

@@ -14,7 +14,9 @@
             [isPlaying]="playerStore.currentTrack()?.id === track.id && playerStore.isPlaying()"
             (playTrack)="audioEngine.playTrack($event)"
             (pauseTrack)="audioEngine.pause()"
-          />
+          >
+            <ng-container>{{ track.artist_name }} • {{ track.duration | formatDuration }}</ng-container>
+          </app-music-card>
         } @empty {
           <p class="fallback">No-one works here...</p>
         }

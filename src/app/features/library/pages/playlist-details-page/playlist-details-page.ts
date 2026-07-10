@@ -5,12 +5,12 @@ import { from, of } from 'rxjs';
 import { catchError, concatMap, exhaustMap, filter, tap } from 'rxjs/operators';
 import { AudioEngine, PlayerStore } from '@core/player';
 import { LibraryPlaylistCover } from '@features/library/components/library-playlist-cover/library-playlist-cover';
+import { PlaylistAddSongs, TrackSelection } from '@features/library/components/playlist-add-songs/playlist-add-songs';
 import {
   PlaylistFormDialog,
   PlaylistFormDialogData,
 } from '@features/library/components/playlist-form-dialog/playlist-form-dialog';
 import { PlaylistTrackList } from '@features/library/components/playlist-track-list/playlist-track-list';
-import { PlaylistTrackSearch } from '@features/library/components/playlist-track-search/playlist-track-search';
 import { ReorderTracksDto } from '@features/library/interfaces/library.model';
 import { EnrichedPlaylistTrack, UpdatePlaylistDto } from '@features/library/interfaces/library-api.model';
 import { LibraryApi } from '@features/library/services/library.api';
@@ -18,7 +18,6 @@ import { PlaylistJamendoApi } from '@features/library/services/playlist-jamendo-
 import { LoadingSkeleton } from '@shared/components/loading-skeleton/loading-skeleton';
 import { MAX_COVER_IMAGES, TOAST_DURATION_MS } from '@shared/constants/constants';
 import { PageName } from '@shared/constants/page-name';
-import { SearchTrack } from '@shared/track/interfaces/search-track';
 import { FormatDurationPipe } from '@shared/track/pipes/format-duration-pipe';
 import { TuiButton, TuiDialogService, TuiIcon, TuiLoader } from '@taiga-ui/core';
 import { TUI_CONFIRM, TuiToastService } from '@taiga-ui/kit';
@@ -29,8 +28,8 @@ import { PolymorpheusComponent } from '@taiga-ui/polymorpheus';
   imports: [
     FormatDurationPipe,
     LoadingSkeleton,
+    PlaylistAddSongs,
     PlaylistTrackList,
-    PlaylistTrackSearch,
     TuiButton,
     TuiIcon,
     TuiLoader,
@@ -100,7 +99,7 @@ export class PlaylistDetailsPage {
     return isPlaying && tracks.some((t) => t.id === currentTrackId);
   });
 
-  onTrackSelected(track: SearchTrack): void {
+  onTrackSelected({ track, source }: TrackSelection): void {
     const id = this.id();
     if (!id) return;
 
@@ -118,7 +117,7 @@ export class PlaylistDetailsPage {
 
     this.isAddingTrack.set(true);
 
-    this.libraryApi.addTrackToPlaylist(id, { source: 'jamendo', trackId: track.id, position }).subscribe({
+    this.libraryApi.addTrackToPlaylist(id, { source, trackId: track.id, position }).subscribe({
       next: () => {
         this.isAddingTrack.set(false);
         this.detailsResource.reload();
@@ -163,6 +162,16 @@ export class PlaylistDetailsPage {
     });
   }
 
+  /**
+   * Deleting an own track cascades on the backend — it's removed from
+   * every playlist it was in, not just the one being viewed. Reload here
+   * so this playlist's tracklist reflects that immediately if it was
+   * affected, rather than showing a stale row until the next navigation.
+   */
+  onOwnTrackDeleted(): void {
+    this.detailsResource.reload();
+  }
+
   onEdit(): void {
     const editingPlaylist = this.playlist();
     if (!editingPlaylist) return;
@@ -185,11 +194,11 @@ export class PlaylistDetailsPage {
       })
       .pipe(
         filter((result): result is UpdatePlaylistDto => result !== null),
-        takeUntilDestroyed(this.destroyRef),
         exhaustMap((dto) => this.libraryApi.updatePlaylist(editingPlaylist.id, dto)),
         tap(() => {
           this.detailsResource.reload();
         }),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe();
   }
@@ -206,9 +215,9 @@ export class PlaylistDetailsPage {
       })
       .pipe(
         filter(Boolean),
-        takeUntilDestroyed(this.destroyRef),
         concatMap(() => this.libraryApi.deletePlaylist(id)),
         concatMap(() => from(this.router.navigate([`/${PageName.LIBRARY}`]))),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe();
   }

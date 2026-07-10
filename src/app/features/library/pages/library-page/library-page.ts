@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
@@ -26,7 +27,15 @@ import { CreatePlaylistDto } from '@features/library/interfaces/library-api.mode
 
 @Component({
   selector: 'app-library-page',
-  imports: [LibraryPlaylistsSkeleton, LibraryRecentSkeleton, MusicCard, PlaylistCard, RecentlyPlayedFilter, TuiIcon],
+  imports: [
+    DatePipe,
+    LibraryPlaylistsSkeleton,
+    LibraryRecentSkeleton,
+    MusicCard,
+    PlaylistCard,
+    RecentlyPlayedFilter,
+    TuiIcon,
+  ],
   templateUrl: './library-page.html',
   styleUrl: './library-page.less',
   changeDetection: ChangeDetectionStrategy.OnPush,

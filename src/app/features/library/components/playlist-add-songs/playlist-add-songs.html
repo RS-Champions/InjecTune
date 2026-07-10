@@ -1,0 +1,65 @@
+<tui-segmented [(activeItemIndex)]="activeIndex">
+  <button type="button">Search Jamendo</button>
+  <button type="button">My uploads</button>
+</tui-segmented>
+
+@if (activeIndex() === 0) {
+  <app-playlist-track-search (trackSelected)="onJamendoTrackSelected($event)" />
+} @else {
+  <div class="own-tracks">
+    <button
+      type="button"
+      tuiButton
+      appearance="secondary"
+      iconStart="@tui.upload"
+      class="upload-btn"
+      [disabled]="isUploading()"
+      (click)="onUploadClick()"
+    >
+      {{ isUploading() ? 'Uploading…' : 'Upload new track' }}
+    </button>
+
+    @if (ownTracksResource.isLoading()) {
+      <p class="body-md loading-message">Loading your uploads…</p>
+    } @else if (ownSearchTracks().length === 0) {
+      <p class="body-md empty-message">You haven't uploaded any tracks yet.</p>
+    } @else {
+      <ul class="results-list" role="listbox">
+        @for (track of ownSearchTracks(); track track.id) {
+          <li class="result-item" role="option" aria-selected="false">
+            <div class="result-cover-fallback">
+              <tui-icon icon="@tui.music" />
+            </div>
+            <div class="result-info">
+              <span class="result-name body-md">{{ track.name }}</span>
+              <span class="result-artist label-sm">{{ track.artist_name }}</span>
+            </div>
+            <span class="result-duration label-sm">{{ track.duration | formatDuration }}</span>
+
+            <button
+              tuiIconButton
+              type="button"
+              appearance="ghost"
+              size="s"
+              iconStart="@tui.trash-2"
+              [disabled]="deletingTrackId() === track.id"
+              (click)="onDeleteClick(track)"
+              [attr.aria-label]="'Delete ' + track.name"
+            ></button>
+
+            <button
+              tuiButton
+              size="xs"
+              appearance="outline"
+              iconStart="@tui.plus"
+              (click)="onOwnTrackSelected(track)"
+              aria-label="Add {{ track.name }}"
+            >
+              Add
+            </button>
+          </li>
+        }
+      </ul>
+    }
+  </div>
+}

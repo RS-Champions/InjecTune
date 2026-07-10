@@ -1,0 +1,29 @@
+@import '../playlist-form-dialog/playlist-form-dialog.less';
+
+.drop-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px dashed var(--outline-variant);
+  border-radius: var(--md);
+  padding: 24px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition-border-color);
+
+  &:hover {
+    border-color: var(--primary);
+  }
+}
+
+.types {
+  color: var(--on-surface-variant);
+  font-size: 0.6875rem;
+}
+
+.file-error {
+  color: var(--tui-status-negative);
+  font-size: 0.8125rem;
+}

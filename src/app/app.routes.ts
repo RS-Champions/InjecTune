@@ -4,7 +4,6 @@ import { EmptyLayoutComponent } from '@core/layout/empty-layout/empty-layout';
 import { aboutLeaveGuard } from '@features/about/guards/about-leave-guard';
 import { libraryGuard } from '@features/library/guards/library-guard';
 import { PageName } from '@shared/constants/page-name';
-import { guestGuard } from '@core/auth/guards/guest/guest-guard';
 import { authGuard } from '@core/auth/guards/auth/auth-guard';
 
 export const routes: Routes = [
@@ -19,7 +18,6 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        canActivate: [guestGuard],
         loadComponent: () => import('@core/auth/pages/register-page/register-page').then((module) => module.RegisterPage),
       },
     ],
