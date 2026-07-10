@@ -63,11 +63,11 @@ export class PlaylistAddSongs {
       })
       .pipe(
         filter((result): result is OwnTrackUploadResult => result !== null),
-        takeUntilDestroyed(this.destroyRef),
         switchMap(({ file, dto }) => {
           this.isUploading.set(true);
           return this.libraryApi.uploadTrack(file, dto);
         }),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe({
         next: (uploaded: OwnTrack) => {
@@ -90,11 +90,11 @@ export class PlaylistAddSongs {
       })
       .pipe(
         filter(Boolean),
-        takeUntilDestroyed(this.destroyRef),
         switchMap(() => {
           this.deletingTrackId.set(track.id);
           return this.libraryApi.deleteTrack(track.id);
         }),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe({
         next: () => {

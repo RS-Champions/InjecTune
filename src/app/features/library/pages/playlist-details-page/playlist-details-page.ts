@@ -194,11 +194,11 @@ export class PlaylistDetailsPage {
       })
       .pipe(
         filter((result): result is UpdatePlaylistDto => result !== null),
-        takeUntilDestroyed(this.destroyRef),
         exhaustMap((dto) => this.libraryApi.updatePlaylist(editingPlaylist.id, dto)),
         tap(() => {
           this.detailsResource.reload();
         }),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe();
   }
@@ -215,9 +215,9 @@ export class PlaylistDetailsPage {
       })
       .pipe(
         filter(Boolean),
-        takeUntilDestroyed(this.destroyRef),
         concatMap(() => this.libraryApi.deletePlaylist(id)),
         concatMap(() => from(this.router.navigate([`/${PageName.LIBRARY}`]))),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe();
   }
