@@ -13,7 +13,8 @@
         <app-search-top-result-track-card
           [track]="topResult"
           [isPlaying]="playerStore.isPlaying() && currentTrack()?.id === topResult.id"
-          (playTrack)="onPlay(topResult)"
+          (playTrack)="audioEngine.playTrack($event)"
+          (pauseTrack)="audioEngine.pause()"
         />
 
         <div class="results">
@@ -22,7 +23,8 @@
               <app-search-track-card
                 [track]="item"
                 [isPlaying]="playerStore.isPlaying() && currentTrack()?.id === item.id"
-                (playTrack)="onPlay(item)"
+                (playTrack)="audioEngine.playTrack($event)"
+                (pauseTrack)="audioEngine.pause()"
               />
             }
           }

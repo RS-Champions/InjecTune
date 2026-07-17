@@ -91,10 +91,6 @@ export class ArtistPage {
     this.audioEngine.playQueue(tracks, startIndex);
   }
 
-  protected onPlay(track: ArtistTrack): void {
-    this.audioEngine.playTrack(track);
-  }
-
   protected navigateToAlbum(albumId: string): void {
     void this.router.navigate([PageName.ALBUM, albumId]);
   }
