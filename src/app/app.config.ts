@@ -4,12 +4,13 @@ import { provideRouter, withComponentInputBinding, withRouterConfig, withHashLoc
 import { authInterceptor } from '@core/auth/interceptors/auth-interceptor';
 import { AuthServiceAbstract } from '@core/auth/services/auth-service-interface/auth-service-interface';
 import { BackendAuthService } from '@core/auth/services/backend-auth-service';
+import { jamendoRetryInterceptor } from '@core/jamendo/jamendo-retry-interceptor';
 import { provideTaiga } from '@taiga-ui/core';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideHttpClient(withInterceptors([authInterceptor])),
+    provideHttpClient(withInterceptors([authInterceptor, jamendoRetryInterceptor])),
     { provide: AuthServiceAbstract, useClass: BackendAuthService },
     provideBrowserGlobalErrorListeners(),
     provideRouter(
