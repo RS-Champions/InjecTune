@@ -1,13 +1,13 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { BackendAuthService } from '@core/auth/services/backend-auth-service';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { AuthServiceAbstract } from '@core/auth/services/auth-service-interface/auth-service-interface';
 import { SearchBar } from '@shared/components/search-bar/search-bar';
-import { TuiButton } from '@taiga-ui/core';
+import { TuiDataList, TuiDropdown, TuiIcon } from '@taiga-ui/core';
 import { TuiAvatar } from '@taiga-ui/kit';
 import { TuiNavigation } from '@taiga-ui/layout';
 
 @Component({
   selector: 'app-header',
-  imports: [SearchBar, TuiAvatar, TuiButton, TuiNavigation],
+  imports: [SearchBar, TuiAvatar, TuiDataList, TuiDropdown, TuiIcon, TuiNavigation],
   templateUrl: './header.html',
   styleUrl: './header.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -16,10 +16,13 @@ import { TuiNavigation } from '@taiga-ui/layout';
   },
 })
 export class Header {
-  private readonly authService = inject(BackendAuthService);
-  protected readonly isAuthorized = Boolean(this.authService.currentUser());
+  private readonly authService = inject(AuthServiceAbstract);
+
+  protected readonly currentUser = this.authService.currentUser;
+  protected readonly isMenuOpen = signal(false);
 
   logout(): void {
+    this.isMenuOpen.set(false);
     this.authService.logout().subscribe();
   }
 }

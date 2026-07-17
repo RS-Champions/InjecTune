@@ -1,11 +1,26 @@
 <header>
   <app-search-bar />
   <div class="actions-zone">
-    <button tuiIconButton type="button" iconStart="@tui.bell" appearance="flat" size="m" aria-label="Bell"></button>
-    <button tuiIconButton type="button" iconStart="@tui.settings" appearance="flat" size="m" aria-label="Settings"></button>
+    @if (currentUser(); as user) {
+      <button
+        tuiAvatar="@tui.user"
+        size="m"
+        [tuiDropdown]="userMenu"
+        [(tuiDropdownOpen)]="isMenuOpen"
+        aria-label="user-menu"
+      >
+        <img alt="avatar" src="https://avatars.githubusercontent.com/u/11832552" />
+      </button>
 
-    <button tuiAvatar="@tui.user" size="m" (click)="logout()" aria-label="user-logout">
-      <img alt="avatar" src="https://avatars.githubusercontent.com/u/11832552" />
-    </button>
+      <ng-template #userMenu>
+        <tui-data-list>
+          <div class="user-email">{{ user.email }}</div>
+          <button tuiOption type="button" (click)="logout()">
+            <tui-icon icon="@tui.log-out" />
+            Log out
+          </button>
+        </tui-data-list>
+      </ng-template>
+    }
   </div>
 </header>
