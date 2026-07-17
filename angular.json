@@ -48,7 +48,6 @@
           },
           "configurations": {
             "production": {
-              "deployUrl": "/InjecTune/",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
