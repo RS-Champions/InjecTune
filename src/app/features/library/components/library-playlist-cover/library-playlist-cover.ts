@@ -34,7 +34,12 @@ export class LibraryPlaylistCover {
       if (!playlistTracks || playlistTracks.length === 0) {
         return of([] as EnrichedPlaylistTrack[]);
       }
-      return this.playlistJamendoApi.enrichTracks(playlistTracks).pipe(catchError(() => of([] as EnrichedPlaylistTrack[])));
+      return this.playlistJamendoApi.enrichTracks(playlistTracks).pipe(
+        catchError((error: unknown) => {
+          console.error('[LibraryPlaylistCover] Failed to load cover track metadata:', error);
+          return of([] as EnrichedPlaylistTrack[]);
+        }),
+      );
     },
   });
 
