@@ -5,6 +5,7 @@ import { playlistEmptyGuard } from './guards/playlist-empty-guard';
 export const LIBRARY_ROUTES: Routes = [
   {
     path: '',
+    data: { preload: true },
     loadComponent: () => import('./pages/library-page/library-page').then((module) => module.LibraryPage),
   },
   {
