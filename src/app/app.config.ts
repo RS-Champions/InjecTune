@@ -1,5 +1,11 @@
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
+import {
+  ApplicationConfig,
+  inject,
+  provideBrowserGlobalErrorListeners,
+  provideEnvironmentInitializer,
+  provideZoneChangeDetection,
+} from '@angular/core';
 import {
   provideRouter,
   withComponentInputBinding,
@@ -12,6 +18,7 @@ import { AuthServiceAbstract } from '@core/auth/services/auth-service-interface/
 import { BackendAuthService } from '@core/auth/services/backend-auth-service';
 import { jamendoRetryInterceptor } from '@core/jamendo/jamendo-retry-interceptor';
 import { wakeUpInterceptor } from '@core/http/interceptors/wake-up-interceptor';
+import { WarmupService } from '@core/http/services/warmup';
 import { SelectivePreloadingStrategy } from '@core/router/selective-preloading-strategy';
 import { provideTaiga } from '@taiga-ui/core';
 import { routes } from './app.routes';
@@ -30,6 +37,9 @@ export const appConfig: ApplicationConfig = {
       }),
       withHashLocation(),
     ),
+    provideEnvironmentInitializer(() => {
+      inject(WarmupService).warmup();
+    }),
     provideTaiga({
       mode: 'dark',
     }),
