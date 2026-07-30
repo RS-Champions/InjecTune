@@ -10,6 +10,7 @@ export const LIBRARY_ROUTES: Routes = [
   },
   {
     path: `${PageName.PLAYLISTS}/:id`,
+    data: { preload: false },
     canDeactivate: [playlistEmptyGuard],
     loadComponent: () =>
       import('./pages/playlist-details-page/playlist-details-page').then((module) => module.PlaylistDetailsPage),

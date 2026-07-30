@@ -126,7 +126,7 @@ export class PlaylistDetailsPage {
         this.isAddingTrack.set(false);
         this.toasts
           .open('Failed to add track. Please try again.', {
-            appearance: 'destructive',
+            appearance: 'negative',
             autoClose: TOAST_DURATION_MS,
           })
           .subscribe();
