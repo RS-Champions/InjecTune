@@ -28,6 +28,7 @@ export const routes: Routes = [
     children: [
       {
         path: '',
+        data: { preload: true },
         loadComponent: () => import('@core/auth/pages/login-page/login-page').then((module) => module.LoginPage),
       },
     ],
@@ -72,6 +73,7 @@ export const routes: Routes = [
       {
         path: '',
         canActivate: [authGuard],
+        data: { preload: true },
         loadComponent: () =>
           import('@features/discover/pages/discover-page/discover-page').then((module) => module.DiscoverPage),
       },
@@ -85,6 +87,7 @@ export const routes: Routes = [
       {
         path: '',
         canActivate: [authGuard],
+        data: { preload: true },
         loadChildren: () => import('@features/library/library.routes').then((m) => m.LIBRARY_ROUTES),
       },
     ],
