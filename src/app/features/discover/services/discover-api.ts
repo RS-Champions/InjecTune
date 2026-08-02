@@ -11,16 +11,16 @@ export class DiscoverApi {
   private readonly jamendoApi = inject(JamendoApiBase);
 
   public readonly popularTracksResource = httpResource<JamendoResponse<BaseTrack>>(() => ({
-    url: this.jamendoApi.popularTracksUrl,
-    params: this.discoverParams(),
+    url: this.jamendoApi.tracksUrl,
+    params: this.discoverParams('popularity_total'),
   }));
 
   public readonly releaseTracksResource = httpResource<JamendoResponse<BaseTrack>>(() => ({
-    url: this.jamendoApi.releaseTracksUrl,
-    params: this.discoverParams(),
+    url: this.jamendoApi.tracksUrl,
+    params: this.discoverParams('releasedate_desc'),
   }));
 
-  public discoverParams() {
-    return { ...this.jamendoApi.baseParams(), limit: '10', imagesize: 600 };
+  public discoverParams(order: string) {
+    return { ...this.jamendoApi.baseParams(), limit: '10', imagesize: 600, order };
   }
 }
