@@ -16,7 +16,7 @@ export class JamendoApiBase {
   readonly artistsAlbumsUrl = `${this.apiUrl}/artists/albums`;
   readonly tracksUrl = `${this.apiUrl}/tracks`;
   readonly popularTracksUrl = `${this.apiUrl}/tracks?order=popularity_total`;
-  readonly releaseTracksResource = `${this.apiUrl}/tracks?order=releasedate_desc`;
+  readonly releaseTracksUrl = `${this.apiUrl}/tracks?order=releasedate_desc`;
 
   baseParams() {
     return { client_id: this.clientId, format: 'json' } as const;

@@ -16,7 +16,7 @@ export class DiscoverApi {
   }));
 
   public readonly releaseTracksResource = httpResource<JamendoResponse<BaseTrack>>(() => ({
-    url: this.jamendoApi.releaseTracksResource,
+    url: this.jamendoApi.releaseTracksUrl,
     params: this.discoverParams(),
   }));
 
